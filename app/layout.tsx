@@ -35,6 +35,9 @@ export const metadata: Metadata = {
   authors: [{ name: 'Shahzaib Hassan' }],
   creator: 'Shahzaib Hassan',
   publisher: 'Shahzaib Builds',
+  verification: {
+    google: 'owwbL11jdDB44_EtB0LitpPX31aO5yPqQss-eK35ozE',
+  },
   openGraph: {
     title: 'Shahzaib Hassan (Shahzaib Builds) - AI Automation Engineer',
     description: 'AI Automation Engineer deploying autonomous AI employees. Voice Agents, n8n automation, Python AI. Save 20+ hours/week.',

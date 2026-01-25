@@ -1,0 +1,10 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://www.shahzaibbuilds.me/sitemap.xml
+
+# Block common bot directories (optional security)
+Disallow: /api/
+Disallow: /_next/static/

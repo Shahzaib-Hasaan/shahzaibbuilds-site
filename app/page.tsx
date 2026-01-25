@@ -54,11 +54,41 @@ export default function Home() {
     ],
   };
 
+  // Additional Person schema for better SEO
+  const personSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Shahzaib Hassan',
+    alternateName: 'Shahzaib Builds',
+    jobTitle: 'AI Automation Engineer',
+    url: 'https://www.shahzaibbuilds.me',
+    sameAs: [
+      'https://twitter.com/shahzaib_builds',
+      'https://instagram.com/shahzaib_builds',
+      'https://tiktok.com/@shahzaib_builds',
+    ],
+    image: 'https://www.shahzaibbuilds.me/me.jpg',
+    description: 'AI Automation Engineer specializing in n8n, Python, and Voice Agents to automate business operations.',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Lahore',
+      addressCountry: 'PK',
+    },
+    worksFor: {
+      '@type': 'Organization',
+      name: 'Automaxion',
+    },
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
       <main className="min-h-screen bg-dark-bg">
         <Navbar />
