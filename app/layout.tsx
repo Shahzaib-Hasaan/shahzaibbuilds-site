@@ -15,7 +15,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://shahzaibai.site'),
+  metadataBase: new URL('https://www.shahzaibbuilds.me'),
   title: 'Shahzaib Hassan (Shahzaib Builds) - AI Automation Engineer | Voice Agents & Workflow Automation',
   description: 'Shahzaib Hassan (Shahzaib Builds) - AI Automation Engineer deploying autonomous AI employees for lean teams. Specializing in Voice Agents, n8n automation, and Python AI solutions that save businesses 20+ hours/week.',
   keywords: [
@@ -38,13 +38,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Shahzaib Hassan (Shahzaib Builds) - AI Automation Engineer',
     description: 'AI Automation Engineer deploying autonomous AI employees. Voice Agents, n8n automation, Python AI. Save 20+ hours/week.',
-    url: 'https://shahzaibai.site',
+    url: 'https://www.shahzaibbuilds.me',
     siteName: 'Shahzaib Builds',
     type: 'website',
     locale: 'en_US',
     images: [
       {
-        url: 'https://shahzaibai.site/og-image.jpg',
+        url: 'https://www.shahzaibbuilds.me/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Shahzaib Hassan (Shahzaib Builds) - AI Automation Engineer saving businesses 20+ hours/week',
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     title: 'Shahzaib Hassan (Shahzaib Builds) - AI Automation Engineer',
     description: 'AI Automation Engineer deploying autonomous AI employees. Voice Agents, n8n automation, Python AI. Saving businesses 20+ hours/week.',
     creator: '@shahzaib_builds',
-    images: ['https://shahzaibai.site/og-image.jpg'],
+    images: ['https://www.shahzaibbuilds.me/og-image.jpg'],
   },
   robots: {
     index: true,

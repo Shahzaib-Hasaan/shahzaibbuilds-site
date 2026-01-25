@@ -13,9 +13,9 @@ export default function Home() {
     name: 'Shahzaib Builds',
     alternateName: 'Shahzaib Hassan',
     description: 'AI Automation Engineer deploying autonomous AI employees for lean teams. Specializing in Voice Agents, n8n Workflow Automation, Python AI, and Custom AI Consulting. Saving businesses 20+ hours per week.',
-    url: 'https://shahzaibai.site',
-    logo: 'https://shahzaibai.site/me.jpg',
-    image: 'https://shahzaibai.site/og-image.jpg',
+    url: 'https://www.shahzaibbuilds.me',
+    logo: 'https://www.shahzaibbuilds.me/me.jpg',
+    image: 'https://www.shahzaibbuilds.me/og-image.jpg',
     founder: {
       '@type': 'Person',
       name: 'Shahzaib Hassan',
@@ -26,7 +26,7 @@ export default function Home() {
         '@type': 'Organization',
         name: 'Automaxion',
       },
-      url: 'https://shahzaibai.site',
+      url: 'https://www.shahzaibbuilds.me',
       sameAs: [
         'https://twitter.com/shahzaib_builds',
         'https://instagram.com/shahzaib_builds',
@@ -43,7 +43,7 @@ export default function Home() {
     },
     contactPoint: {
       '@type': 'ContactPoint',
-      email: 'contact@shahzaibai.site',
+      email: 'contact@shahzaibbuilds.me',
       contactType: 'Customer Service',
     },
     sameAs: [
