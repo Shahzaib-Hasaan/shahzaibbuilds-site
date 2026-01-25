@@ -108,15 +108,10 @@ export default function Footer() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mt-12 pt-8 border-t border-white/10"
         >
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <p className="text-sm text-gray-400 font-mono">
               <span className="text-code-green">$</span> {currentYear} Shahzaib
               Builds. All rights reserved.
-            </p>
-            <p className="text-sm text-gray-400">
-              Built with{' '}
-              <span className="text-electric-blue font-semibold">Next.js</span> &{' '}
-              <span className="text-code-green font-semibold">Tailwind</span>
             </p>
           </div>
         </motion.div>
