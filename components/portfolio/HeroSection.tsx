@@ -51,7 +51,7 @@ export default function HeroSection() {
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-electric-blue/20 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-code-green/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 sm:px-8 lg:px-8 py-8 sm:py-12 pt-28 sm:pt-32">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 sm:px-8 lg:px-8 py-4 sm:py-8 lg:py-6 pt-20 sm:pt-24 lg:pt-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -62,20 +62,25 @@ export default function HeroSection() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="flex flex-col items-center gap-4 mb-8"
+            className="flex flex-col items-center gap-3 mb-4 lg:mb-6"
           >
             <motion.div
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               className="relative"
             >
-              <div className="relative mx-auto w-32 h-32 md:w-48 md:h-48 rounded-full border-4 border-dark-bg shadow-[0_0_40px_rgba(59,130,246,0.3)] ring-2 ring-electric-blue/50 ring-offset-4 ring-offset-dark-bg mb-10 overflow-hidden">
+              <div className="relative mx-auto w-32 h-32 md:w-48 md:h-48 rounded-full border-4 border-dark-bg shadow-[0_0_40px_rgba(59,130,246,0.3)] ring-2 ring-electric-blue/50 ring-offset-4 ring-offset-dark-bg mb-4 lg:mb-6 overflow-hidden">
                 <Image
-                  src="/whatsapp_image_2025-08-30_at_16.32.17_1cdc9db4.jpg"
-                  alt="Profile"
+                  src="/me.jpg"
+                  alt="Shahzaib Hassan - AI Automation Engineer"
                   width={192}
                   height={192}
-                  className="w-full h-full object-cover rounded-full"
+                  className="w-full h-full rounded-full"
+                  style={{
+                    objectFit: 'cover',
+                    objectPosition: 'center -4%',
+                    transform: 'scale(1.15)'
+                  }}
                 />
               </div>
               <span className="absolute bottom-1 right-1 md:bottom-2 md:right-2 w-5 h-5 md:w-7 md:h-7 bg-emerald-500 rounded-full border-4 border-dark-bg"></span>
@@ -94,7 +99,7 @@ export default function HeroSection() {
             </div>
           </motion.div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-mono font-bold mb-6 px-4 text-white">
+          <h1 className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-mono font-bold mb-3 lg:mb-4 px-4 text-white">
             <span className="text-gray-400">{'>'}</span>{' '}
             <span>{displayText}</span>
             <span className="terminal-cursor" />
@@ -104,7 +109,7 @@ export default function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed px-4"
+            className="text-base sm:text-lg md:text-lg text-gray-400 max-w-2xl mx-auto mb-6 lg:mb-7 leading-relaxed px-4"
           >
             I replace manual operations with intelligent agents, saving businesses{' '}
             <span className="text-code-green font-semibold">20+ hours/week</span>.
@@ -137,7 +142,7 @@ export default function HeroSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            className="mt-10 sm:mt-12 mb-8 sm:mb-12 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-3xl mx-auto px-4"
+            className="mt-6 lg:mt-8 mb-4 lg:mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 max-w-3xl mx-auto px-4"
           >
             {[
               { icon: Bot, label: 'Voice Agents', value: 'Deployed' },
@@ -149,7 +154,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9 + index * 0.1 }}
-                className="glass-card rounded-xl p-6 hover:scale-[1.02] transition-transform duration-300"
+                className="glass-card rounded-xl p-4 lg:p-5 hover:scale-[1.02] transition-transform duration-300"
               >
                 <stat.icon className="w-6 h-6 text-electric-blue mb-3 mx-auto" />
                 <span className="block text-2xl sm:text-3xl font-mono font-bold text-white">{stat.value}</span>

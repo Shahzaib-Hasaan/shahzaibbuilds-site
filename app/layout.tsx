@@ -26,12 +26,21 @@ export const metadata: Metadata = {
     url: 'https://shahzaibai.site',
     siteName: 'Shahzaib Builds',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Shahzaib Builds - AI Automation Engineer saving businesses 20+ hours/week'
+      }
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Shahzaib Builds | AI Automation Engineer',
     description: 'Deploying AI employees for lean teams.',
     creator: '@shahzaib_builds',
+    images: ['/og-image.jpg'],
   },
 };
 

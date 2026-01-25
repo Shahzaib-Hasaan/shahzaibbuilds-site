@@ -67,11 +67,10 @@ export default function ServicesSection() {
             >
               <div className="h-full p-6 sm:p-8 glass-card rounded-xl premium-border interactive-card">
                 <div
-                  className={`w-12 h-12 rounded-lg flex items-center justify-center mb-6 ${
-                    service.accent === 'electric-blue'
-                      ? 'bg-electric-blue/10 text-electric-blue glow-blue'
-                      : 'bg-code-green/10 text-code-green glow-green'
-                  }`}
+                  className={`w-12 h-12 rounded-lg flex items-center justify-center mb-6 ${service.accent === 'electric-blue'
+                    ? 'bg-electric-blue/10 text-electric-blue glow-blue'
+                    : 'bg-code-green/10 text-code-green glow-green'
+                    }`}
                 >
                   <service.icon className="w-6 h-6" />
                 </div>
@@ -91,11 +90,10 @@ export default function ServicesSection() {
                       className="flex items-center gap-2 text-sm text-gray-400"
                     >
                       <span
-                        className={`w-1.5 h-1.5 rounded-full ${
-                          service.accent === 'electric-blue'
-                            ? 'bg-electric-blue'
-                            : 'bg-code-green'
-                        }`}
+                        className={`w-1.5 h-1.5 rounded-full ${service.accent === 'electric-blue'
+                          ? 'bg-electric-blue'
+                          : 'bg-code-green'
+                          }`}
                       />
                       {feature}
                     </li>
@@ -114,15 +112,15 @@ export default function ServicesSection() {
                   ))}
                 </div>
 
-                <div className="pt-6 border-t border-white/10">
+                <div className="pt-6 border-t border-white/10 relative z-10">
                   <a
                     href="https://calendly.com/shahxeebhassan/30min"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-sm font-medium text-gray-400 hover:text-electric-blue transition-colors group"
+                    className="inline-flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-electric-blue transition-colors group/link relative z-20"
                   >
                     Discuss This
-                    <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    <ArrowUpRight className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
                   </a>
                 </div>
               </div>

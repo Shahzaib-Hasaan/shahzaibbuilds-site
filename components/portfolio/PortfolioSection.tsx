@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Play, ExternalLink, Bot, MessageSquare, Database } from 'lucide-react';
+import { ExternalLink, Bot, MessageSquare, Database } from 'lucide-react';
 
 const projects = [
   {
@@ -67,19 +67,12 @@ export default function PortfolioSection() {
                   <div className="absolute inset-0 bg-gradient-to-br from-electric-blue/5 to-code-green/5" />
                   <div className="absolute inset-0 noise-bg" />
                   <div
-                    className={`relative z-10 w-16 h-16 rounded-xl flex items-center justify-center ${
-                      project.color === 'electric-blue'
-                        ? 'bg-electric-blue/20 text-electric-blue'
-                        : 'bg-code-green/20 text-code-green'
-                    }`}
+                    className={`relative z-10 w-16 h-16 rounded-xl flex items-center justify-center ${project.color === 'electric-blue'
+                      ? 'bg-electric-blue/20 text-electric-blue'
+                      : 'bg-code-green/20 text-code-green'
+                      }`}
                   >
                     <project.icon className="w-8 h-8" />
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-dark-bg/90 backdrop-blur-sm">
-                    <button className="flex items-center gap-2 px-5 py-3 bg-electric-blue hover:bg-electric-blue-hover text-white rounded-lg font-medium text-sm glow-blue transition-all hover:scale-105">
-                      <Play className="w-4 h-4" />
-                      View Demo
-                    </button>
                   </div>
                 </div>
 
@@ -89,11 +82,10 @@ export default function PortfolioSection() {
                       {project.title}
                     </h3>
                     <span
-                      className={`shrink-0 px-2.5 py-1 text-xs font-mono rounded-md ${
-                        project.color === 'electric-blue'
-                          ? 'bg-electric-blue/10 text-electric-blue border border-electric-blue/20'
-                          : 'bg-code-green/10 text-code-green border border-code-green/20'
-                      }`}
+                      className={`shrink-0 px-2.5 py-1 text-xs font-mono rounded-md ${project.color === 'electric-blue'
+                        ? 'bg-electric-blue/10 text-electric-blue border border-electric-blue/20'
+                        : 'bg-code-green/10 text-code-green border border-code-green/20'
+                        }`}
                     >
                       {project.metrics}
                     </span>
