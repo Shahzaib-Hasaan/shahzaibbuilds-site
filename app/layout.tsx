@@ -1,4 +1,5 @@
 import './globals.css';
+import CustomChatbot from '@/components/CustomChatbot';
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 
@@ -17,7 +18,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.shahzaibbuilds.me'),
   title: 'Shahzaib Hassan | AI Automation Engineer (Shahzaib Builds)',
-  description: 'Shahzaib Hassan (Shahzaib Builds) - AI Automation Engineer deploying autonomous AI employees for lean teams. Specializing in Voice Agents, n8n automation, and Python AI solutions that save businesses 20+ hours/week.',
+  description: 'AI Automation Engineer in Lahore deploying Voice Agents, n8n automation, and Python AI solutions. Saving businesses 20+ hours/week.',
   keywords: [
     'Shahzaib Hassan',
     'Shahzaib Builds',
@@ -35,6 +36,10 @@ export const metadata: Metadata = {
   authors: [{ name: 'Shahzaib Hassan' }],
   creator: 'Shahzaib Hassan',
   publisher: 'Shahzaib Builds',
+  icons: {
+    icon: '/favicon.svg',
+    apple: '/apple-touch-icon.png',
+  },
   verification: {
     google: 'owwbL11jdDB44_EtB0LitpPX31aO5yPqQss-eK35ozE',
   },
@@ -84,6 +89,7 @@ export default function RootLayout({
     <html lang="en" className="dark scroll-smooth">
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
         {children}
+        <CustomChatbot />
       </body>
     </html>
   );
