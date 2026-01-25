@@ -80,6 +80,8 @@ export default function HeroSection() {
                   alt="Shahzaib Hassan - AI Automation Engineer"
                   width={192}
                   height={192}
+                  priority
+                  quality={85}
                   className="w-full h-full rounded-full"
                   style={{
                     objectFit: 'cover',
@@ -143,30 +145,23 @@ export default function HeroSection() {
             </a>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="mt-6 lg:mt-8 mb-4 lg:mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 max-w-3xl mx-auto px-4"
-          >
+          <div className="mt-6 lg:mt-8 mb-4 lg:mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 max-w-3xl mx-auto px-4">
             {[
               { icon: Bot, label: 'Voice Agents', value: 'Deployed' },
               { icon: Zap, label: 'Workflows', value: 'Automated' },
               { icon: Clock, label: 'Hours Saved', value: '500+' },
             ].map((stat, index) => (
-              <motion.div
+              <div
                 key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.9 + index * 0.1 }}
-                className="glass-card rounded-xl p-4 lg:p-5 hover:scale-[1.02] transition-transform duration-300"
+                className="glass-card rounded-xl p-4 lg:p-5 hover:scale-[1.02] transition-transform duration-300 opacity-0 animate-fade-in"
+                style={{ animationDelay: `${0.8 + index * 0.1}s` }}
               >
                 <stat.icon className="w-6 h-6 text-electric-blue mb-3 mx-auto" />
                 <span className="block text-2xl sm:text-3xl font-mono font-bold text-white">{stat.value}</span>
                 <span className="block text-sm text-gray-400 mt-1">{stat.label}</span>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </motion.div>
       </div>
 
