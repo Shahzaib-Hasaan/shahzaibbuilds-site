@@ -52,6 +52,11 @@ export default function HeroSection() {
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-code-green/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 sm:px-8 lg:px-8 py-4 sm:py-8 lg:py-6 pt-20 sm:pt-24 lg:pt-20">
+        {/* SEO-optimized H1 (visually hidden but read by search engines) */}
+        <h1 className="sr-only">
+          Shahzaib Hassan - AI Automation Engineer | Shahzaib Builds | n8n & Python Expert in Lahore, Pakistan
+        </h1>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -99,11 +104,11 @@ export default function HeroSection() {
             </div>
           </motion.div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-mono font-bold mb-3 lg:mb-4 px-4 text-white">
+          <h2 className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-mono font-bold mb-3 lg:mb-4 px-4 text-white">
             <span className="text-gray-400">{'>'}</span>{' '}
             <span>{displayText}</span>
             <span className="terminal-cursor" />
-          </h1>
+          </h2>
 
           <motion.p
             initial={{ opacity: 0 }}

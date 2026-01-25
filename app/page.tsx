@@ -59,12 +59,14 @@ export default function Home() {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Shahzaib Hassan',
-    alternateName: 'Shahzaib Builds',
+    alternateName: ['Shahzaib Builds', 'Shahzaib Hassan AI'],
     jobTitle: 'AI Automation Engineer',
+    disambiguatingDescription: 'An AI Automation Engineer based in Lahore, specializing in n8n and Python agents. Not associated with cricket.',
     url: 'https://www.shahzaibbuilds.me',
     sameAs: [
       'https://twitter.com/shahzaib_builds',
       'https://instagram.com/shahzaib_builds',
+      'https://www.linkedin.com/in/shahxeebhassan/',
       'https://tiktok.com/@shahzaib_builds',
     ],
     image: 'https://www.shahzaibbuilds.me/me.jpg',
@@ -78,6 +80,43 @@ export default function Home() {
       '@type': 'Organization',
       name: 'Automaxion',
     },
+    alumniOf: {
+      '@type': 'CollegeOrUniversity',
+      name: 'Islamia University of Bahawalpur',
+    },
+    knowsAbout: ['AI Agents', 'n8n', 'Python', 'Voice Automation', 'CRM Integration', 'Business Process Automation', 'Workflow Automation'],
+  };
+
+  // FAQ Schema for voice search and featured snippets
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Who is Shahzaib Hassan?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Shahzaib Hassan is an AI Automation Engineer based in Lahore, Pakistan, specializing in building Voice Agents, n8n workflows, and Python AI solutions for businesses. He is the founder of Shahzaib Builds and currently works at Automaxion.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What does Shahzaib Builds do?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Shahzaib Builds provides AI automation services including Voice Agents deployment, n8n workflow automation, and custom Python AI development. We help businesses save 20+ hours per week by automating manual operations.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Where is Shahzaib Hassan located?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Shahzaib Hassan is based in Lahore, Pakistan, and serves clients worldwide.',
+        },
+      },
+    ],
   };
 
   return (
@@ -89,6 +128,10 @@ export default function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <main className="min-h-screen bg-dark-bg">
         <Navbar />

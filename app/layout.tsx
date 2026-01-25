@@ -16,7 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.shahzaibbuilds.me'),
-  title: 'Shahzaib Hassan (Shahzaib Builds) - AI Automation Engineer | Voice Agents & Workflow Automation',
+  title: 'Shahzaib Hassan | AI Automation Engineer (Shahzaib Builds)',
   description: 'Shahzaib Hassan (Shahzaib Builds) - AI Automation Engineer deploying autonomous AI employees for lean teams. Specializing in Voice Agents, n8n automation, and Python AI solutions that save businesses 20+ hours/week.',
   keywords: [
     'Shahzaib Hassan',

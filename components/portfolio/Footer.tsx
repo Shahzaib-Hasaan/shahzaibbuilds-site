@@ -109,9 +109,8 @@ export default function Footer() {
           className="mt-12 pt-8 border-t border-white/10"
         >
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <p className="text-sm text-gray-400 font-mono">
-              <span className="text-code-green">$</span> {currentYear} Shahzaib
-              Builds. All rights reserved.
+            <p className="text-sm text-gray-400 font-mono text-center">
+              <span className="text-code-green">$</span> {currentYear} Shahzaib Builds. Shahzaib Hassan - AI Automation Engineer & n8n Expert based in Lahore, Pakistan.
             </p>
           </div>
         </motion.div>
