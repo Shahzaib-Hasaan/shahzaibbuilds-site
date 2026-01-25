@@ -79,7 +79,7 @@ export default function Footer() {
                   className="text-gray-400 hover:text-electric-blue transition-colors text-sm inline-flex items-center gap-2 group"
                 >
                   <Mail className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                  contact@shahzaibbuilds.me
+                  contact@shahzaibai.site
                 </a>
               </li>
               <li className="text-gray-400 text-sm inline-flex items-center gap-2">
