@@ -105,7 +105,7 @@ export default function CustomChatbot() {
     setIsLoading(true)
 
     try {
-      const webhookUrl = "https://n8n.shahzaibbuilds.me/webhook/website-message"
+      const webhookUrl = "https://n8n.shahzaibai.site/webhook/website-message"
       const currentSessionId = sessionId || localStorage.getItem("chatSessionId") || ("session-" + Date.now())
 
       const response = await fetch(webhookUrl, {
