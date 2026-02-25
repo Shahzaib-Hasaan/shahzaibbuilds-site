@@ -100,6 +100,7 @@
     mask-composite: exclude;
     opacity: 0;
     transition: opacity 0.3s ease;
+    pointer-events: none;
   }
 
   .premium-border:hover::before {
@@ -218,8 +219,15 @@
   }
 
   .sticky-cta {
-    @apply fixed bottom-4 left-4 right-4 z-40 md:hidden;
+    @apply fixed bottom-4 left-4 right-4 z-40;
     animation: slideUp 0.3s ease-out;
+  }
+
+  @media (min-width: 768px) {
+    .sticky-cta {
+      @apply left-auto right-6 bottom-6;
+      max-width: 280px;
+    }
   }
 
   @keyframes slideUp {
@@ -285,6 +293,63 @@
     input, textarea, select {
       font-size: 14px !important;
     }
+  }
+
+  /* ROI Calculator sliders */
+  .roi-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+  }
+  .roi-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid rgba(255,255,255,0.4);
+    box-shadow: 0 1px 8px rgba(0,0,0,0.6);
+    cursor: pointer;
+    transition: transform 0.15s ease;
+  }
+  .roi-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+  }
+  .roi-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid rgba(255,255,255,0.4);
+    box-shadow: 0 1px 8px rgba(0,0,0,0.6);
+    cursor: pointer;
+    border: none;
+  }
+  .roi-slider::-webkit-slider-runnable-track {
+    height: 8px;
+    border-radius: 4px;
+  }
+  .roi-slider::-moz-range-track {
+    height: 8px;
+    border-radius: 4px;
+    background: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse,
+  .animate-bounce,
+  .animate-ping,
+  .animate-blink,
+  .animate-fade-in,
+  [class*="animate-"] {
+    animation: none !important;
   }
 }
 

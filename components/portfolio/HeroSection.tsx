@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Bot, Zap, Clock } from 'lucide-react';
 import Image from 'next/image';
+import EmailGateModal from '../EmailGateModal';
+import { isEmailCaptured, getCalendlyUrl, getStoredEmail } from '@/lib/emailCapture';
 
 const phrases = [
   'Building AI Agents',
@@ -16,6 +18,20 @@ export default function HeroSection() {
   const [currentPhrase, setCurrentPhrase] = useState(0);
   const [displayText, setDisplayText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showEmailModal, setShowEmailModal] = useState(false);
+
+  const handleCTAClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+
+    // Check if email already captured
+    if (isEmailCaptured()) {
+      // Redirect directly to Calendly
+      window.location.href = getCalendlyUrl(getStoredEmail() ?? undefined);
+    } else {
+      // Show email gate modal
+      setShowEmailModal(true);
+    }
+  };
 
   useEffect(() => {
     const phrase = phrases[currentPhrase];
@@ -106,11 +122,15 @@ export default function HeroSection() {
             </div>
           </motion.div>
 
-          <h2 className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-mono font-bold mb-3 lg:mb-4 px-4 text-white">
-            <span className="text-gray-400">{'>'}</span>{' '}
+          <h2 className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-mono font-bold mb-2 lg:mb-3 px-4 text-white">
+            AI Automation Engineer
+          </h2>
+
+          <p className="text-xl sm:text-2xl font-mono text-gray-400 mb-3 lg:mb-4 px-4">
+            <span className="text-gray-500">{'>'}</span>{' '}
             <span>{displayText}</span>
             <span className="terminal-cursor" />
-          </h2>
+          </p>
 
           <motion.p
             initial={{ opacity: 0 }}
@@ -129,9 +149,8 @@ export default function HeroSection() {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4"
           >
             <a
-              href="https://calendly.com/shahxeebhassan/30min"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#"
+              onClick={handleCTAClick}
               className="group w-full sm:w-auto btn-cta-primary inline-flex items-center justify-center gap-2"
             >
               <span className="text-sm sm:text-base font-semibold">Book a 15-Min Audit</span>
@@ -147,9 +166,9 @@ export default function HeroSection() {
 
           <div className="mt-6 lg:mt-8 mb-4 lg:mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 max-w-3xl mx-auto px-4">
             {[
-              { icon: Bot, label: 'Voice Agents', value: 'Deployed' },
-              { icon: Zap, label: 'Workflows', value: 'Automated' },
-              { icon: Clock, label: 'Hours Saved', value: '500+' },
+              { icon: Bot, label: 'Voice Agents Deployed', value: '12+' },
+              { icon: Zap, label: 'Workflows Automated', value: '35+' },
+              { icon: Clock, label: 'Hours Saved / Week', value: '500+' },
             ].map((stat, index) => (
               <div
                 key={stat.label}
@@ -185,6 +204,13 @@ export default function HeroSection() {
           </motion.div>
         </a>
       </motion.div>
+
+      {/* Email Gate Modal */}
+      <EmailGateModal
+        isOpen={showEmailModal}
+        onClose={() => setShowEmailModal(false)}
+        source="calendly_gate"
+      />
     </section>
   );
 }

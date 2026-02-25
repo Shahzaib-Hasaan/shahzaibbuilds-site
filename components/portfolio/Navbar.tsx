@@ -3,16 +3,20 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Terminal, Menu, X } from 'lucide-react';
+import EmailGateModal from '../EmailGateModal';
+import { isEmailCaptured, getCalendlyUrl, getStoredEmail } from '@/lib/emailCapture';
 
 const navLinks = [
   { href: '#work', label: 'Work' },
   { href: '#services', label: 'Services' },
+  { href: '#pricing', label: 'Pricing' },
   { href: '#contact', label: 'Contact' },
 ];
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showEmailModal, setShowEmailModal] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,6 +25,17 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleCTAClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+
+    if (isEmailCaptured()) {
+      window.location.href = getCalendlyUrl(getStoredEmail() ?? undefined);
+    } else {
+      setShowEmailModal(true);
+    }
+  };
 
   return (
     <motion.header
@@ -34,7 +49,7 @@ export default function Navbar() {
     >
       <nav className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20">
-          <a href="#" className="flex items-center gap-2 group">
+          <a href="/" className="flex items-center gap-2 group">
             <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-electric-blue to-code-green flex items-center justify-center glow-blue">
               <Terminal className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
@@ -58,9 +73,8 @@ export default function Navbar() {
               </a>
             ))}
             <a
-              href="https://calendly.com/shahxeebhassan/30min"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#"
+              onClick={handleCTAClick}
               className="px-5 py-2.5 min-h-[44px] bg-electric-blue hover:bg-electric-blue-hover text-white text-sm font-medium rounded-lg transition-all duration-200 glow-blue hover:scale-105 inline-flex items-center justify-center"
             >
               Book Audit
@@ -101,9 +115,8 @@ export default function Navbar() {
                 </a>
               ))}
               <a
-                href="https://calendly.com/shahxeebhassan/30min"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#"
+                onClick={handleCTAClick}
                 className="block w-full text-center px-4 py-3 min-h-[44px] bg-electric-blue hover:bg-electric-blue-hover text-white text-sm font-medium rounded-lg transition-colors mt-4"
               >
                 Book Audit
@@ -112,6 +125,13 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Email Gate Modal */}
+      <EmailGateModal
+        isOpen={showEmailModal}
+        onClose={() => setShowEmailModal(false)}
+        source="calendly_gate"
+      />
     </motion.header>
   );
 }

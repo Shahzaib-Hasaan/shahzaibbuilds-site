@@ -18,10 +18,17 @@ interface Message {
   content: string
 }
 
+const QUICK_REPLIES = [
+  "What's your pricing?",
+  "Show me case studies",
+  "I need a voice agent",
+  "Book a consultation"
+]
+
 const WELCOME_MESSAGE: Message = {
   id: "welcome",
   role: "bot",
-  content: "Hello! I am Shahzaib's AI Assistant. Ask me about his services or pricing.",
+  content: "Hi! I'm Shahzaib's AI assistant. I can help you:\n• See pricing & packages\n• View case studies\n• Book a free audit\n\nWhat brings you here today?",
 }
 
 export default function CustomChatbot() {
@@ -84,9 +91,70 @@ export default function CustomChatbot() {
     const newSessionId = "session-" + Math.random().toString(36).substr(2, 9) + "-" + Date.now()
     localStorage.setItem("chatSessionId", newSessionId)
     setSessionId(newSessionId)
-    
+
     setMessages([WELCOME_MESSAGE])
     localStorage.removeItem("chatHistory")
+  }
+
+  const handleQuickReply = (reply: string) => {
+    setInputValue(reply)
+    // Automatically send the message
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: "user",
+      content: reply,
+    }
+    setMessages((prev) => [...prev, userMessage])
+    setInputValue("")
+    setIsLoading(true)
+
+    // Send to webhook
+    const webhookUrl = "https://n8n.shahzaibai.site/webhook/website-message"
+    const currentSessionId = sessionId || localStorage.getItem("chatSessionId") || ("session-" + Date.now())
+
+    fetch(webhookUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: reply,
+        chatId: currentSessionId
+      }),
+    })
+      .then(response => response.text())
+      .then(text => {
+        let data
+        try {
+          data = JSON.parse(text)
+        } catch (err) {
+          data = text
+        }
+
+        const responseData = Array.isArray(data) ? data[0] : data
+        const botResponseText = typeof responseData === 'string'
+          ? responseData
+          : (responseData?.output || responseData?.message || responseData?.text || responseData?.response || JSON.stringify(data))
+
+        const botMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: "bot",
+          content: botResponseText,
+        }
+
+        setMessages((prev) => [...prev, botMessage])
+        setIsLoading(false)
+      })
+      .catch(error => {
+        console.error("Error sending message:", error)
+        const errorMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: "bot",
+          content: "Sorry, I encountered an error. Please try again later.",
+        }
+        setMessages((prev) => [...prev, errorMessage])
+        setIsLoading(false)
+      })
   }
 
   const handleSendMessage = async (e?: React.FormEvent) => {
@@ -173,19 +241,19 @@ export default function CustomChatbot() {
             )}
           >
             {/* Header */}
-            <div className="p-4 border-b border-white/10 flex flex-row items-center justify-between bg-gradient-to-r from-blue-600 to-blue-500">
+            <div className="p-4 border-b border-white/10 flex flex-row items-center justify-between bg-gradient-to-r from-[#10B981] to-[#059669]">
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <Avatar className="h-10 w-10 border-2 border-white/20">
                     <AvatarImage src="https://shahzaibbuilds.me/me.png" alt="Bot" />
                     <AvatarFallback>AI</AvatarFallback>
                   </Avatar>
-                  <div className="absolute bottom-0 right-0 h-3 w-3 bg-green-500 rounded-full border-2 border-blue-600"></div>
+                  <div className="absolute bottom-0 right-0 h-3 w-3 bg-green-500 rounded-full border-2 border-code-green"></div>
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm">Shahzaib's Assistant</h3>
-                  <p className="text-xs text-blue-100 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 bg-blue-200 rounded-full animate-pulse"></span>
+                  <h3 className="font-bold text-sm">Shahzaib&apos;s Assistant</h3>
+                  <p className="text-xs text-green-100 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 bg-code-green rounded-full animate-pulse"></span>
                     Online
                   </p>
                 </div>
@@ -227,7 +295,7 @@ export default function CustomChatbot() {
                         className={cn(
                           "relative px-4 py-3 text-sm shadow-md max-w-[85%]",
                           message.role === "user"
-                            ? "bg-blue-600 text-white rounded-2xl rounded-tr-sm"
+                            ? "bg-code-green text-dark-bg font-medium rounded-2xl rounded-tr-sm"
                             : "bg-zinc-800 text-zinc-100 rounded-2xl rounded-tl-sm border border-zinc-700/50"
                         )}
                       >
@@ -249,11 +317,11 @@ export default function CustomChatbot() {
                                   )
                                 },
                                 pre: ({ children }) => <pre className="bg-black/30 rounded-lg p-3 overflow-x-auto mb-2 text-xs border border-white/10">{children}</pre>,
-                                a: ({ href, children }) => <a href={href} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline underline-offset-2 hover:text-blue-300 font-medium">{children}</a>,
+                                a: ({ href, children }) => <a href={href} target="_blank" rel="noopener noreferrer" className="text-code-green underline underline-offset-2 hover:text-code-green-hover font-medium">{children}</a>,
                                 h1: ({ children }) => <h1 className="text-base font-bold mb-2">{children}</h1>,
                                 h2: ({ children }) => <h2 className="text-sm font-bold mb-2">{children}</h2>,
                                 h3: ({ children }) => <h3 className="text-sm font-semibold mb-1">{children}</h3>,
-                                blockquote: ({ children }) => <blockquote className="border-l-2 border-blue-500/50 pl-3 italic mb-2 text-zinc-400">{children}</blockquote>,
+                                blockquote: ({ children }) => <blockquote className="border-l-2 border-code-green/50 pl-3 italic mb-2 text-zinc-400">{children}</blockquote>,
                               }}
                             >
                               {message.content}
@@ -265,6 +333,19 @@ export default function CustomChatbot() {
                       </div>
                     </div>
                   ))}
+                  {messages.length === 1 && !isLoading && (
+                    <div className="flex flex-wrap gap-2 mt-4 animate-fade-in pl-1">
+                      {QUICK_REPLIES.map((reply, i) => (
+                        <button
+                          key={i}
+                          onClick={() => handleQuickReply(reply)}
+                          className="text-xs bg-dark-bg border border-code-green/40 hover:border-code-green text-gray-300 hover:text-white px-3 py-1.5 rounded-full transition-all text-left"
+                        >
+                          {reply}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                   {isLoading && (
                     <div className="flex justify-start">
                       <div className="bg-zinc-800 rounded-2xl rounded-tl-sm px-4 py-3 border border-zinc-700/50 flex items-center gap-2">
@@ -290,13 +371,13 @@ export default function CustomChatbot() {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   placeholder="Ask me anything..."
-                  className="bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-500 focus-visible:ring-blue-600 focus-visible:border-blue-600 rounded-full pl-4"
+                  className="bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-500 focus-visible:ring-code-green focus-visible:border-code-green rounded-full pl-4"
                 />
                 <Button 
                   type="submit" 
                   size="icon" 
                   disabled={isLoading}
-                  className="rounded-full bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-900/20 w-10 h-10 shrink-0"
+                  className="rounded-full bg-code-green hover:bg-[#059669] text-dark-bg shadow-lg shadow-code-green/20 font-bold w-10 h-10 shrink-0"
                 >
                   <Send className="h-4 w-4 ml-0.5" />
                 </Button>
@@ -317,7 +398,7 @@ export default function CustomChatbot() {
           >
             <Button
               onClick={toggleChat}
-              className="h-14 w-14 rounded-full shadow-xl bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center relative group"
+              className="h-14 w-14 rounded-full shadow-xl bg-code-green hover:bg-[#059669] text-dark-bg font-bold flex items-center justify-center relative group"
             >
               <MessageCircle className="h-7 w-7 transition-transform group-hover:scale-110" />
               <span className="absolute -top-1 -right-1 flex h-3 w-3">

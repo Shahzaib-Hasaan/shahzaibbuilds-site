@@ -2,10 +2,14 @@
 
 import { motion } from 'framer-motion';
 import { ExternalLink, Bot, MessageSquare, Database } from 'lucide-react';
+import { useState } from 'react';
+import EmailGateModal from '../EmailGateModal';
+import { isEmailCaptured, getCalendlyUrl, getStoredEmail } from '@/lib/emailCapture';
 
 const projects = [
   {
     title: 'AI Voice Agent',
+    client: 'Gulf-based real estate firm',
     description: 'Built a 24/7 inbound voice agent for lead qualification. Handles 200+ calls daily with human-like latency.',
     icon: Bot,
     tags: ['Voice AI', 'Lead Gen', 'Python'],
@@ -14,14 +18,16 @@ const projects = [
   },
   {
     title: 'CRM Automation Bot',
+    client: 'US SaaS startup',
     description: 'Automated customer data sync between Salesforce, HubSpot, and internal systems. Zero manual entry.',
     icon: Database,
-    tags: ['CRM', 'Make.com', 'API'],
+    tags: ['CRM', 'n8n', 'API'],
     metrics: '15hrs saved/week',
     color: 'code-green',
   },
   {
     title: 'Support Chat Agent',
+    client: 'European e-commerce brand',
     description: 'Deployed an AI chatbot that handles 80% of customer inquiries without human intervention.',
     icon: MessageSquare,
     tags: ['Chatbot', 'NLP', 'Support'],
@@ -31,6 +37,18 @@ const projects = [
 ];
 
 export default function PortfolioSection() {
+  const [showEmailModal, setShowEmailModal] = useState(false);
+
+  const handleCTAClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+
+    if (isEmailCaptured()) {
+      window.location.href = getCalendlyUrl(getStoredEmail() ?? undefined);
+    } else {
+      setShowEmailModal(true);
+    }
+  };
+
   return (
     <section id="work" className="relative py-12 sm:py-24 md:py-32 bg-dark-surface/30">
       <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-8">
@@ -77,7 +95,7 @@ export default function PortfolioSection() {
                 </div>
 
                 <div className="p-6">
-                  <div className="flex items-start justify-between gap-4 mb-3">
+                  <div className="flex items-start justify-between gap-4 mb-1">
                     <h3 className="text-lg font-mono font-semibold text-white group-hover:text-electric-blue transition-colors">
                       {project.title}
                     </h3>
@@ -90,6 +108,8 @@ export default function PortfolioSection() {
                       {project.metrics}
                     </span>
                   </div>
+
+                  <p className="text-xs text-gray-500 font-mono mb-3">For a {project.client}</p>
 
                   <p className="text-sm text-gray-400 mb-4 line-clamp-2">
                     {project.description}
@@ -119,9 +139,8 @@ export default function PortfolioSection() {
           className="text-center mt-10 sm:mt-12"
         >
           <a
-            href="https://calendly.com/shahxeebhassan/30min"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#"
+            onClick={handleCTAClick}
             className="btn-primary inline-flex items-center gap-2"
           >
             Get Your Own Deploy
@@ -129,6 +148,13 @@ export default function PortfolioSection() {
           </a>
         </motion.div>
       </div>
+
+      {/* Email Gate Modal */}
+      <EmailGateModal
+        isOpen={showEmailModal}
+        onClose={() => setShowEmailModal(false)}
+        source="calendly_gate"
+      />
     </section>
   );
 }

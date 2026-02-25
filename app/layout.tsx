@@ -98,6 +98,20 @@ export default function RootLayout({
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', 'G-BPJFLR0JE9');
+
+              // Custom event tracking for conversion points
+              window.trackEmailCapture = function(method) {
+                gtag('event', 'email_captured', { method: method });
+              };
+              window.trackExitIntent = function(action) {
+                gtag('event', 'exit_intent_' + action);
+              };
+              window.trackCalculatorInteraction = function() {
+                gtag('event', 'calculator_interaction');
+              };
+              window.trackPricingViewed = function() {
+                gtag('event', 'pricing_viewed');
+              };
             `,
           }}
         />

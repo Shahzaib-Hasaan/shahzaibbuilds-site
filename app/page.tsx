@@ -2,9 +2,12 @@ import Navbar from '@/components/portfolio/Navbar';
 import HeroSection from '@/components/portfolio/HeroSection';
 import PortfolioSection from '@/components/portfolio/PortfolioSection';
 import ServicesSection from '@/components/portfolio/ServicesSection';
+import PricingSection from '@/components/portfolio/PricingSection';
 import SocialProofSection from '@/components/portfolio/SocialProofSection';
 import Footer from '@/components/portfolio/Footer';
 import StickyCTA from '@/components/portfolio/StickyCTA';
+import ROICalculator from '@/components/portfolio/ROICalculator-new';
+import ExitIntentWrapper from '@/components/ExitIntentWrapper';
 
 export default function Home() {
   const schemaData = {
@@ -30,7 +33,7 @@ export default function Home() {
       sameAs: [
         'https://twitter.com/shahzaib_builds',
         'https://instagram.com/shahzaib_builds',
-        'https://linkedin.com/in/shahzaib-hassan',
+        'https://www.linkedin.com/in/shahxeebhassan/',
         'https://tiktok.com/@shahzaib_builds',
       ],
     },
@@ -49,7 +52,7 @@ export default function Home() {
     sameAs: [
       'https://twitter.com/shahzaib_builds',
       'https://instagram.com/shahzaib_builds',
-      'https://linkedin.com/in/shahzaib-hassan',
+      'https://www.linkedin.com/in/shahxeebhassan/',
       'https://tiktok.com/@shahzaib_builds',
     ],
   };
@@ -138,9 +141,12 @@ export default function Home() {
         <HeroSection />
         <PortfolioSection />
         <ServicesSection />
+        <PricingSection />
+        <ROICalculator />
         <SocialProofSection />
         <Footer />
         <StickyCTA />
+        <ExitIntentWrapper />
       </main>
     </>
   );

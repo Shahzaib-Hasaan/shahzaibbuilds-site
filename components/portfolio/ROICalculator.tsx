@@ -1,25 +1,58 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Calculator, TrendingUp, Zap } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Calculator, TrendingUp, Zap, Users, DollarSign } from 'lucide-react';
+import EmailGateModal from '../EmailGateModal';
+import { isEmailCaptured } from '@/lib/emailCapture';
 
 export default function ROICalculator() {
     const [teamSize, setTeamSize] = useState(5);
     const [hourlyRate, setHourlyRate] = useState(50);
+    const [showEmailModal, setShowEmailModal] = useState(false);
+    const [isClient, setIsClient] = useState(false);
 
-    const hoursSavedPerWeek = 20;
-    const weeklySavings = hoursSavedPerWeek * hourlyRate;
+    const automations = [
+        { name: 'Email-to-CRM', hours: 5, icon: '📧' },
+        { name: 'Lead Qualification', hours: 10, icon: '🤖' },
+        { name: 'Invoice Automation', hours: 3, icon: '📄' },
+        { name: 'Support Triage', hours: 8, icon: '💬' },
+        { name: 'Reporting', hours: 4, icon: '📊' },
+    ];
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
+    const hoursSavedPerWeekPerPerson = automations.reduce((acc, auto) => acc + auto.hours, 0);
+    const totalHoursSavedPerWeek = hoursSavedPerWeekPerPerson * teamSize;
+    const weeklySavings = totalHoursSavedPerWeek * hourlyRate;
     const monthlySavings = weeklySavings * 4;
     const yearlySavings = weeklySavings * 52;
 
     const formatCurrency = (value: number) => {
+        if (!isClient) return '';
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD',
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
         }).format(value);
+    };
+
+    const handleCTAClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+
+        // Track calculator interaction
+        if (typeof window !== 'undefined' && (window as any).trackCalculatorInteraction) {
+            (window as any).trackCalculatorInteraction();
+        }
+
+        if (isEmailCaptured()) {
+            window.location.href = 'https://calendly.com/shahxeebhassan/30min';
+        } else {
+            setShowEmailModal(true);
+        }
     };
 
     return (
@@ -61,8 +94,9 @@ export default function ROICalculator() {
                         {/* Input Controls */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
                             {/* Team Size Slider */}
-                            <div>
-                                <label className="block text-sm font-mono text-gray-400 mb-3">
+                            <div className="interactive-card">
+                                <label className="block text-sm font-mono text-gray-400 mb-3 flex items-center gap-2">
+                                    <Users className="w-4 h-4 text-electric-blue" />
                                     Team Size
                                 </label>
                                 <div className="flex items-center gap-4">
@@ -74,15 +108,21 @@ export default function ROICalculator() {
                                         onChange={(e) => setTeamSize(Number(e.target.value))}
                                         className="flex-1 h-2 bg-dark-surface rounded-lg appearance-none cursor-pointer accent-electric-blue"
                                     />
-                                    <span className="text-2xl font-mono font-bold text-white min-w-[60px] text-right">
+                                    <motion.span
+                                        key={teamSize}
+                                        initial={{ scale: 1.1 }}
+                                        animate={{ scale: 1 }}
+                                        className="text-3xl font-mono font-bold text-white min-w-[70px] text-right"
+                                    >
                                         {teamSize}
-                                    </span>
+                                    </motion.span>
                                 </div>
                             </div>
 
                             {/* Hourly Rate Slider */}
-                            <div>
-                                <label className="block text-sm font-mono text-gray-400 mb-3">
+                            <div className="interactive-card">
+                                <label className="block text-sm font-mono text-gray-400 mb-3 flex items-center gap-2">
+                                    <DollarSign className="w-4 h-4 text-code-green" />
                                     Avg. Hourly Rate (USD)
                                 </label>
                                 <div className="flex items-center gap-4">
@@ -95,63 +135,84 @@ export default function ROICalculator() {
                                         onChange={(e) => setHourlyRate(Number(e.target.value))}
                                         className="flex-1 h-2 bg-dark-surface rounded-lg appearance-none cursor-pointer accent-code-green"
                                     />
-                                    <span className="text-2xl font-mono font-bold text-white min-w-[60px] text-right">
+                                    <motion.span
+                                        key={hourlyRate}
+                                        initial={{ scale: 1.1 }}
+                                        animate={{ scale: 1 }}
+                                        className="text-3xl font-mono font-bold text-white min-w-[80px] text-right"
+                                    >
                                         ${hourlyRate}
-                                    </span>
+                                    </motion.span>
                                 </div>
                             </div>
                         </div>
+
+                        {/* Hours Saved Display */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="text-center mb-8 p-4 rounded-xl bg-electric-blue/10 border border-electric-blue/30"
+                        >
+                            <p className="text-sm text-gray-400 mb-1">
+                                Total Hours Saved Per Week
+                            </p>
+                            <motion.p
+                                key={totalHoursSavedPerWeek}
+                                initial={{ scale: 1.2, color: '#10B981' }}
+                                animate={{ scale: 1, color: '#FFFFFF' }}
+                                className="text-2xl font-mono font-bold text-white"
+                            >
+                                {totalHoursSavedPerWeek} hours
+                            </motion.p>
+                        </motion.div>
 
                         {/* Results Display */}
                         <div className="border-t border-white/10 pt-8">
                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                                 {/* Weekly Savings */}
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: 0.3 }}
-                                    className="text-center p-6 rounded-xl bg-dark-surface/50 border border-white/10"
-                                >
+                                <div className="text-center p-6 rounded-xl bg-dark-surface/50 border border-white/10">
                                     <Zap className="w-6 h-6 text-electric-blue mx-auto mb-2" />
                                     <p className="text-xs font-mono text-gray-400 mb-2">Weekly</p>
-                                    <p className="text-2xl sm:text-3xl font-mono font-bold text-white">
+                                    <motion.p
+                                        key={weeklySavings}
+                                        initial={{ scale: 1.1 }}
+                                        animate={{ scale: 1 }}
+                                        className="text-3xl font-mono font-bold text-white"
+                                    >
                                         {formatCurrency(weeklySavings)}
-                                    </p>
-                                </motion.div>
+                                    </motion.p>
+                                </div>
 
                                 {/* Monthly Savings */}
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: 0.4 }}
-                                    className="text-center p-6 rounded-xl bg-dark-surface/50 border border-white/10"
-                                >
+                                <div className="text-center p-6 rounded-xl bg-dark-surface/50 border border-white/10">
                                     <TrendingUp className="w-6 h-6 text-code-green mx-auto mb-2" />
                                     <p className="text-xs font-mono text-gray-400 mb-2">Monthly</p>
-                                    <p className="text-2xl sm:text-3xl font-mono font-bold text-white">
+                                    <motion.p
+                                        key={monthlySavings}
+                                        initial={{ scale: 1.1 }}
+                                        animate={{ scale: 1 }}
+                                        className="text-3xl font-mono font-bold text-white"
+                                    >
                                         {formatCurrency(monthlySavings)}
-                                    </p>
-                                </motion.div>
+                                    </motion.p>
+                                </div>
 
                                 {/* Yearly Savings - Highlighted */}
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: 0.5 }}
-                                    className="text-center p-6 rounded-xl bg-gradient-to-br from-electric-blue/10 to-code-green/10 border border-code-green/30 relative overflow-hidden"
-                                >
+                                <div className="text-center p-6 rounded-xl bg-gradient-to-br from-electric-blue/10 to-code-green/10 border border-code-green/30 relative overflow-hidden">
                                     <div className="absolute inset-0 bg-gradient-to-br from-electric-blue/5 to-code-green/5 opacity-50" />
                                     <div className="relative z-10">
                                         <Calculator className="w-6 h-6 text-code-green mx-auto mb-2" />
                                         <p className="text-xs font-mono text-gray-400 mb-2">Yearly</p>
-                                        <p className="text-2xl sm:text-3xl font-mono font-bold text-code-green">
+                                        <motion.p
+                                            key={yearlySavings}
+                                            initial={{ scale: 1.1 }}
+                                            animate={{ scale: 1 }}
+                                            className="text-3xl font-mono font-bold text-code-green"
+                                        >
                                             {formatCurrency(yearlySavings)}
-                                        </p>
+                                        </motion.p>
                                     </div>
-                                </motion.div>
+                                </div>
                             </div>
 
                             {/* CTA */}
@@ -166,9 +227,8 @@ export default function ROICalculator() {
                                     Based on <span className="text-code-green font-semibold">20 hours saved/week</span> per deployment
                                 </p>
                                 <a
-                                    href="https://calendly.com/shahxeebhassan/30min"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                    href="#"
+                                    onClick={handleCTAClick}
                                     className="btn-cta-primary inline-flex items-center gap-2"
                                 >
                                     <span className="text-sm sm:text-base font-semibold">
@@ -181,6 +241,13 @@ export default function ROICalculator() {
                     </div>
                 </motion.div>
             </div>
+
+            {/* Email Gate Modal */}
+            <EmailGateModal
+                isOpen={showEmailModal}
+                onClose={() => setShowEmailModal(false)}
+                source="calendly_gate"
+            />
         </section>
     );
 }

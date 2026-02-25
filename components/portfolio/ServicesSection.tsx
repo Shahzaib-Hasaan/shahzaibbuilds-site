@@ -2,6 +2,9 @@
 
 import { motion } from 'framer-motion';
 import { Phone, Workflow, Search, ArrowUpRight, Code } from 'lucide-react';
+import { useState } from 'react';
+import EmailGateModal from '../EmailGateModal';
+import { isEmailCaptured, getCalendlyUrl, getStoredEmail } from '@/lib/emailCapture';
 
 const services = [
   {
@@ -10,16 +13,16 @@ const services = [
     description:
       '24/7 Inbound/Outbound callers that handle customer support & lead qualification with human-like latency.',
     features: ['Lead Qualification', 'Customer Support', '24/7 Availability', 'Human-like Latency'],
-    techStack: ['VAPI', 'Python', 'OpenAI', 'Twilio'],
+    techStack: ['VAPI', 'Retell', 'Regal', 'Python', 'OpenAI'],
     accent: 'electric-blue',
   },
   {
     icon: Workflow,
     title: 'Workflow Automation',
     description:
-      'Connecting CRM, Email, and Slack to run on autopilot using Make.com & Python.',
+      'Connecting CRMs, email, and Slack using n8n, Make.com, and Zapier — self-hosted or cloud, fully custom.',
     features: ['CRM Integration', 'Email Automation', 'Slack Workflows', 'Custom Pipelines'],
-    techStack: ['Make.com', 'Python', 'Zapier', 'APIs'],
+    techStack: ['n8n', 'Make.com', 'Zapier', 'Python'],
     accent: 'code-green',
   },
   {
@@ -34,6 +37,18 @@ const services = [
 ];
 
 export default function ServicesSection() {
+  const [showEmailModal, setShowEmailModal] = useState(false);
+
+  const handleCTAClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+
+    if (isEmailCaptured()) {
+      window.location.href = getCalendlyUrl(getStoredEmail() ?? undefined);
+    } else {
+      setShowEmailModal(true);
+    }
+  };
+
   return (
     <section id="services" className="relative py-12 sm:py-24 md:py-32">
       <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-8">
@@ -114,12 +129,11 @@ export default function ServicesSection() {
 
                 <div className="pt-6 border-t border-white/10 relative z-10">
                   <a
-                    href="https://calendly.com/shahxeebhassan/30min"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="#"
+                    onClick={handleCTAClick}
                     className="inline-flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-electric-blue transition-colors group/link relative z-20"
                   >
-                    Discuss This
+                    Build This For Me
                     <ArrowUpRight className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
                   </a>
                 </div>
@@ -136,9 +150,8 @@ export default function ServicesSection() {
           className="text-center mt-10 sm:mt-12"
         >
           <a
-            href="https://calendly.com/shahxeebhassan/30min"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#"
+            onClick={handleCTAClick}
             className="btn-primary inline-flex items-center gap-2"
           >
             <span>Get Custom Solution</span>
@@ -146,6 +159,13 @@ export default function ServicesSection() {
           </a>
         </motion.div>
       </div>
+
+      {/* Email Gate Modal */}
+      <EmailGateModal
+        isOpen={showEmailModal}
+        onClose={() => setShowEmailModal(false)}
+        source="calendly_gate"
+      />
     </section>
   );
 }
