@@ -109,7 +109,8 @@ export default function CustomChatbot() {
     setIsLoading(true)
 
     // Send to webhook
-    const webhookUrl = "https://n8n.shahzaibai.site/webhook/website-message"
+    const n8nBase = process.env.NEXT_PUBLIC_N8N_BASE_URL ?? "https://n8n.shahzaibai.site";
+    const webhookUrl = `${n8nBase}/webhook/website-message`
     const currentSessionId = sessionId || localStorage.getItem("chatSessionId") || ("session-" + Date.now())
 
     fetch(webhookUrl, {

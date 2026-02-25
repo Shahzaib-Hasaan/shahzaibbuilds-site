@@ -61,7 +61,7 @@ export default function StickyCTA() {
                 className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-electric-blue hover:bg-electric-blue-hover text-white font-medium rounded-lg transition-all duration-200 glow-blue min-h-[44px]"
               >
                 <Calendar className="w-4 h-4" />
-                <span className="text-sm font-semibold">Book Free Audit</span>
+                <span className="text-sm font-semibold">Book a Free 15-Min Audit</span>
               </a>
               <button
                 onClick={handleDismiss}

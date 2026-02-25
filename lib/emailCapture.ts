@@ -60,7 +60,8 @@ export const getStoredEmail = (): string | null => {
  */
 export const submitEmail = async (data: EmailCaptureData): Promise<boolean> => {
   try {
-    const response = await fetch('https://n8n.shahzaibai.site/webhook/email-capture', {
+    const n8nBase = process.env.NEXT_PUBLIC_N8N_BASE_URL ?? 'https://n8n.shahzaibai.site';
+    const response = await fetch(`${n8nBase}/webhook/email-capture`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

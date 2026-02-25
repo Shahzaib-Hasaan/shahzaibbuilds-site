@@ -77,7 +77,7 @@ export default function Navbar() {
               onClick={handleCTAClick}
               className="px-5 py-2.5 min-h-[44px] bg-electric-blue hover:bg-electric-blue-hover text-white text-sm font-medium rounded-lg transition-all duration-200 glow-blue hover:scale-105 inline-flex items-center justify-center"
             >
-              Book Audit
+              Book a Free 15-Min Audit
             </a>
           </div>
 
@@ -119,7 +119,7 @@ export default function Navbar() {
                 onClick={handleCTAClick}
                 className="block w-full text-center px-4 py-3 min-h-[44px] bg-electric-blue hover:bg-electric-blue-hover text-white text-sm font-medium rounded-lg transition-colors mt-4"
               >
-                Book Audit
+                Book a Free 15-Min Audit
               </a>
             </div>
           </motion.div>
