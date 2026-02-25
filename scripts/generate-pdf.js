@@ -6,23 +6,31 @@ const fs = require('fs');
 const path = require('path');
 
 // ─── Brand tokens ────────────────────────────────────────────────────────────
-const DARK_BG      = '#050505';
-const SURFACE      = '#0f0f0f';
-const ELECTRIC     = '#3B82F6';
-const GREEN        = '#10B981';
-const WHITE        = '#FFFFFF';
-const GRAY         = '#9CA3AF';
-const GRAY_DIM     = '#4B5563';
+const WHITE       = '#FFFFFF';
+const OFF_WHITE   = '#F8F9FA';
+const LIGHT_GRAY  = '#F1F3F5';
+const BORDER      = '#E2E8F0';
+const TEXT_DIM    = '#6B7280';
+const TEXT_BODY   = '#374151';
+const TEXT_DARK   = '#111827';
+const BLUE        = '#2563EB';
+const BLUE_LIGHT  = '#EFF6FF';
+const GREEN       = '#059669';
+const GREEN_LIGHT = '#ECFDF5';
+const AMBER       = '#D97706';
+const AMBER_LIGHT = '#FFFBEB';
 
-const FONT_MONO    = 'Courier';   // pdfkit built-in closest to JetBrains Mono
-const FONT_SANS    = 'Helvetica'; // pdfkit built-in
+const FONT_SANS   = 'Helvetica';
+const FONT_BOLD   = 'Helvetica-Bold';
+const FONT_MONO   = 'Courier';
 
 const OUT_PATH = path.join(__dirname, '..', 'public', 'downloads', '5-automations-checklist.pdf');
 
 // ─── Page dimensions (A4) ────────────────────────────────────────────────────
-const W = 595.28;
-const H = 841.89;
-const MARGIN = 48;
+const W      = 595.28;
+const H      = 841.89;
+const MARGIN = 52;
+const INNER  = W - MARGIN * 2;
 
 // ─── Automation data ─────────────────────────────────────────────────────────
 const AUTOMATIONS = [
@@ -31,7 +39,7 @@ const AUTOMATIONS = [
     title: 'AI Voice Lead Qualification',
     description:
       'Deploy a 24/7 AI voice agent that calls inbound leads within 60 seconds, asks qualification questions, scores them, and pushes qualified leads straight to your CRM — while you sleep.',
-    timeSaved: '10 hrs / week',
+    timeSaved: '10',
     difficulty: 'Intermediate',
     tools: ['VAPI', 'OpenAI', 'HubSpot', 'n8n'],
     checklist: [
@@ -49,7 +57,7 @@ const AUTOMATIONS = [
     title: 'Email-to-CRM Auto-Sync',
     description:
       'Every inbound email from a prospect automatically creates or updates a CRM contact, logs the thread, and tags it by intent — so your pipeline stays clean without anyone touching it.',
-    timeSaved: '5 hrs / week',
+    timeSaved: '5',
     difficulty: 'Beginner',
     tools: ['n8n', 'Gmail API', 'HubSpot', 'OpenAI'],
     checklist: [
@@ -67,7 +75,7 @@ const AUTOMATIONS = [
     title: 'Inbound Support Bot',
     description:
       'An AI chatbot handles tier-1 support questions 24/7, pulling answers from your knowledge base. Only tickets it cannot resolve get escalated to your team — cutting support volume by 60–70%.',
-    timeSaved: '8 hrs / week',
+    timeSaved: '8',
     difficulty: 'Intermediate',
     tools: ['OpenAI', 'n8n', 'Zendesk', 'Notion'],
     checklist: [
@@ -85,7 +93,7 @@ const AUTOMATIONS = [
     title: 'Slack Ops Notifications',
     description:
       'Critical business events — new paying customer, churn risk alert, server error spike — automatically post to the right Slack channel with context, so your team reacts in minutes not hours.',
-    timeSaved: '4 hrs / week',
+    timeSaved: '4',
     difficulty: 'Beginner',
     tools: ['n8n', 'Slack API', 'Stripe', 'PagerDuty'],
     checklist: [
@@ -103,11 +111,11 @@ const AUTOMATIONS = [
     title: 'Outbound Follow-up Sequences',
     description:
       'Leads who go cold after an initial call get an automated multi-touch follow-up sequence — personalised using their CRM data — that runs for 2 weeks before gracefully giving up.',
-    timeSaved: '6 hrs / week',
+    timeSaved: '6',
     difficulty: 'Intermediate',
     tools: ['n8n', 'OpenAI', 'HubSpot', 'Gmail API'],
     checklist: [
-      'Define your follow-up trigger: deal stage = "No Response" for 3+ days',
+      'Define follow-up trigger: deal stage = "No Response" for 3+ days',
       'Write 3 email templates (Day 3, Day 7, Day 14) in plain text',
       'Use OpenAI to personalise first line from CRM notes',
       'Build n8n sequence with delays between each send',
@@ -120,422 +128,452 @@ const AUTOMATIONS = [
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function fullPageRect(doc) {
-  doc.rect(0, 0, W, H).fill(DARK_BG);
-}
-
-function addPage(doc) {
+function newPage(doc) {
   doc.addPage({ size: 'A4', margin: 0 });
-  fullPageRect(doc);
+  doc.rect(0, 0, W, H).fill(WHITE);
 }
 
-function pill(doc, text, x, y, color) {
-  const pad = 8;
-  const textW = doc.widthOfString(text, { font: FONT_MONO, fontSize: 9 });
-  const boxW = textW + pad * 2;
-  const boxH = 18;
-  doc
-    .roundedRect(x, y, boxW, boxH, 4)
-    .fillAndStroke(color + '1A', color);
-  doc
-    .font(FONT_MONO)
-    .fontSize(9)
-    .fillColor(color)
-    .text(text, x + pad, y + 4, { lineBreak: false });
-  return boxW + 6; // advance width
+function pageHeader(doc, label) {
+  // Top blue bar
+  doc.rect(0, 0, W, 5).fill(BLUE);
+  // Label
+  doc.font(FONT_MONO).fontSize(9).fillColor(BLUE)
+    .text(label, MARGIN, 20, { lineBreak: false });
 }
 
-function difficultyColor(d) {
-  if (d === 'Beginner')     return GREEN;
-  if (d === 'Intermediate') return ELECTRIC;
-  return '#F59E0B'; // amber for Advanced
+function pageFooter(doc, pageNum) {
+  // Divider
+  doc.moveTo(MARGIN, H - 44).lineTo(W - MARGIN, H - 44)
+    .strokeColor(BORDER).lineWidth(0.5).stroke();
+  // Left: brand
+  doc.font(FONT_SANS).fontSize(8).fillColor(TEXT_DIM)
+    .text('Shahzaib Builds · shahzaibbuilds.me', MARGIN, H - 32, { lineBreak: false });
+  // Right: page number
+  doc.font(FONT_SANS).fontSize(8).fillColor(TEXT_DIM)
+    .text(`${pageNum} / 10`, W - MARGIN - 30, H - 32, { lineBreak: false });
+}
+
+function difficultyStyle(d) {
+  if (d === 'Beginner')     return { bg: GREEN_LIGHT,  text: GREEN };
+  if (d === 'Intermediate') return { bg: BLUE_LIGHT,   text: BLUE  };
+  return { bg: AMBER_LIGHT, text: AMBER };
+}
+
+function tagPill(doc, label, x, y, bg, fg) {
+  const pad = 7;
+  doc.font(FONT_MONO).fontSize(8);
+  const tw = doc.widthOfString(label);
+  const bw = tw + pad * 2;
+  const bh = 16;
+  doc.roundedRect(x, y, bw, bh, 3).fill(bg);
+  doc.fillColor(fg).text(label, x + pad, y + 3, { lineBreak: false });
+  return bw + 5;
+}
+
+function sectionLabel(doc, text, y) {
+  doc.font(FONT_MONO).fontSize(9).fillColor(BLUE)
+    .text(text, MARGIN, y, { lineBreak: false });
 }
 
 // ─── Pages ───────────────────────────────────────────────────────────────────
 
 function renderCover(doc) {
-  fullPageRect(doc);
+  doc.rect(0, 0, W, H).fill(WHITE);
 
-  // Top accent bar
-  doc.rect(0, 0, W, 4).fill(ELECTRIC);
+  // Top blue bar (thick)
+  doc.rect(0, 0, W, 8).fill(BLUE);
 
-  // Decorative grid lines
-  doc.strokeColor(GRAY_DIM).lineWidth(0.3).opacity(0.15);
-  for (let x = 0; x < W; x += 40) {
-    doc.moveTo(x, 0).lineTo(x, H).stroke();
-  }
-  for (let y = 0; y < H; y += 40) {
-    doc.moveTo(0, y).lineTo(W, y).stroke();
-  }
-  doc.opacity(1);
+  // Blue sidebar strip
+  doc.rect(0, 0, 6, H).fill(BLUE);
 
-  // Glow blob
-  doc
-    .circle(W / 2, H / 2 - 80, 200)
-    .fill(ELECTRIC + '18');
+  // FREE CHECKLIST badge
+  const badgeY = 72;
+  doc.roundedRect(MARGIN + 6, badgeY, 130, 22, 11).fill(BLUE_LIGHT);
+  doc.font(FONT_MONO).fontSize(9).fillColor(BLUE)
+    .text('FREE CHECKLIST', MARGIN + 24, badgeY + 6, { lineBreak: false });
 
-  // Badge
-  const badgeY = 140;
-  doc
-    .roundedRect(MARGIN, badgeY, 180, 24, 12)
-    .fillAndStroke(GREEN + '1A', GREEN);
-  doc
-    .font(FONT_MONO).fontSize(10).fillColor(GREEN)
-    .text('FREE CHECKLIST', MARGIN + 12, badgeY + 6, { lineBreak: false });
+  // Main title
+  doc.font(FONT_BOLD).fontSize(40).fillColor(TEXT_DARK)
+    .text('5 AI Automations', MARGIN + 6, 114, { width: INNER, lineBreak: false });
 
-  // Title
-  doc
-    .font(FONT_SANS + '-Bold').fontSize(38).fillColor(WHITE)
-    .text('5 AI Automations', MARGIN, 186, { width: W - MARGIN * 2, lineBreak: false });
-  doc
-    .font(FONT_SANS + '-Bold').fontSize(38).fillColor(ELECTRIC)
-    .text('Every Business Needs', MARGIN, 230, { width: W - MARGIN * 2, lineBreak: false });
+  doc.font(FONT_BOLD).fontSize(40).fillColor(BLUE)
+    .text('Every Business Needs', MARGIN + 6, 158, { width: INNER, lineBreak: false });
 
   // Subtitle
-  doc
-    .font(FONT_SANS).fontSize(16).fillColor(GRAY)
-    .text('Save 30+ Hours Per Week with These Proven Workflows', MARGIN, 292, {
-      width: W - MARGIN * 2,
+  doc.font(FONT_SANS).fontSize(14).fillColor(TEXT_DIM)
+    .text('Save 30+ hours per week with these proven workflows', MARGIN + 6, 216, {
+      width: INNER,
+      lineBreak: false,
     });
 
   // Divider
-  doc.moveTo(MARGIN, 340).lineTo(W - MARGIN, 340).strokeColor(GRAY_DIM).lineWidth(0.5).stroke();
+  doc.moveTo(MARGIN + 6, 252).lineTo(W - MARGIN, 252)
+    .strokeColor(BORDER).lineWidth(1).stroke();
 
-  // Stats row
+  // Stats row — 3 cards
+  const statW = (INNER - 24) / 3;
   const stats = [
-    { value: '12+', label: 'Voice Agents Deployed' },
-    { value: '35+', label: 'Workflows Automated' },
-    { value: '500+', label: 'Hours Saved / Week' },
+    { value: '12+', label: 'Voice Agents\nDeployed' },
+    { value: '35+', label: 'Workflows\nAutomated' },
+    { value: '500+', label: 'Hours Saved\nper Week' },
   ];
-  const colW = (W - MARGIN * 2) / 3;
   stats.forEach((s, i) => {
-    const x = MARGIN + i * colW;
-    doc
-      .font(FONT_MONO).fontSize(28).fillColor(ELECTRIC)
-      .text(s.value, x, 362, { width: colW, align: 'center', lineBreak: false });
-    doc
-      .font(FONT_SANS).fontSize(10).fillColor(GRAY)
-      .text(s.label, x, 396, { width: colW, align: 'center', lineBreak: false });
+    const sx = MARGIN + 6 + i * (statW + 12);
+    const sy = 270;
+    doc.roundedRect(sx, sy, statW, 72, 6).fill(LIGHT_GRAY);
+    doc.font(FONT_BOLD).fontSize(28).fillColor(BLUE)
+      .text(s.value, sx, sy + 12, { width: statW, align: 'center', lineBreak: false });
+    doc.font(FONT_SANS).fontSize(9).fillColor(TEXT_DIM)
+      .text(s.label, sx, sy + 46, { width: statW, align: 'center' });
   });
 
-  // Byline
-  doc
-    .font(FONT_MONO).fontSize(11).fillColor(WHITE)
-    .text('Shahzaib Hassan', MARGIN, H - 120, { lineBreak: false });
-  doc
-    .font(FONT_MONO).fontSize(10).fillColor(GREEN)
-    .text('shahzaibbuilds.me', MARGIN, H - 104, { lineBreak: false });
-  doc
-    .font(FONT_MONO).fontSize(9).fillColor(GRAY)
-    .text('AI Automation Engineer · Automaxion', MARGIN, H - 88, { lineBreak: false });
+  // What's inside section
+  const insideY = 368;
+  doc.font(FONT_BOLD).fontSize(13).fillColor(TEXT_DARK)
+    .text("What's inside:", MARGIN + 6, insideY, { lineBreak: false });
 
-  // Bottom accent
-  doc.rect(0, H - 4, W, 4).fill(GREEN);
+  const items = [
+    '5 battle-tested automation blueprints',
+    'Step-by-step implementation checklist for each',
+    'Exact tools, platforms, and integrations to use',
+    'ROI table: hours saved + annual value per automation',
+  ];
+  items.forEach((item, i) => {
+    const iy = insideY + 26 + i * 22;
+    // Blue dot
+    doc.circle(MARGIN + 9, iy + 5, 3).fill(BLUE);
+    doc.font(FONT_SANS).fontSize(11).fillColor(TEXT_BODY)
+      .text(item, MARGIN + 20, iy, { lineBreak: false });
+  });
+
+  // Total time saved callout
+  const calloutY = 490;
+  doc.roundedRect(MARGIN + 6, calloutY, INNER - 6, 68, 6)
+    .fill(BLUE_LIGHT);
+  doc.font(FONT_MONO).fontSize(9).fillColor(BLUE)
+    .text('TOTAL TIME SAVED ACROSS ALL 5 AUTOMATIONS', MARGIN + 20, calloutY + 14, { lineBreak: false });
+  doc.font(FONT_BOLD).fontSize(26).fillColor(TEXT_DARK)
+    .text('33+ hours / week', MARGIN + 20, calloutY + 30, { lineBreak: false });
+
+  // Author block
+  const authorY = 590;
+  doc.moveTo(MARGIN + 6, authorY).lineTo(W - MARGIN, authorY)
+    .strokeColor(BORDER).lineWidth(0.5).stroke();
+
+  doc.font(FONT_BOLD).fontSize(12).fillColor(TEXT_DARK)
+    .text('Shahzaib Hassan', MARGIN + 6, authorY + 16, { lineBreak: false });
+  doc.font(FONT_SANS).fontSize(10).fillColor(TEXT_DIM)
+    .text('AI Automation Engineer · Automaxion · shahzaibbuilds.me', MARGIN + 6, authorY + 33, { lineBreak: false });
+
+  // Bottom green bar
+  doc.rect(0, H - 5, W, 5).fill(GREEN);
 }
 
 function renderAbout(doc) {
-  addPage(doc);
+  newPage(doc);
+  pageHeader(doc, '// ABOUT THIS GUIDE');
+  pageFooter(doc, 2);
 
-  doc.rect(0, 0, W, 4).fill(ELECTRIC);
+  const y0 = 48;
 
-  // Section label
-  doc
-    .font(FONT_MONO).fontSize(11).fillColor(GREEN)
-    .text('// ABOUT THIS GUIDE', MARGIN, 60, { lineBreak: false });
+  doc.font(FONT_BOLD).fontSize(24).fillColor(TEXT_DARK)
+    .text('Who This Is For', MARGIN, y0, { width: INNER });
 
-  doc
-    .font(FONT_SANS + '-Bold').fontSize(26).fillColor(WHITE)
-    .text('Who This Is For', MARGIN, 84, { width: W - MARGIN * 2 });
-
-  doc
-    .font(FONT_SANS).fontSize(13).fillColor(GRAY).lineGap(4)
+  doc.font(FONT_SANS).fontSize(12).fillColor(TEXT_BODY).lineGap(3)
     .text(
-      'You\'re a startup founder or ops lead drowning in repetitive manual work — chasing leads, updating CRMs, responding to the same support questions. You\'ve heard AI can help, but you\'re not sure where to start.\n\nThis guide gives you five battle-tested automations, the exact tools to implement them, and a step-by-step checklist for each. No fluff. No theory. Just deployable systems.',
-      MARGIN, 124, { width: W - MARGIN * 2 }
+      'You\'re a startup founder or ops lead drowning in repetitive manual work — chasing leads, updating CRMs, answering the same support questions. You\'ve heard AI can help, but you\'re not sure where to start.\n\nThis guide gives you five battle-tested automations, the exact tools to implement them, and a step-by-step checklist for each. No fluff. No theory. Just deployable systems.',
+      MARGIN, y0 + 38, { width: INNER }
     );
 
-  // How to use
-  doc
-    .font(FONT_MONO).fontSize(11).fillColor(GREEN)
-    .text('// HOW TO USE THIS GUIDE', MARGIN, 270, { lineBreak: false });
+  // How to use this guide
+  const howY = 230;
+  doc.font(FONT_BOLD).fontSize(16).fillColor(TEXT_DARK)
+    .text('How to Use This Guide', MARGIN, howY, { width: INNER });
 
   const steps = [
-    '01  Read through all 5 automations once.',
-    '02  Pick the one that saves you the most time first.',
-    '03  Follow the checklist top-to-bottom.',
-    '04  Book a free audit if you need implementation help.',
+    { num: '01', text: 'Read through all 5 automations once for the big picture.' },
+    { num: '02', text: 'Pick the automation that saves you the most time first.' },
+    { num: '03', text: 'Follow its checklist top-to-bottom — each step is actionable.' },
+    { num: '04', text: 'Book a free audit call if you need help with implementation.' },
   ];
+
   steps.forEach((s, i) => {
-    doc
-      .font(FONT_MONO).fontSize(11).fillColor(i % 2 === 0 ? WHITE : GRAY)
-      .text(s, MARGIN, 298 + i * 24, { lineBreak: false });
+    const sy = howY + 36 + i * 54;
+    // Row card
+    doc.roundedRect(MARGIN, sy, INNER, 44, 5).fill(LIGHT_GRAY);
+    // Number circle
+    doc.circle(MARGIN + 22, sy + 22, 14).fill(BLUE);
+    doc.font(FONT_BOLD).fontSize(10).fillColor(WHITE)
+      .text(s.num, MARGIN + 22 - 8, sy + 16, { width: 16, align: 'center', lineBreak: false });
+    // Step text
+    doc.font(FONT_SANS).fontSize(11).fillColor(TEXT_BODY)
+      .text(s.text, MARGIN + 44, sy + 14, { width: INNER - 54, lineBreak: false });
   });
 
-  // Total time saved callout box
-  const boxY = 410;
-  doc.roundedRect(MARGIN, boxY, W - MARGIN * 2, 80, 8)
-    .fillAndStroke(ELECTRIC + '12', ELECTRIC + '40');
-  doc
-    .font(FONT_MONO).fontSize(11).fillColor(ELECTRIC)
-    .text('// TOTAL TIME SAVED ACROSS ALL 5 AUTOMATIONS', MARGIN + 20, boxY + 18, { lineBreak: false });
-  doc
-    .font(FONT_SANS + '-Bold').fontSize(32).fillColor(WHITE)
-    .text('33+ hours / week', MARGIN + 20, boxY + 36, { lineBreak: false });
+  // Callout box at bottom
+  const callY = 500;
+  doc.roundedRect(MARGIN, callY, INNER, 72, 6).fill(BLUE_LIGHT);
+  doc.moveTo(MARGIN, callY).lineTo(MARGIN, callY + 72)
+    .strokeColor(BLUE).lineWidth(3).stroke();
 
-  doc.rect(0, H - 4, W, 4).fill(GREEN);
+  doc.font(FONT_MONO).fontSize(9).fillColor(BLUE)
+    .text('COMBINED TIME SAVINGS', MARGIN + 16, callY + 16, { lineBreak: false });
+  doc.font(FONT_BOLD).fontSize(28).fillColor(TEXT_DARK)
+    .text('33+ hours / week', MARGIN + 16, callY + 32, { lineBreak: false });
+  doc.font(FONT_SANS).fontSize(10).fillColor(TEXT_DIM)
+    .text('Based on conservative estimates. Most clients report higher savings.', MARGIN + 16, callY + 60, { lineBreak: false });
 }
 
-function renderAutomationPage(doc, automation, index) {
-  addPage(doc);
+function renderAutomationPage(doc, automation, pageNum) {
+  newPage(doc);
+  pageHeader(doc, `// AUTOMATION ${automation.number} OF 05`);
+  pageFooter(doc, pageNum);
 
-  doc.rect(0, 0, W, 4).fill(ELECTRIC);
+  const diff = difficultyStyle(automation.difficulty);
 
-  // Number watermark
-  doc
-    .font(FONT_MONO).fontSize(120).fillColor(ELECTRIC).opacity(0.06)
-    .text(automation.number, W - 160, 20, { lineBreak: false });
-  doc.opacity(1);
-
-  // Section label
-  doc
-    .font(FONT_MONO).fontSize(10).fillColor(GREEN)
-    .text(`// AUTOMATION ${automation.number} OF 05`, MARGIN, 60, { lineBreak: false });
-
-  // Title
-  doc
-    .font(FONT_SANS + '-Bold').fontSize(24).fillColor(WHITE)
-    .text(automation.title, MARGIN, 82, { width: W - MARGIN * 2 - 60 });
-
-  // Description
-  doc
-    .font(FONT_SANS).fontSize(12).fillColor(GRAY).lineGap(3)
-    .text(automation.description, MARGIN, 124, { width: W - MARGIN * 2 });
+  // Title area
+  const titleY = 44;
+  doc.font(FONT_BOLD).fontSize(22).fillColor(TEXT_DARK)
+    .text(automation.title, MARGIN, titleY, { width: INNER - 60 });
 
   // Badges row
-  let badgeX = MARGIN;
-  const badgeY = 196;
+  const badgeY = titleY + 36;
+  let bx = MARGIN;
+  bx += tagPill(doc, `${automation.timeSaved} hrs / week`, bx, badgeY, BLUE_LIGHT, BLUE);
+  bx += tagPill(doc, automation.difficulty, bx, badgeY, diff.bg, diff.text);
 
-  // Time saved
-  badgeX += pill(doc, `⏱ ${automation.timeSaved}`, badgeX, badgeY, ELECTRIC);
-
-  // Difficulty
-  badgeX += pill(doc, automation.difficulty, badgeX, badgeY, difficultyColor(automation.difficulty));
-
-  // Tools row
-  doc
-    .font(FONT_MONO).fontSize(9).fillColor(GRAY_DIM)
-    .text('TOOLS:', MARGIN, 228, { lineBreak: false });
-
-  let toolX = MARGIN + 46;
+  // Tools
   automation.tools.forEach((t) => {
-    toolX += pill(doc, t, toolX, 224, GRAY);
+    bx += tagPill(doc, t, bx, badgeY, LIGHT_GRAY, TEXT_DIM);
   });
 
   // Divider
-  doc.moveTo(MARGIN, 254).lineTo(W - MARGIN, 254)
-    .strokeColor(GRAY_DIM).lineWidth(0.4).stroke();
+  const divY = badgeY + 26;
+  doc.moveTo(MARGIN, divY).lineTo(W - MARGIN, divY)
+    .strokeColor(BORDER).lineWidth(0.5).stroke();
+
+  // Description
+  doc.font(FONT_SANS).fontSize(11).fillColor(TEXT_BODY).lineGap(2)
+    .text(automation.description, MARGIN, divY + 12, { width: INNER });
 
   // Checklist header
-  doc
-    .font(FONT_MONO).fontSize(10).fillColor(GREEN)
-    .text('// IMPLEMENTATION CHECKLIST', MARGIN, 266, { lineBreak: false });
+  const clY = divY + 72;
+  doc.font(FONT_BOLD).fontSize(13).fillColor(TEXT_DARK)
+    .text('Implementation Checklist', MARGIN, clY, { lineBreak: false });
 
   // Checklist items
   automation.checklist.forEach((item, i) => {
-    const itemY = 290 + i * 56;
+    const iy = clY + 26 + i * 72;
 
-    // Checkbox
-    doc
-      .roundedRect(MARGIN, itemY, 18, 18, 3)
-      .strokeColor(GRAY_DIM).lineWidth(0.8).stroke();
+    // Item card
+    doc.roundedRect(MARGIN, iy, INNER, 62, 5)
+      .strokeColor(BORDER).lineWidth(0.5).stroke();
+
+    // Checkbox square
+    doc.roundedRect(MARGIN + 14, iy + 22, 16, 16, 3)
+      .strokeColor(BORDER).lineWidth(1).stroke();
 
     // Step number
-    doc
-      .font(FONT_MONO).fontSize(9).fillColor(ELECTRIC)
-      .text(`${String(i + 1).padStart(2, '0')}`, MARGIN + 24, itemY + 1, { lineBreak: false });
+    doc.font(FONT_MONO).fontSize(8).fillColor(BLUE)
+      .text(String(i + 1).padStart(2, '0'), MARGIN + 38, iy + 10, { lineBreak: false });
 
     // Item text
-    doc
-      .font(FONT_SANS).fontSize(11).fillColor(WHITE)
-      .text(item, MARGIN + 42, itemY + 1, { width: W - MARGIN * 2 - 42 });
+    doc.font(FONT_BOLD).fontSize(10).fillColor(TEXT_DARK)
+      .text(item, MARGIN + 38, iy + 22, { width: INNER - 56 });
   });
-
-  doc.rect(0, H - 4, W, 4).fill(GREEN);
 }
 
 function renderROITable(doc) {
-  addPage(doc);
+  newPage(doc);
+  pageHeader(doc, '// ROI SUMMARY');
+  pageFooter(doc, 8);
 
-  doc.rect(0, 0, W, 4).fill(ELECTRIC);
+  doc.font(FONT_BOLD).fontSize(24).fillColor(TEXT_DARK)
+    .text('Your Automation ROI', MARGIN, 44, { width: INNER });
 
-  doc
-    .font(FONT_MONO).fontSize(11).fillColor(GREEN)
-    .text('// ROI SUMMARY', MARGIN, 60, { lineBreak: false });
-
-  doc
-    .font(FONT_SANS + '-Bold').fontSize(26).fillColor(WHITE)
-    .text('Your Automation ROI', MARGIN, 84, { width: W - MARGIN * 2 });
-
-  doc
-    .font(FONT_SANS).fontSize(12).fillColor(GRAY)
-    .text('Based on a conservative $50/hr blended rate. Your numbers may vary.', MARGIN, 118, {
-      width: W - MARGIN * 2,
+  doc.font(FONT_SANS).fontSize(11).fillColor(TEXT_DIM)
+    .text('Based on a conservative $50/hr blended rate. Your numbers may vary.', MARGIN, 78, {
+      width: INNER,
     });
 
-  // Table
-  const tableTop = 150;
-  const cols = [220, 100, 110, 100]; // widths
-  const colX = [MARGIN, MARGIN + 220, MARGIN + 320, MARGIN + 430];
-  const headers = ['Automation', 'Hrs / Week', 'Hrs / Month', 'Value / Year'];
-  const rows = [
-    ...AUTOMATIONS.map((a) => {
-      const wk = parseInt(a.timeSaved);
-      const mo = wk * 4;
-      const yr = mo * 12 * 50;
-      return [a.title, `${wk} hrs`, `${mo} hrs`, `$${yr.toLocaleString()}`];
-    }),
-    ['TOTAL', '33 hrs', '132 hrs', '$79,200'],
-  ];
-
-  const rowH = 36;
+  // Table setup
+  const tableY = 110;
+  const cols   = { name: 0, wk: 210, mo: 300, yr: 390 };
+  const colW   = { name: 210, wk: 90, mo: 90, yr: 109 };
+  const rowH   = 38;
 
   // Header row
-  doc.rect(MARGIN, tableTop, W - MARGIN * 2, rowH).fill(ELECTRIC + '22');
-  headers.forEach((h, i) => {
-    doc
-      .font(FONT_MONO).fontSize(9).fillColor(ELECTRIC)
-      .text(h, colX[i] + 8, tableTop + 12, { width: cols[i] - 8, lineBreak: false });
+  doc.rect(MARGIN, tableY, INNER, rowH).fill(TEXT_DARK);
+  [
+    ['Automation', cols.name],
+    ['Hrs / Week', cols.wk],
+    ['Hrs / Month', cols.mo],
+    ['Value / Year', cols.yr],
+  ].forEach(([h, cx]) => {
+    doc.font(FONT_BOLD).fontSize(9).fillColor(WHITE)
+      .text(h, MARGIN + cx + 10, tableY + 13, { width: colW[cx] ?? 109, lineBreak: false });
   });
 
   // Data rows
+  const rows = AUTOMATIONS.map((a) => {
+    const wk = parseInt(a.timeSaved);
+    const mo = wk * 4;
+    const yr = mo * 12 * 50;
+    return [a.title, `${wk} hrs`, `${mo} hrs`, `$${yr.toLocaleString()}`];
+  });
+
   rows.forEach((row, ri) => {
-    const y = tableTop + rowH + ri * rowH;
-    const isTotal = ri === rows.length - 1;
+    const ry = tableY + rowH + ri * rowH;
+    doc.rect(MARGIN, ry, INNER, rowH)
+      .fill(ri % 2 === 0 ? WHITE : LIGHT_GRAY);
+    doc.moveTo(MARGIN, ry + rowH).lineTo(W - MARGIN, ry + rowH)
+      .strokeColor(BORDER).lineWidth(0.3).stroke();
 
-    doc
-      .rect(MARGIN, y, W - MARGIN * 2, rowH)
-      .fill(isTotal ? GREEN + '18' : ri % 2 === 0 ? SURFACE : DARK_BG);
-
-    row.forEach((cell, ci) => {
-      doc
-        .font(isTotal ? FONT_MONO : FONT_SANS)
-        .fontSize(isTotal ? 10 : 11)
-        .fillColor(isTotal ? GREEN : ci === 0 ? WHITE : GRAY)
-        .text(cell, colX[ci] + 8, y + 11, { width: cols[ci] - 8, lineBreak: false });
+    const vals = [
+      [row[0], cols.name, FONT_SANS,  TEXT_DARK],
+      [row[1], cols.wk,   FONT_MONO,  TEXT_BODY],
+      [row[2], cols.mo,   FONT_MONO,  TEXT_BODY],
+      [row[3], cols.yr,   FONT_BOLD,  BLUE     ],
+    ];
+    vals.forEach(([val, cx, font, color]) => {
+      doc.font(font).fontSize(10).fillColor(color)
+        .text(val, MARGIN + cx + 10, ry + 12, { width: colW[cx] ?? 109, lineBreak: false });
     });
   });
 
-  // Footnote
-  const footnoteY = tableTop + rowH * (rows.length + 1) + 20;
-  doc
-    .font(FONT_MONO).fontSize(9).fillColor(GRAY_DIM)
-    .text('→ Use the interactive ROI calculator at shahzaibbuilds.me to calculate with your own numbers.', MARGIN, footnoteY, { width: W - MARGIN * 2 });
+  // Total row
+  const totalY = tableY + rowH + rows.length * rowH;
+  doc.rect(MARGIN, totalY, INNER, rowH).fill(BLUE);
+  [
+    ['TOTAL', cols.name],
+    ['33 hrs', cols.wk],
+    ['132 hrs', cols.mo],
+    ['$79,200', cols.yr],
+  ].forEach(([val, cx]) => {
+    doc.font(FONT_BOLD).fontSize(10).fillColor(WHITE)
+      .text(val, MARGIN + cx + 10, totalY + 13, { width: colW[cx] ?? 109, lineBreak: false });
+  });
 
-  doc.rect(0, H - 4, W, 4).fill(GREEN);
+  // Table outline
+  doc.rect(MARGIN, tableY, INNER, rowH * (rows.length + 2))
+    .strokeColor(BORDER).lineWidth(0.5).stroke();
+
+  // Footnote
+  const fnY = totalY + rowH + 20;
+  doc.font(FONT_MONO).fontSize(9).fillColor(TEXT_DIM)
+    .text('Use the interactive ROI calculator at shahzaibbuilds.me to enter your own numbers.', MARGIN, fnY, { width: INNER });
 }
 
 function renderCTA(doc) {
-  addPage(doc);
+  newPage(doc);
+  pageHeader(doc, '// NEXT STEPS');
+  pageFooter(doc, 9);
 
-  doc.rect(0, 0, W, 4).fill(ELECTRIC);
+  doc.font(FONT_BOLD).fontSize(26).fillColor(TEXT_DARK)
+    .text('Ready to Deploy These Automations?', MARGIN, 50, { width: INNER });
 
-  // Glow
-  doc.circle(W / 2, H / 2 - 60, 180).fill(GREEN + '10');
-
-  doc
-    .font(FONT_MONO).fontSize(11).fillColor(GREEN)
-    .text('// NEXT STEPS', MARGIN, 100, { lineBreak: false });
-
-  doc
-    .font(FONT_SANS + '-Bold').fontSize(28).fillColor(WHITE)
-    .text('Ready to Deploy These Automations?', MARGIN, 124, { width: W - MARGIN * 2 });
-
-  doc
-    .font(FONT_SANS).fontSize(13).fillColor(GRAY).lineGap(4)
+  doc.font(FONT_SANS).fontSize(12).fillColor(TEXT_BODY).lineGap(3)
     .text(
-      "These checklists show you what to build. But knowing what to build and actually deploying it are two different things. If you'd rather skip the setup headaches and have a custom automation running in days — that's what I do.",
-      MARGIN, 174, { width: W - MARGIN * 2 }
+      "These checklists show you what to build. But knowing what to build and actually deploying it are two different things.\n\nIf you'd rather skip the setup headaches and have a custom automation running in days — that's what I do.",
+      MARGIN, 100, { width: INNER }
     );
 
-  // 3-step process
+  // 3 step cards
   const processSteps = [
-    { num: '01', label: 'Identify your biggest time bottleneck', color: ELECTRIC },
-    { num: '02', label: 'Book a free 15-min audit call', color: GREEN },
-    { num: '03', label: 'Get a custom automation roadmap', color: ELECTRIC },
+    { num: '01', label: 'Identify your biggest time bottleneck' },
+    { num: '02', label: 'Book a free 15-min audit call' },
+    { num: '03', label: 'Get a custom automation roadmap, built for your stack' },
   ];
 
   processSteps.forEach((s, i) => {
-    const y = 290 + i * 64;
-    doc
-      .circle(MARGIN + 16, y + 16, 16)
-      .fill(s.color + '20');
-    doc
-      .font(FONT_MONO).fontSize(13).fillColor(s.color)
-      .text(s.num, MARGIN + 8, y + 8, { lineBreak: false });
-    doc
-      .font(FONT_SANS).fontSize(13).fillColor(WHITE)
-      .text(s.label, MARGIN + 42, y + 8, { lineBreak: false });
+    const sy = 220 + i * 72;
+    doc.roundedRect(MARGIN, sy, INNER, 58, 6).fill(LIGHT_GRAY);
+    // Number badge
+    doc.roundedRect(MARGIN + 14, sy + 14, 28, 28, 4).fill(BLUE);
+    doc.font(FONT_BOLD).fontSize(11).fillColor(WHITE)
+      .text(s.num, MARGIN + 14, sy + 20, { width: 28, align: 'center', lineBreak: false });
+    // Text
+    doc.font(FONT_BOLD).fontSize(13).fillColor(TEXT_DARK)
+      .text(s.label, MARGIN + 54, sy + 21, { width: INNER - 68, lineBreak: false });
   });
 
-  // CTA button (rendered as a box)
-  const ctaY = 500;
-  doc
-    .roundedRect(MARGIN, ctaY, W - MARGIN * 2, 56, 8)
-    .fill(ELECTRIC);
-  doc
-    .font(FONT_SANS + '-Bold').fontSize(15).fillColor(WHITE)
-    .text('Book Your Free 15-Min Audit →', MARGIN, ctaY + 18, {
-      width: W - MARGIN * 2,
+  // CTA button
+  const ctaY = 448;
+  doc.roundedRect(MARGIN, ctaY, INNER, 52, 7).fill(BLUE);
+  doc.font(FONT_BOLD).fontSize(14).fillColor(WHITE)
+    .text('Book Your Free 15-Min Audit  →', MARGIN, ctaY + 17, {
+      width: INNER,
       align: 'center',
       lineBreak: false,
     });
 
-  doc
-    .font(FONT_MONO).fontSize(11).fillColor(GREEN)
-    .text('shahzaibbuilds.me', MARGIN, ctaY + 76, { width: W - MARGIN * 2, align: 'center', lineBreak: false });
+  doc.font(FONT_SANS).fontSize(10).fillColor(TEXT_DIM)
+    .text('No commitment. 15 minutes. Walk away with a clear action plan.', MARGIN, ctaY + 66, {
+      width: INNER,
+      align: 'center',
+      lineBreak: false,
+    });
 
-  doc.rect(0, H - 4, W, 4).fill(GREEN);
+  // Link
+  doc.font(FONT_MONO).fontSize(11).fillColor(BLUE)
+    .text('shahzaibbuilds.me', MARGIN, ctaY + 84, {
+      width: INNER,
+      align: 'center',
+      lineBreak: false,
+    });
 }
 
 function renderBackCover(doc) {
-  addPage(doc);
+  newPage(doc);
 
-  // Full accent background
-  doc.rect(0, 0, W, H).fill(SURFACE);
-  doc.rect(0, 0, W, 4).fill(ELECTRIC);
-  doc.rect(0, H - 4, W, 4).fill(GREEN);
+  // Solid blue bottom half
+  doc.rect(0, H / 2, W, H / 2).fill(BLUE);
+  // Thin top bar
+  doc.rect(0, 0, W, 5).fill(BLUE);
 
-  // Glow
-  doc.circle(W / 2, H / 2, 240).fill(ELECTRIC + '0D');
+  // Brand name — top half
+  doc.font(FONT_BOLD).fontSize(30).fillColor(TEXT_DARK)
+    .text('Shahzaib Builds', MARGIN, H / 2 - 130, { width: INNER, align: 'center', lineBreak: false });
 
-  // Brand name
-  doc
-    .font(FONT_MONO).fontSize(32).fillColor(WHITE)
-    .text('Shahzaib Builds', MARGIN, H / 2 - 80, { width: W - MARGIN * 2, align: 'center', lineBreak: false });
-
-  // Tagline
-  doc
-    .font(FONT_SANS).fontSize(14).fillColor(GRAY)
-    .text('Deploying AI employees for lean teams.', MARGIN, H / 2 - 40, {
-      width: W - MARGIN * 2,
+  doc.font(FONT_SANS).fontSize(13).fillColor(TEXT_DIM)
+    .text('Deploying AI employees for lean teams.', MARGIN, H / 2 - 92, {
+      width: INNER,
       align: 'center',
       lineBreak: false,
     });
 
   // Divider
-  doc
-    .moveTo(W / 2 - 60, H / 2)
-    .lineTo(W / 2 + 60, H / 2)
-    .strokeColor(GRAY_DIM).lineWidth(0.5).stroke();
+  doc.moveTo(W / 2 - 40, H / 2 - 60).lineTo(W / 2 + 40, H / 2 - 60)
+    .strokeColor(BORDER).lineWidth(1).stroke();
 
-  // Contact
-  doc
-    .font(FONT_MONO).fontSize(11).fillColor(GREEN)
-    .text('shahzaibbuilds.me', MARGIN, H / 2 + 20, { width: W - MARGIN * 2, align: 'center', lineBreak: false });
+  // Stats row
+  const stats = [
+    { value: '12+', label: 'Voice Agents' },
+    { value: '35+', label: 'Workflows' },
+    { value: '500+', label: 'Hrs / Week Saved' },
+  ];
+  const sw = (INNER) / 3;
+  stats.forEach((s, i) => {
+    const sx = MARGIN + i * sw;
+    doc.font(FONT_BOLD).fontSize(22).fillColor(BLUE)
+      .text(s.value, sx, H / 2 - 44, { width: sw, align: 'center', lineBreak: false });
+    doc.font(FONT_SANS).fontSize(9).fillColor(TEXT_DIM)
+      .text(s.label, sx, H / 2 - 16, { width: sw, align: 'center', lineBreak: false });
+  });
 
-  doc
-    .font(FONT_MONO).fontSize(10).fillColor(GRAY)
-    .text('@shahzaib_builds', MARGIN, H / 2 + 42, { width: W - MARGIN * 2, align: 'center', lineBreak: false });
+  // Bottom half — on blue background
+  doc.font(FONT_BOLD).fontSize(13).fillColor(WHITE)
+    .text('shahzaibbuilds.me', MARGIN, H / 2 + 80, { width: INNER, align: 'center', lineBreak: false });
+
+  doc.font(FONT_SANS).fontSize(11).fillColor('#BFDBFE')
+    .text('@shahzaib_builds', MARGIN, H / 2 + 104, { width: INNER, align: 'center', lineBreak: false });
+
+  doc.font(FONT_SANS).fontSize(10).fillColor('#BFDBFE')
+    .text('AI Automation Engineer · Automaxion · Lahore, Pakistan', MARGIN, H / 2 + 130, {
+      width: INNER,
+      align: 'center',
+      lineBreak: false,
+    });
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
@@ -556,7 +594,7 @@ function main() {
   renderAbout(doc);
 
   // Pages 3–7 — Automations
-  AUTOMATIONS.forEach((a, i) => renderAutomationPage(doc, a, i));
+  AUTOMATIONS.forEach((a, i) => renderAutomationPage(doc, a, i + 3));
 
   // Page 8 — ROI Table
   renderROITable(doc);
