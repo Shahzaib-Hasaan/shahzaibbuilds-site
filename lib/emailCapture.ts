@@ -97,7 +97,7 @@ export const submitEmail = async (data: EmailCaptureData): Promise<boolean> => {
  * Generate Calendly URL with pre-filled email
  */
 export const getCalendlyUrl = (email?: string): string => {
-  const baseUrl = 'https://calendly.com/shahzaibbuilds/30min';
+  const baseUrl = 'https://calendly.com/shahxeebhassan/30min';
   if (!email) return baseUrl;
 
   return `${baseUrl}?email=${encodeURIComponent(email)}`;

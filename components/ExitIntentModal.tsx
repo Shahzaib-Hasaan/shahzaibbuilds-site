@@ -29,7 +29,8 @@ export default function ExitIntentModal({ isOpen, onClose }: ExitIntentModalProp
     e.preventDefault();
     setError('');
 
-    if (!email || !email.includes('@')) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    if (!email || !emailRegex.test(email)) {
       setError('Please enter a valid email address');
       return;
     }

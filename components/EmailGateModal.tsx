@@ -38,27 +38,32 @@ export default function EmailGateModal({
     e.preventDefault();
     setError('');
 
-    if (!email || !email.includes('@')) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    if (!email || !emailRegex.test(email)) {
       setError('Please enter a valid email address');
       return;
     }
 
     setIsSubmitting(true);
 
-    const success = await submitEmail({
-      email,
-      challenge: challenge || undefined,
-      source,
-      timestamp: Date.now(),
-    });
+    try {
+      const success = await submitEmail({
+        email,
+        challenge: challenge || undefined,
+        source,
+        timestamp: Date.now(),
+      });
 
-    setIsSubmitting(false);
-
-    if (success) {
-      // Redirect to Calendly with pre-filled email
-      window.location.href = getCalendlyUrl(email);
-    } else {
+      if (success) {
+        // Redirect to Calendly with pre-filled email
+        window.location.href = getCalendlyUrl(email);
+      } else {
+        setError('Something went wrong. Please try again.');
+      }
+    } catch {
       setError('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

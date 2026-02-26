@@ -31,6 +31,8 @@ const WELCOME_MESSAGE: Message = {
   content: "Hi! I'm Shahzaib's AI assistant. I can help you:\n• See pricing & packages\n• View case studies\n• Book a free audit\n\nWhat brings you here today?",
 }
 
+const CHATBOT_WEBHOOK_URL = `${process.env.NEXT_PUBLIC_N8N_BASE_URL ?? "https://n8n.shahzaibai.site"}/webhook/website-message`;
+
 export default function CustomChatbot() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE])
@@ -57,7 +59,7 @@ export default function CustomChatbot() {
     if (storedSessionId) {
       setSessionId(storedSessionId)
     } else {
-      const newSessionId = "session-" + Math.random().toString(36).substr(2, 9) + "-" + Date.now()
+      const newSessionId = "session-" + crypto.randomUUID()
       localStorage.setItem("chatSessionId", newSessionId)
       setSessionId(newSessionId)
     }
@@ -109,8 +111,7 @@ export default function CustomChatbot() {
     setIsLoading(true)
 
     // Send to webhook
-    const n8nBase = process.env.NEXT_PUBLIC_N8N_BASE_URL ?? "https://n8n.shahzaibai.site";
-    const webhookUrl = `${n8nBase}/webhook/website-message`
+    const webhookUrl = CHATBOT_WEBHOOK_URL;
     const currentSessionId = sessionId || localStorage.getItem("chatSessionId") || ("session-" + Date.now())
 
     fetch(webhookUrl, {
@@ -174,7 +175,7 @@ export default function CustomChatbot() {
     setIsLoading(true)
 
     try {
-      const webhookUrl = "https://n8n.shahzaibai.site/webhook/website-message"
+      const webhookUrl = CHATBOT_WEBHOOK_URL;
       const currentSessionId = sessionId || localStorage.getItem("chatSessionId") || ("session-" + Date.now())
 
       const response = await fetch(webhookUrl, {

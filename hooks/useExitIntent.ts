@@ -25,28 +25,43 @@ export const useExitIntent = ({ enabled = true, onExitIntent }: UseExitIntentOpt
       return;
     }
 
-    // Don't trigger on mobile (unreliable)
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile) return;
 
+    if (isMobile) {
+      // Mobile: trigger when user scrolls past 85% of page height
+      const handleScroll = () => {
+        const scrolled = window.scrollY + window.innerHeight;
+        const threshold = document.documentElement.scrollHeight * 0.85;
+        if (scrolled >= threshold && !hasTriggered) {
+          setHasTriggered(true);
+          sessionStorage.setItem(EXIT_INTENT_KEY, 'true');
+          onExitIntent();
+          if ((window as any).gtag) {
+            (window as any).gtag('event', 'exit_intent_shown', { trigger: 'scroll' });
+          }
+        }
+      };
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
+
+    // Desktop: mouse leave from top of viewport (toward browser chrome/address bar)
     const handleMouseLeave = (e: MouseEvent) => {
-      // Only trigger if mouse leaves from top of viewport
-      if (e.clientY <= 0 && !hasTriggered) {
+      // relatedTarget is null when the mouse actually leaves the document
+      if (e.relatedTarget === null && e.clientY <= 5 && !hasTriggered) {
         setHasTriggered(true);
         sessionStorage.setItem(EXIT_INTENT_KEY, 'true');
         onExitIntent();
-
-        // Track with GA4
-        if (typeof window !== 'undefined' && (window as any).gtag) {
-          (window as any).gtag('event', 'exit_intent_shown');
+        if ((window as any).gtag) {
+          (window as any).gtag('event', 'exit_intent_shown', { trigger: 'mouse_leave' });
         }
       }
     };
 
-    document.addEventListener('mouseout', handleMouseLeave);
+    document.documentElement.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      document.removeEventListener('mouseout', handleMouseLeave);
+      document.documentElement.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, [enabled, hasTriggered, onExitIntent]);
 
