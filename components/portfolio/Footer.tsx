@@ -2,10 +2,16 @@
 
 import { Twitter, Github, Instagram, Mail, MapPin } from 'lucide-react';
 
+const TikTokIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+  </svg>
+);
+
 const socialLinks = [
   {
     label: 'X (Twitter)',
-    href: 'https://twitter.com/shahzaib_builds',
+    href: 'https://x.com/shahzaib_builds',
     icon: Twitter,
   },
   {
@@ -17,6 +23,11 @@ const socialLinks = [
     label: 'Instagram',
     href: 'https://instagram.com/shahzaib_builds',
     icon: Instagram,
+  },
+  {
+    label: 'TikTok',
+    href: 'https://tiktok.com/@shahzaib_builds',
+    icon: TikTokIcon,
   },
 ];
 
@@ -52,7 +63,7 @@ export default function Footer() {
         <div className="border-t border-[#E5E1D8] pt-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm font-sans text-[#6B7280]">
             {/* Copyright */}
-            <p>&copy; 2026 Shahzaib Hassan</p>
+            <p>&copy; {new Date().getFullYear()} Shahzaib Hassan</p>
 
             {/* Meta info */}
             <div className="flex items-center gap-5">

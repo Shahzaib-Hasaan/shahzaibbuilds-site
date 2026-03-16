@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Shahzaib Hassan — AI Automation Engineer',
-    description: 'Building agents, voice bots, and automation systems that save teams 20+ hours/week.',
+    description: 'AI Automation Engineer building agents, voice bots, and workflow automation. From pre-med to shipping production AI systems.',
     url: 'https://www.shahzaibbuilds.me',
     siteName: 'Shahzaib Builds',
     type: 'website',
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Shahzaib Hassan — AI Automation Engineer',
-    description: 'Building agents, voice bots, and automation systems that save teams 20+ hours/week.',
+    description: 'AI Automation Engineer building agents, voice bots, and workflow automation. From pre-med to shipping production AI systems.',
     creator: '@shahzaib_builds',
     images: ['https://www.shahzaibbuilds.me/og-image.jpg'],
   },

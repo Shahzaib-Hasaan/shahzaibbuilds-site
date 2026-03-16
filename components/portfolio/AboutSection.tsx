@@ -73,8 +73,9 @@ export default function AboutSection() {
             custom={3}
           >
             So I made the switch. Enrolled in BS Artificial Intelligence at Islamia
-            University of Bahawalpur. No CS background, no prior programming experience,
-            starting from zero while my classmates had been coding for years.
+            University of Bahawalpur. Coming from a pre-medical background with no
+            programming experience, starting from zero while my classmates had been
+            coding for years.
           </motion.p>
 
           {/* Pull quote */}
@@ -87,9 +88,9 @@ export default function AboutSection() {
             className="relative my-12 sm:my-16 pl-6 border-l-[3px] border-amber-accent"
           >
             <p className="font-serif text-2xl sm:text-3xl text-ink leading-snug italic">
-              I installed Ubuntu as my daily OS for two years. Not because someone told
-              me to, but because I wanted to understand how things actually work under
-              the hood.
+              A senior recommended I use Ubuntu as my daily OS. So I did. For two
+              full years. It broke things, I fixed them, and somewhere in that process
+              I stopped being afraid of the terminal.
             </p>
           </motion.blockquote>
 
@@ -131,9 +132,8 @@ export default function AboutSection() {
             <span className="font-semibold text-ink">
               Automaxion hired me before I even graduated
             </span>
-            . Six months in, I&apos;m shipping production systems for real clients.
-            Autonomous agents, data pipelines, AI tools that people actually use every
-            day.
+            . Now I&apos;m shipping production systems for real clients. Autonomous
+            agents, data pipelines, AI tools that people actually use every day.
           </motion.p>
 
           <motion.p
@@ -144,7 +144,7 @@ export default function AboutSection() {
             custom={8}
             className="text-ink-muted text-base sm:text-lg"
           >
-            I&apos;m 22. This is just the beginning.
+            This is just the beginning.
           </motion.p>
         </div>
 

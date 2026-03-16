@@ -16,23 +16,23 @@ const projects: Project[] = [
     name: 'Strives.ai',
     tagline: 'Autonomous social media that runs itself.',
     story:
-      'Most businesses treat social media as a chore. Brainstorm ideas, write posts, schedule them, repeat. Strives.ai removes the human from that loop entirely. I built an end-to-end autonomous system that handles ideation, content creation, and posting across platforms without anyone pressing a button. The interesting challenge was making AI-generated content feel genuinely on-brand, not generic. The whole pipeline runs on Make.com orchestrating Airtable and multiple AI APIs, each handling a different piece of the creative process.',
+      'The client wanted to post on social media consistently but never had the time. So I built a system that does the whole thing without anyone touching it. It comes up with content ideas, writes the posts, and publishes them on schedule. The hard part was getting AI-written content to actually sound like the brand and not like a robot. The pipeline uses Make.com to coordinate Airtable and a few AI APIs, each one handling a different step.',
     tech: ['Make.com', 'Airtable', 'AI APIs', 'Social Media APIs'],
     accent: 'amber',
   },
   {
     name: 'Sentience',
-    tagline: 'AI-powered cold outreach that actually converts.',
+    tagline: 'Cold outreach system that runs on autopilot.',
     story:
-      'Cold email is a numbers game, unless you make every email personal. Sentience automates the entire outbound pipeline: it sources leads, enriches them with company and role data, then generates hyper-personalized email sequences tailored to each prospect. Follow-ups are automatic and contextual. What made this project challenging was the enrichment layer. Stitching together multiple data sources to build a prospect profile rich enough for AI to write something a human would actually reply to. The result is outreach that scales without losing the personal touch.',
-    tech: ['Airtable', 'Make.com', 'Instantly', 'AI APIs', 'Data Enrichment'],
+      'Sentience automates cold email from start to finish. You feed it a list of prospects, and it generates personalized email sequences and sends them through Instantly. Follow-ups happen automatically based on whether someone opened or replied. The whole thing runs on Airtable as the data layer with Make.com handling the orchestration. The challenge was getting the personalization right so emails actually felt written by a human.',
+    tech: ['Airtable', 'Make.com', 'Instantly', 'AI APIs'],
     accent: 'teal',
   },
   {
     name: 'ANESI',
     tagline: 'A data enrichment dashboard built from scratch.',
     story:
-      'This one is different from the rest. No automation platform involved. ANESI is a full Next.js application with a custom multi-step data pipeline. You feed it a company name, and it runs through search, enrichment, and detail extraction stages using custom API integrations. The UI surfaces everything in a clean dashboard so the user never has to touch a spreadsheet. I built this because sometimes off-the-shelf tools add more friction than they remove. When you need complete control over the data flow, you build it yourself.',
+      'No automation platform for this one. ANESI is a full Next.js app I built with custom API integrations. You give it a company name, and it runs through multiple stages: search, company enrichment, and detail extraction from sources like Pomanda. Everything shows up in a clean dashboard. The client needed complete control over their data pipeline, and no off-the-shelf tool gave them that. So I built it from scratch.',
     tech: ['Next.js', 'Custom APIs', 'Data Pipeline', 'React', 'TypeScript'],
     accent: 'amber',
   },
@@ -40,7 +40,7 @@ const projects: Project[] = [
     name: 'StressProofed',
     tagline: 'Psychological assessment turned into software.',
     story:
-      'StressProofed takes an 18-question psychological assessment and turns it into an automated experience. A user fills out a Typeform, which triggers a custom scoring algorithm that calculates their decision stability profile. The system generates a personalized PDF report and delivers it via email through ActiveCampaign. The tricky part was translating a psychologist\'s scoring methodology into reliable code. The algorithm needed to produce clinically meaningful results, not just numbers. Every edge case in scoring had to match what the psychologist would do by hand.',
+      'A psychologist had an 18-question assessment for measuring decision stability. They wanted it automated. I built the pipeline: user fills a Typeform, it triggers a custom scoring algorithm, generates a personalized PDF report, and delivers it through ActiveCampaign with follow-up sequences. The tricky part was getting the scoring exactly right. The algorithm had to match what the psychologist would calculate by hand, every edge case included.',
     tech: ['Typeform', 'Custom Algorithm', 'PDF Generation', 'ActiveCampaign'],
     accent: 'teal',
   },
@@ -48,7 +48,7 @@ const projects: Project[] = [
     name: 'AI Slide Generator',
     tagline: 'Upload a document, get an AI teaching assistant.',
     story:
-      'Built as an internal tool at Automaxion, this system takes PDF or DOCX files and breaks them into chapters, then generates teaching slides from the content. But it goes further. Each slide comes with AI-narrated voice explanations via ElevenLabs, and there\'s a quiz after each section to test comprehension. It turns static documents into interactive learning experiences. The architecture had to handle wildly different document structures while producing consistent, well-paced educational content.',
+      'Internal tool at Automaxion. You upload a PDF or Word doc, and the system breaks it into chapters and generates teaching slides. Each slide gets AI-narrated voice explanations through ElevenLabs, plus a quiz after each section. The hard part was handling completely different document structures and still producing slides that made sense. Not every document is organized the same way, so the parsing had to be flexible.',
     tech: ['ElevenLabs', 'AI APIs', 'PDF/DOCX Parsing', 'Quiz Engine'],
     accent: 'amber',
   },

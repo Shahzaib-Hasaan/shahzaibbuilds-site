@@ -6,7 +6,7 @@ import { Mail, Github, Twitter, Instagram } from 'lucide-react';
 const socials = [
   {
     label: 'X (Twitter)',
-    href: 'https://twitter.com/shahzaib_builds',
+    href: 'https://x.com/shahzaib_builds',
     icon: Twitter,
   },
   {
