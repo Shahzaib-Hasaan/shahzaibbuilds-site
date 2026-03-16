@@ -1,4 +1,5 @@
 import './globals.css';
+import ChatAssistant from '@/components/ChatAssistant';
 import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono, Instrument_Serif } from 'next/font/google';
@@ -105,6 +106,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable} font-sans antialiased`}>
         {children}
+        <ChatAssistant />
         <Analytics />
       </body>
     </html>
