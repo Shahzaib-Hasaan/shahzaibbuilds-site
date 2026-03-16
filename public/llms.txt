@@ -1,0 +1,32 @@
+# Shahzaib Hassan - AI Automation Engineer
+
+> Shahzaib Hassan is an AI Automation Engineer at Automaxion, based in Lahore, Pakistan. He builds workflow automations, AI agents, voice bots, and custom applications for businesses.
+
+## About
+Shahzaib transitioned from a pre-medical background to Artificial Intelligence, graduating with a 3.65 CGPA in BS AI from Islamia University of Bahawalpur. He was hired during his 7th semester before graduating. He co-founded the Neurafinity Club, taught 4 Python bootcamps, and served as a TA for AI courses.
+
+## Services
+- Workflow Automation: End-to-end business process automation using n8n, Make.com, and Zapier
+- AI Voice Agents: Inbound/outbound voice bots using VAPI, Retell, and ElevenLabs
+- Custom AI Applications: Full-stack apps with AI integration using Next.js, Python, and LLM APIs
+
+## Key Projects
+- [Strives.ai](https://shahzaibbuilds.me/#work): Autonomous social media posting system (Make.com, Airtable, AI APIs)
+- [Sentience](https://shahzaibbuilds.me/#work): Automated cold outreach pipeline (Airtable, Make.com, Instantly)
+- [ANESI](https://shahzaibbuilds.me/#work): Custom data enrichment dashboard (Next.js, custom APIs)
+- [StressProofed](https://shahzaibbuilds.me/#work): Psychological assessment automation (Typeform, ActiveCampaign, PDF generation)
+- [AI Slide Generator](https://shahzaibbuilds.me/#work): Document-to-interactive-slides tool (ElevenLabs, AI APIs)
+
+## Technical Stack
+- Automation: n8n (expert), Make.com (expert), Zapier, Airtable, Instantly, ActiveCampaign
+- Programming: Python (advanced), JavaScript/TypeScript, Next.js, React
+- AI/ML: OpenAI, Claude, Mistral, CrewAI, TensorFlow, Scikit-learn, OpenCV
+- Voice AI: VAPI, Retell, Bland AI, ElevenLabs
+- DevOps: Docker, Nginx, Linux/Ubuntu, AWS, Hetzner, DigitalOcean
+
+## Contact
+- Website: https://shahzaibbuilds.me
+- Email: contact@shahzaibbuilds.me
+- X/Twitter: https://x.com/shahzaib_builds
+- GitHub: https://github.com/Shahzaib-Hasaan
+- TikTok: https://tiktok.com/@shahzaib_builds
