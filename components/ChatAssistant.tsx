@@ -154,7 +154,7 @@ export default function ChatAssistant() {
             className={
               isMobile
                 ? 'fixed inset-0 z-50 flex flex-col bg-[#FAFAF5]'
-                : 'fixed bottom-5 right-5 z-50 w-[380px] h-[560px] flex flex-col rounded-2xl shadow-2xl border border-[#E5E1D8] bg-[#FAFAF5] overflow-hidden'
+                : 'fixed bottom-5 right-5 z-50 w-[380px] max-h-[calc(100vh-40px)] h-[560px] flex flex-col rounded-2xl shadow-2xl border border-[#E5E1D8] bg-[#FAFAF5] overflow-hidden'
             }
           >
             {/* Header */}
