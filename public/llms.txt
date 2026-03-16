@@ -24,6 +24,12 @@ Shahzaib transitioned from a pre-medical background to Artificial Intelligence, 
 - Voice AI: VAPI, Retell, Bland AI, ElevenLabs
 - DevOps: Docker, Nginx, Linux/Ubuntu, AWS, Hetzner, DigitalOcean
 
+## Blog
+Technical articles on AI automation, n8n workflows, and building production systems.
+- [Getting Started with n8n](https://shahzaibbuilds.me/blog/getting-started-with-n8n): Practical guide to setting up n8n and building your first automation
+- [Blog Home](https://shahzaibbuilds.me/blog): All posts
+- [RSS Feed](https://shahzaibbuilds.me/blog/rss.xml): Subscribe to new posts
+
 ## Contact
 - Website: https://shahzaibbuilds.me
 - Email: contact@shahzaibbuilds.me

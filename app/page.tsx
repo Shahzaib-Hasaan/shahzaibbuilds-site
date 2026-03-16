@@ -6,6 +6,7 @@ import SkillsSection from '@/components/portfolio/SkillsSection';
 import ServicesSection from '@/components/portfolio/ServicesSection';
 import ContactSection from '@/components/portfolio/ContactSection';
 import Footer from '@/components/portfolio/Footer';
+import LatestPosts from '@/components/blog/LatestPosts';
 
 export default function Home() {
   const siteUrl = 'https://www.shahzaibbuilds.me';
@@ -189,6 +190,7 @@ export default function Home() {
         <ProjectsSection />
         <AboutSection />
         <SkillsSection />
+        <LatestPosts />
         <ServicesSection />
         <ContactSection />
         <Footer />

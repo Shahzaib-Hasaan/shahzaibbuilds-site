@@ -1,19 +1,27 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
 const navLinks = [
-  { href: '#work', label: 'Work' },
-  { href: '#about', label: 'About' },
-  { href: '#services', label: 'Services' },
-  { href: '#contact', label: 'Contact' },
+  { href: '/#work', label: 'Work' },
+  { href: '/#about', label: 'About' },
+  { href: '/#services', label: 'Services' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/#contact', label: 'Contact' },
 ];
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Close mobile menu on pathname change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,7 +82,7 @@ export default function Navbar() {
               </a>
             ))}
             <a
-              href="#contact"
+              href="/#contact"
               className="btn-warm px-5 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 hover:scale-[1.02] inline-flex items-center justify-center"
             >
               Get in Touch
@@ -130,7 +138,7 @@ export default function Navbar() {
                   </a>
                 ))}
                 <a
-                  href="#contact"
+                  href="/#contact"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="block w-full text-center px-4 py-3 min-h-[44px] bg-[#D97706] hover:bg-[#D97706]/90 text-white text-sm font-medium rounded-lg transition-colors mt-4"
                 >
