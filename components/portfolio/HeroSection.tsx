@@ -1,216 +1,191 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Bot, Zap, Clock } from 'lucide-react';
 import Image from 'next/image';
-import EmailGateModal from '../EmailGateModal';
-import { isEmailCaptured, getCalendlyUrl, getStoredEmail } from '@/lib/emailCapture';
 
-const phrases = [
-  'Building AI Agents',
-  'Automating Workflows',
-  'Saving 20+ Hours/Week',
-  'Deploying Voice Bots',
+const socialLinks = [
+  {
+    label: 'X (Twitter)',
+    href: 'https://x.com/shahzaib_builds',
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+      </svg>
+    ),
+  },
+  {
+    label: 'GitHub',
+    href: 'https://github.com/Shahzaib-Hasaan',
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Email',
+    href: 'mailto:contact@shahzaibbuilds.me',
+    icon: (
+      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect width="20" height="16" x="2" y="4" rx="2" />
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+      </svg>
+    ),
+  },
 ];
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.5,
+      ease: 'easeOut' as const,
+    },
+  }),
+};
+
 export default function HeroSection() {
-  const [currentPhrase, setCurrentPhrase] = useState(0);
-  const [displayText, setDisplayText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [showEmailModal, setShowEmailModal] = useState(false);
-
-  const handleCTAClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-
-    // Check if email already captured
-    if (isEmailCaptured()) {
-      // Redirect directly to Calendly
-      window.location.href = getCalendlyUrl(getStoredEmail() ?? undefined);
-    } else {
-      // Show email gate modal
-      setShowEmailModal(true);
-    }
-  };
-
-  useEffect(() => {
-    const phrase = phrases[currentPhrase];
-    const speed = isDeleting ? 30 : 80;
-
-    if (!isDeleting && displayText === phrase) {
-      const timeout = setTimeout(() => setIsDeleting(true), 2000);
-      return () => clearTimeout(timeout);
-    }
-
-    if (isDeleting && displayText === '') {
-      setIsDeleting(false);
-      setCurrentPhrase((prev) => (prev + 1) % phrases.length);
-      return;
-    }
-
-    const timeout = setTimeout(() => {
-      setDisplayText((prev) =>
-        isDeleting
-          ? phrase.substring(0, prev.length - 1)
-          : phrase.substring(0, prev.length + 1)
-      );
-    }, speed);
-
-    return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, currentPhrase]);
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pb-8 sm:pb-12">
-      <div className="absolute inset-0 grid-bg opacity-70" />
-      <div className="absolute inset-0 bg-gradient-to-b from-dark-bg/50 via-dark-bg/80 to-dark-bg" />
+    <section className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Subtle dot pattern background */}
+      <div className="absolute inset-0 dot-pattern opacity-40" />
 
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-electric-blue/20 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-code-green/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-
-      <div className="relative z-10 max-w-6xl mx-auto px-6 sm:px-8 lg:px-8 py-4 sm:py-8 lg:py-6 pt-20 sm:pt-24 lg:pt-20">
-        {/* SEO-optimized H1 (visually hidden but read by search engines) */}
+      <div className="relative z-10 max-w-6xl mx-auto px-6 sm:px-8 w-full pt-28 sm:pt-32 pb-16 sm:pb-24">
+        {/* SEO-optimized H1 (visually hidden) */}
         <h1 className="sr-only">
-          Shahzaib Hassan - AI Automation Engineer | Shahzaib Builds | n8n & Python Expert in Lahore, Pakistan
+          Shahzaib Hassan - AI Automation Engineer | Shahzaib Builds
         </h1>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center"
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2 }}
-            className="flex flex-col items-center gap-3 mb-4 lg:mb-6"
-          >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* Text content - takes more space for asymmetry */}
+          <div className="lg:col-span-7 order-2 lg:order-1">
+            {/* Currently badge */}
             <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              className="relative"
+              custom={0}
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              className="mb-6"
             >
-              <div className="relative mx-auto w-32 h-32 md:w-48 md:h-48 rounded-full border-4 border-dark-bg shadow-[0_0_40px_rgba(59,130,246,0.3)] ring-2 ring-electric-blue/50 ring-offset-4 ring-offset-dark-bg mb-4 lg:mb-6 overflow-hidden">
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#0F766E]/10 border border-[#0F766E]/20 rounded-full text-sm font-sans text-[#0F766E]">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                </span>
+                Currently @ Automaxion
+              </span>
+            </motion.div>
+
+            {/* Greeting */}
+            <motion.h2
+              custom={1}
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              className="font-serif text-4xl sm:text-5xl lg:text-6xl text-[#1C1C1C] leading-[1.1] mb-3"
+            >
+              Hey, I&apos;m Shahzaib
+            </motion.h2>
+
+            {/* Subtitle */}
+            <motion.p
+              custom={2}
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              className="font-sans text-lg sm:text-xl text-[#D97706] font-medium mb-6"
+            >
+              AI Automation Engineer
+            </motion.p>
+
+            {/* Description */}
+            <motion.p
+              custom={3}
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              className="font-sans text-base sm:text-lg text-[#6B7280] leading-relaxed max-w-xl mb-8"
+            >
+              I build agents, voice bots, and automation systems that save teams
+              real time. Currently shipping production AI at{' '}
+              <span className="text-[#0F766E] font-medium">Automaxion</span> in
+              Lahore.
+            </motion.p>
+
+            {/* Social links */}
+            <motion.div
+              custom={4}
+              initial="hidden"
+              animate="visible"
+              variants={fadeUp}
+              className="flex items-center gap-4"
+            >
+              {socialLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target={link.href.startsWith('mailto:') ? undefined : '_blank'}
+                  rel={link.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                  aria-label={link.label}
+                  className="p-2.5 rounded-lg text-[#6B7280] hover:text-[#1C1C1C] hover:bg-[#D97706]/10 transition-all duration-200"
+                >
+                  {link.icon}
+                </a>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Photo - slightly smaller for asymmetry */}
+          <motion.div
+            custom={2}
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            className="lg:col-span-5 order-1 lg:order-2 flex justify-center lg:justify-end"
+          >
+            <div className="relative">
+              {/* Warm decorative accent behind photo */}
+              <div className="absolute -inset-4 bg-[#D97706]/10 rounded-3xl -rotate-3" />
+              <div className="relative w-64 h-72 sm:w-72 sm:h-80 lg:w-80 lg:h-[22rem] rounded-2xl overflow-hidden border-2 border-[#E5E1D8] shadow-lg">
                 <Image
                   src="/me.jpg"
                   alt="Shahzaib Hassan - AI Automation Engineer"
-                  width={192}
-                  height={192}
+                  fill
                   priority
                   quality={85}
-                  className="w-full h-full rounded-full"
-                  style={{
-                    objectFit: 'cover',
-                    objectPosition: 'center -4%',
-                    transform: 'scale(1.15)'
-                  }}
+                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 256px, (max-width: 1024px) 288px, 320px"
                 />
-              </div>
-              <span className="absolute bottom-1 right-1 md:bottom-2 md:right-2 w-5 h-5 md:w-7 md:h-7 bg-emerald-500 rounded-full border-4 border-dark-bg"></span>
-            </motion.div>
-
-            <div className="inline-flex items-center gap-3 px-4 py-2.5 glass-card rounded-full">
-              <div className="flex items-center gap-2">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-code-green opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-code-green"></span>
-                </span>
-                <span className="text-xs sm:text-sm text-white font-mono">
-                  Currently @ <span className="text-code-green font-semibold">Automaxion</span>
-                </span>
               </div>
             </div>
           </motion.div>
-
-          <h2 className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-mono font-bold mb-2 lg:mb-3 px-4 text-white">
-            AI Automation Engineer
-          </h2>
-
-          <p className="text-xl sm:text-2xl font-mono text-gray-400 mb-3 lg:mb-4 px-4">
-            <span className="text-gray-500">{'>'}</span>{' '}
-            <span>{displayText}</span>
-            <span className="terminal-cursor" />
-          </p>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="text-base sm:text-lg md:text-lg text-gray-400 max-w-2xl mx-auto mb-6 lg:mb-7 leading-relaxed px-4"
-          >
-            I replace manual operations with intelligent agents, saving businesses{' '}
-            <span className="text-code-green font-semibold">20+ hours/week</span>.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4"
-          >
-            <a
-              href="#"
-              onClick={handleCTAClick}
-              className="group w-full sm:w-auto btn-cta-primary inline-flex items-center justify-center gap-2"
-            >
-              <span className="text-sm sm:text-base font-semibold">Book a 15-Min Audit</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a
-              href="#work"
-              className="w-full sm:w-auto btn-secondary inline-flex items-center justify-center gap-2"
-            >
-              <span className="text-sm sm:text-base">View Recent Deploys</span>
-            </a>
-          </motion.div>
-
-          <div className="mt-6 lg:mt-8 mb-4 lg:mb-6 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 max-w-3xl mx-auto px-4">
-            {[
-              { icon: Bot, label: 'Voice Agents Deployed', value: '12+' },
-              { icon: Zap, label: 'Workflows Automated', value: '35+' },
-              { icon: Clock, label: 'Hours Saved / Week', value: '500+' },
-            ].map((stat, index) => (
-              <div
-                key={stat.label}
-                className="glass-card rounded-xl p-4 lg:p-5 hover:scale-[1.02] transition-transform duration-300 opacity-0 animate-fade-in"
-                style={{ animationDelay: `${0.8 + index * 0.1}s` }}
-              >
-                <stat.icon className="w-6 h-6 text-electric-blue mb-3 mx-auto" />
-                <span className="block text-2xl sm:text-3xl font-mono font-bold text-white">{stat.value}</span>
-                <span className="block text-sm text-gray-400 mt-1">{stat.label}</span>
-              </div>
-            ))}
-          </div>
-        </motion.div>
+        </div>
       </div>
 
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 hidden md:flex"
+        transition={{ delay: 1 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex"
       >
         <a
           href="#work"
-          className="flex flex-col items-center gap-2 text-gray-400 hover:text-code-green transition-colors"
+          className="flex flex-col items-center gap-2 text-[#6B7280] hover:text-[#D97706] transition-colors"
         >
-          <span className="text-xs font-mono">scroll</span>
+          <span className="text-xs font-sans">scroll</span>
           <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
             className="w-5 h-8 border-2 border-current rounded-full flex items-start justify-center p-1"
           >
             <motion.div className="w-1 h-2 bg-current rounded-full" />
           </motion.div>
         </a>
       </motion.div>
-
-      {/* Email Gate Modal */}
-      <EmailGateModal
-        isOpen={showEmailModal}
-        onClose={() => setShowEmailModal(false)}
-        source="calendly_gate"
-      />
     </section>
   );
 }

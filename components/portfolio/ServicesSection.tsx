@@ -1,171 +1,136 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Phone, Workflow, Search, ArrowUpRight, Code } from 'lucide-react';
-import { useState } from 'react';
-import EmailGateModal from '../EmailGateModal';
-import { isEmailCaptured, getCalendlyUrl, getStoredEmail } from '@/lib/emailCapture';
+import { Workflow, Phone, Code, ArrowRight } from 'lucide-react';
 
 const services = [
-  {
-    icon: Phone,
-    title: 'AI Voice Agents',
-    description:
-      '24/7 Inbound/Outbound callers that handle customer support & lead qualification with human-like latency.',
-    features: ['Lead Qualification', 'Customer Support', '24/7 Availability', 'Human-like Latency'],
-    techStack: ['VAPI', 'Retell', 'Regal', 'Python', 'OpenAI'],
-    accent: 'electric-blue',
-  },
   {
     icon: Workflow,
     title: 'Workflow Automation',
     description:
-      'Connecting CRMs, email, and Slack using n8n, Make.com, and Zapier — self-hosted or cloud, fully custom.',
-    features: ['CRM Integration', 'Email Automation', 'Slack Workflows', 'Custom Pipelines'],
-    techStack: ['n8n', 'Make.com', 'Zapier', 'Python'],
-    accent: 'code-green',
+      'Connecting your CRMs, email, Slack, and everything in between. I build custom automations using n8n (self-hosted or cloud), Make.com, and Zapier. Designed around how your team actually works.',
+    techStack: ['n8n', 'Make.com', 'Zapier', 'Airtable', 'Python'],
   },
   {
-    icon: Search,
-    title: 'Custom Consulting',
+    icon: Phone,
+    title: 'AI Voice Agents',
     description:
-      'Auditing business operations and building a roadmap to cut costs with AI.',
-    features: ['Operations Audit', 'Cost Analysis', 'AI Roadmap', 'Implementation Support'],
-    techStack: ['Strategy', 'Analysis', 'Planning', 'Execution'],
-    accent: 'electric-blue',
+      'Inbound and outbound voice bots that handle lead qualification, appointment booking, and customer support. Natural-sounding voices, low latency.',
+    techStack: ['VAPI', 'Retell', 'ElevenLabs', 'Python', 'OpenAI'],
+  },
+  {
+    icon: Code,
+    title: 'Custom AI Applications',
+    description:
+      'Full-stack applications with AI baked in. Dashboards, data pipelines, internal tools. Built with modern frameworks and deployed to production.',
+    techStack: ['Next.js', 'Python', 'OpenAI', 'Airtable'],
   },
 ];
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: 'easeOut' as const },
+  },
+};
+
 export default function ServicesSection() {
-  const [showEmailModal, setShowEmailModal] = useState(false);
-
-  const handleCTAClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-
-    if (isEmailCaptured()) {
-      window.location.href = getCalendlyUrl(getStoredEmail() ?? undefined);
-    } else {
-      setShowEmailModal(true);
-    }
-  };
-
   return (
-    <section id="services" className="relative py-12 sm:py-24 md:py-32">
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-8">
+    <section id="services" className="relative py-20 sm:py-28 bg-[#FAFAF5]">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8">
+        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-12 sm:mb-16"
+          className="text-center mb-14 sm:mb-20"
         >
-          <span className="inline-block font-mono text-sm text-code-green mb-4">
-            {'// SERVICES'}
-          </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-mono font-bold text-white mb-4">
-            How I Help
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#1C1C1C] mb-4">
+            What I can build for you
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto text-base sm:text-lg">
-            Deploying AI employees for lean teams. No fluff, just results.
+          <p className="text-[#6B7280] font-sans text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+            Practical automation and AI solutions. No fluff, no buzzwords.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {services.map((service, index) => (
+        {/* Service cards */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
+        >
+          {services.map((service) => (
             <motion.div
               key={service.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative"
+              variants={cardVariants}
+              className="group"
             >
-              <div className="h-full p-6 sm:p-8 glass-card rounded-xl premium-border interactive-card">
-                <div
-                  className={`w-12 h-12 rounded-lg flex items-center justify-center mb-6 ${service.accent === 'electric-blue'
-                    ? 'bg-electric-blue/10 text-electric-blue glow-blue'
-                    : 'bg-code-green/10 text-code-green glow-green'
-                    }`}
-                >
-                  <service.icon className="w-6 h-6" />
+              <div className="h-full bg-white rounded-2xl border border-[#E5E1D8] p-7 sm:p-8 hover:shadow-md hover:border-[#D97706]/30 transition-all duration-300">
+                {/* Icon */}
+                <div className="w-12 h-12 rounded-xl bg-[#D97706]/10 flex items-center justify-center mb-6 group-hover:bg-[#D97706]/15 transition-colors">
+                  <service.icon className="w-6 h-6 text-[#D97706]" />
                 </div>
 
-                <h3 className="text-xl font-mono font-semibold text-white mb-3 group-hover:text-electric-blue transition-colors">
+                {/* Title */}
+                <h3 className="font-serif text-xl sm:text-2xl text-[#1C1C1C] mb-3">
                   {service.title}
                 </h3>
 
-                <p className="text-gray-400 text-sm leading-relaxed mb-6">
+                {/* Description */}
+                <p className="text-[#6B7280] font-sans text-sm sm:text-base leading-relaxed mb-6">
                   {service.description}
                 </p>
 
-                <ul className="space-y-2 mb-6">
-                  {service.features.map((feature) => (
-                    <li
-                      key={feature}
-                      className="flex items-center gap-2 text-sm text-gray-400"
-                    >
-                      <span
-                        className={`w-1.5 h-1.5 rounded-full ${service.accent === 'electric-blue'
-                          ? 'bg-electric-blue'
-                          : 'bg-code-green'
-                          }`}
-                      />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="flex items-center gap-1.5 mb-6 flex-wrap">
-                  <Code className="w-3.5 h-3.5 text-gray-400" />
+                {/* Tech stack */}
+                <div className="flex flex-wrap gap-2">
                   {service.techStack.map((tech) => (
                     <span
                       key={tech}
-                      className={service.accent === 'electric-blue' ? 'tech-badge' : 'tech-badge-green'}
+                      className="inline-block px-3 py-1 text-xs font-mono text-[#0F766E] bg-[#0F766E]/8 rounded-full border border-[#0F766E]/15"
                     >
                       {tech}
                     </span>
                   ))}
                 </div>
-
-                <div className="pt-6 border-t border-white/10 relative z-10">
-                  <a
-                    href="#"
-                    onClick={handleCTAClick}
-                    className="inline-flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-electric-blue transition-colors group/link relative z-20"
-                  >
-                    Build This For Me
-                    <ArrowUpRight className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
-                  </a>
-                </div>
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
+        {/* CTA */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="text-center mt-10 sm:mt-12"
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="text-center mt-14 sm:mt-18"
         >
+          <p className="text-[#6B7280] font-sans text-base sm:text-lg mb-5">
+            Have a project in mind?
+          </p>
           <a
-            href="#"
-            onClick={handleCTAClick}
-            className="btn-primary inline-flex items-center gap-2"
+            href="#contact"
+            className="inline-flex items-center gap-2 font-sans text-base font-medium text-[#D97706] hover:text-[#B45309] transition-colors group/cta"
           >
-            <span>Get Custom Solution</span>
-            <ArrowUpRight className="w-4 h-4" />
+            Let&apos;s talk
+            <ArrowRight className="w-4 h-4 group-hover/cta:translate-x-1 transition-transform" />
           </a>
         </motion.div>
       </div>
-
-      {/* Email Gate Modal */}
-      <EmailGateModal
-        isOpen={showEmailModal}
-        onClose={() => setShowEmailModal(false)}
-        source="calendly_gate"
-      />
     </section>
   );
 }
