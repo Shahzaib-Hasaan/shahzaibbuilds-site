@@ -25,15 +25,8 @@ function getRateLimit(ip: string): { allowed: boolean; remaining: number } {
 }
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
-
-  // Coming Soon mode — redirect all non-root pages to home
-  if (pathname.startsWith('/blog')) {
-    return NextResponse.redirect(new URL('/', request.url));
-  }
-
   // Only rate limit the download endpoint
-  if (pathname !== '/api/download') {
+  if (request.nextUrl.pathname !== '/api/download') {
     return NextResponse.next();
   }
 
@@ -61,5 +54,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/api/download', '/blog', '/blog/:path*'],
+  matcher: ['/api/download'],
 };
