@@ -26,7 +26,7 @@ const WELCOME_MESSAGE: Message = {
     "Hey! I'm Shahzaib's AI assistant. I can tell you about his work, skills, projects, or how to get in touch.\n\nWhat would you like to know?",
 };
 
-const WEBHOOK_URL = `${process.env.NEXT_PUBLIC_N8N_BASE_URL ?? 'https://n8n.shahzaibai.site'}/webhook/website-message`;
+const API_URL = '/api/chat';
 
 export default function ChatAssistant() {
   const [isOpen, setIsOpen] = useState(false);
@@ -77,32 +77,22 @@ export default function ChatAssistant() {
     }
   }, [messages, isOpen]);
 
-  const sendToWebhook = async (text: string) => {
+  const sendMessage = async (text: string) => {
     const currentSession =
       sessionId || localStorage.getItem('chatSessionId') || 'session-' + Date.now();
 
-    const res = await fetch(WEBHOOK_URL, {
+    const history = messages
+      .filter((m) => m.id !== 'welcome')
+      .map((m) => ({ role: m.role, content: m.content }));
+
+    const res = await fetch(API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text, chatId: currentSession }),
+      body: JSON.stringify({ message: text, chatId: currentSession, history }),
     });
 
-    const raw = await res.text();
-    let data;
-    try {
-      data = JSON.parse(raw);
-    } catch {
-      data = raw;
-    }
-
-    const resolved = Array.isArray(data) ? data[0] : data;
-    return typeof resolved === 'string'
-      ? resolved
-      : resolved?.output ||
-          resolved?.message ||
-          resolved?.text ||
-          resolved?.response ||
-          JSON.stringify(data);
+    const data = await res.json();
+    return data?.output || data?.message || data?.text || 'Sorry, something went wrong.';
   };
 
   const handleSend = async (text: string) => {
@@ -114,7 +104,7 @@ export default function ChatAssistant() {
     setIsLoading(true);
 
     try {
-      const reply = await sendToWebhook(text);
+      const reply = await sendMessage(text);
       setMessages((prev) => [
         ...prev,
         { id: (Date.now() + 1).toString(), role: 'bot', content: reply },

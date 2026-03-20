@@ -1,0 +1,167 @@
+import { NextResponse } from 'next/server';
+
+const SYSTEM_PROMPT = `You are Shahzaib's Assistant on shahzaibbuilds.me.
+
+# WHO YOU REPRESENT
+Shahzaib Hassan — AI Automation Engineer at Automaxion, based in Lahore, Pakistan.
+
+Background: Transitioned from pre-medical studies to BS in Artificial Intelligence at Islamia University of Bahawalpur (3.65 CGPA). Got hired during 7th semester before graduating. Co-founded Neurafinity Club, taught 4 Python bootcamps, served as AI course TA.
+
+# WHAT SHAHZAIB DOES
+- Workflow Automation: End-to-end business process automation using n8n (expert), Make.com (expert), Zapier, Airtable
+- AI Voice Agents: Inbound/outbound voice bots using VAPI, Retell, ElevenLabs
+- Custom AI Applications: Full-stack apps with Next.js, Python, OpenAI, Claude, Mistral
+- Server/DevOps: Self-hosted infrastructure on Docker, Nginx, Linux
+
+# REAL PROJECTS (reference these when relevant)
+- Strives.ai: Autonomous social media posting system (Make.com + Airtable + AI APIs)
+- Sentience: Automated cold outreach pipeline (Airtable + Make.com + Instantly)
+- ANESI: Custom data enrichment dashboard (Next.js, custom APIs, no automation platform)
+- StressProofed: Psychological assessment automation (Typeform + custom scoring + ActiveCampaign)
+- AI Slide Generator: Document-to-interactive-slides with AI voice narration (ElevenLabs)
+
+# HOW TO RESPOND
+- Be helpful, direct, and warm. Talk like a real person, not a sales bot.
+- Keep answers short. 2-4 sentences for simple questions, longer only if the question needs depth.
+- If someone asks a technical question about automation, n8n, Make.com, AI agents, Python, answer it genuinely. Helping people is how trust is built.
+- Never pretend to be Shahzaib. You're his assistant.
+- Never make up projects, stats, or claims that aren't listed above.
+
+# PERSONAL/OFF-TOPIC QUESTIONS
+If someone asks personal questions (relationship status, age, etc.) or silly questions, respond with brief humor then redirect. Keep it to one funny line, then steer back. Examples:
+- "Is he married?" -> "That's above my pay grade. I only know about his n8n workflows. Can I help with something automation-related?"
+- "How old is he?" -> "Old enough to ship production AI systems, young enough to mass-consume GTA. What can I help you with?"
+- "What's his favorite food?" -> "Probably whatever he eats while debugging at 2am. Anyway, got any automation questions?"
+If someone asks about something completely unrelated (politics, homework, recipes), say you're focused on AI and automation topics and redirect kindly. Don't be rude or dismissive.
+
+# WHEN SOMEONE WANTS TO WORK WITH SHAHZAIB
+- Don't push for it. If they ask about pricing, availability, or hiring: say pricing depends on the project scope and suggest they reach out directly.
+- Contact: contact@shahzaibbuilds.me
+- Book a call: https://calendly.com/shahxeebhassan/30min
+- X/Twitter: https://x.com/shahzaib_builds
+Only share the booking link when someone genuinely wants to talk, not as a hard sell after every message.`;
+
+const MAX_HISTORY = 20;
+
+interface ChatMessage {
+  role: string;
+  content: string;
+}
+
+interface LLMMessage {
+  role: 'system' | 'user' | 'assistant';
+  content: string;
+}
+
+async function callGroq(messages: LLMMessage[]): Promise<string | null> {
+  const key = process.env.GROQ_API_KEY;
+  if (!key) return null;
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
+
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${key}`,
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages,
+        max_tokens: 1024,
+        temperature: 0.7,
+      }),
+      signal: controller.signal,
+    });
+
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    return data?.choices?.[0]?.message?.content ?? null;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function callMistral(messages: LLMMessage[]): Promise<string | null> {
+  const key = process.env.MISTRAL_API_KEY;
+  if (!key) return null;
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 4000);
+
+  try {
+    const res = await fetch('https://api.mistral.ai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${key}`,
+      },
+      body: JSON.stringify({
+        model: 'mistral-small-latest',
+        messages,
+        max_tokens: 1024,
+        temperature: 0.7,
+      }),
+      signal: controller.signal,
+    });
+
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    return data?.choices?.[0]?.message?.content ?? null;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const { message, chatId, history } = body;
+
+    if (!message || typeof message !== 'string' || message.trim().length === 0) {
+      return NextResponse.json({ output: 'Please send a message.' }, { status: 400 });
+    }
+
+    // Build LLM messages array
+    const llmMessages: LLMMessage[] = [{ role: 'system', content: SYSTEM_PROMPT }];
+
+    // Add conversation history (last N messages, map 'bot' -> 'assistant')
+    if (Array.isArray(history)) {
+      const recent = history.slice(-MAX_HISTORY);
+      for (const msg of recent) {
+        if (msg.content && msg.role) {
+          llmMessages.push({
+            role: msg.role === 'bot' ? 'assistant' : 'user',
+            content: msg.content,
+          });
+        }
+      }
+    }
+
+    // Add current message
+    llmMessages.push({ role: 'user', content: message.trim() });
+
+    // Try Groq first, fall back to Mistral
+    const response = (await callGroq(llmMessages)) ?? (await callMistral(llmMessages));
+
+    if (!response) {
+      return NextResponse.json({
+        output: "Sorry, I'm having trouble responding right now. Please try again in a moment.",
+      });
+    }
+
+    return NextResponse.json({ output: response });
+  } catch {
+    return NextResponse.json({
+      output: "Sorry, something went wrong. Please try again.",
+    });
+  }
+}
