@@ -3,10 +3,10 @@
 import { motion } from 'framer-motion';
 
 const highlights = [
-  { value: '3.65', label: 'CGPA' },
-  { value: '4', label: 'Python bootcamps taught' },
-  { value: '1', label: 'Club co-founded' },
-  { value: '7th', label: 'Semester hired' },
+  { value: '3.65', label: 'CGPA', size: 'large' as const },
+  { value: '4', label: 'Python bootcamps taught', size: 'large' as const },
+  { value: 'Neurafinity', label: 'AI club co-founded', size: 'small' as const },
+  { value: 'PM Award', label: 'Laptop Scheme awardee', size: 'medium' as const },
 ];
 
 const fadeUp = {
@@ -162,7 +162,15 @@ export default function AboutSection() {
               custom={i + 1}
               className="warm-card rounded-xl p-5 sm:p-6 text-center"
             >
-              <span className="block font-serif text-3xl sm:text-4xl text-amber-accent mb-1">
+              <span
+                className={`block font-serif text-amber-accent mb-1 ${
+                  item.size === 'large'
+                    ? 'text-3xl sm:text-4xl'
+                    : item.size === 'medium'
+                    ? 'text-2xl sm:text-3xl'
+                    : 'text-xl sm:text-2xl'
+                }`}
+              >
                 {item.value}
               </span>
               <span className="block text-ink-muted text-sm leading-tight">

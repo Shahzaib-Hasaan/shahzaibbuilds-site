@@ -26,7 +26,7 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.shahzaibbuilds.me'),
   title: 'Shahzaib Hassan | AI Automation Engineer',
-  description: 'AI Automation Engineer building agents, voice bots, and workflow automation. From pre-med to shipping production AI systems.',
+  description: 'AI Automation Engineer and educator. Shipping production AI at Automaxion, by way of four Python bootcamps, a co-founded AI club, and a BS in Artificial Intelligence from IUB.',
   keywords: [
     'Shahzaib Hassan',
     'Shahzaib Builds',
@@ -48,8 +48,8 @@ export const metadata: Metadata = {
     google: 'owwbL11jdDB44_EtB0LitpPX31aO5yPqQss-eK35ozE',
   },
   openGraph: {
-    title: 'Shahzaib Hassan — AI Automation Engineer',
-    description: 'AI Automation Engineer building agents, voice bots, and workflow automation. From pre-med to shipping production AI systems.',
+    title: 'Shahzaib Hassan | AI Automation Engineer',
+    description: 'AI Automation Engineer and educator. Shipping production AI at Automaxion, by way of four Python bootcamps, a co-founded AI club, and a BS in Artificial Intelligence from IUB.',
     url: 'https://www.shahzaibbuilds.me',
     siteName: 'Shahzaib Builds',
     type: 'website',
@@ -59,14 +59,14 @@ export const metadata: Metadata = {
         url: 'https://www.shahzaibbuilds.me/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Shahzaib Hassan — AI Automation Engineer',
+        alt: 'Shahzaib Hassan | AI Automation Engineer',
       }
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Shahzaib Hassan — AI Automation Engineer',
-    description: 'AI Automation Engineer building agents, voice bots, and workflow automation. From pre-med to shipping production AI systems.',
+    title: 'Shahzaib Hassan | AI Automation Engineer',
+    description: 'AI Automation Engineer and educator. Shipping production AI at Automaxion, by way of four Python bootcamps, a co-founded AI club, and a BS in Artificial Intelligence from IUB.',
     creator: '@shahzaib_builds',
     images: ['https://www.shahzaibbuilds.me/og-image.jpg'],
   },

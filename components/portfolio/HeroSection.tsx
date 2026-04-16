@@ -109,10 +109,12 @@ export default function HeroSection() {
               variants={fadeUp}
               className="font-sans text-base sm:text-lg text-[#6B7280] leading-relaxed max-w-xl mb-8"
             >
-              I build agents, voice bots, and automation systems that save teams
-              real time. Currently shipping production AI at{' '}
+              I build AI agents, voice bots, and automation systems. Currently
+              shipping production AI at{' '}
               <span className="text-[#0F766E] font-medium">Automaxion</span> in
-              Lahore.
+              Lahore. Before that: four Python bootcamps, co-founding the{' '}
+              <span className="text-[#0F766E] font-medium">Neurafinity Club</span>,
+              and trading a pre-med future for a degree in AI.
             </motion.p>
 
             {/* Social links */}
