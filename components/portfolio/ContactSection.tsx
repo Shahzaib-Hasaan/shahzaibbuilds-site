@@ -53,8 +53,8 @@ export default function ContactSection() {
             Say hello
           </h2>
           <p className="text-[#6B7280] font-sans text-base sm:text-lg leading-relaxed max-w-lg mx-auto mb-10">
-            Whether you have a project in mind, want to collaborate, or just
-            want to say hi. I&apos;d love to hear from you.
+            Open to scholarship recommendations, research collaboration,
+            freelance projects, or just a hello. I&apos;d love to hear from you.
           </p>
         </motion.div>
 
