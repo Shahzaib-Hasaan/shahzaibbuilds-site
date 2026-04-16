@@ -13,17 +13,17 @@ interface Message {
 }
 
 const QUICK_REPLIES = [
-  'Tell me about yourself',
-  'What can you build?',
-  'Show me your projects',
-  'How can I work with you?',
+  'Tell me about Shahzaib',
+  'What has he built?',
+  'What does he teach?',
+  'How can I reach him?',
 ];
 
 const WELCOME_MESSAGE: Message = {
   id: 'welcome',
   role: 'bot',
   content:
-    "Hey! I'm Shahzaib's AI assistant. I can tell you about his work, skills, projects, or how to get in touch.\n\nWhat would you like to know?",
+    "Hey! I'm Shahzaib's AI assistant. Ask me about his work, his teaching, his background, or how to reach him.\n\nWhat would you like to know?",
 };
 
 const API_URL = '/api/chat';
