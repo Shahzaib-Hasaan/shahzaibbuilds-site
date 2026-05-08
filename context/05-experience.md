@@ -1,5 +1,7 @@
 # 05 — Professional Experience
 
+> **INTERNAL ONLY — DO NOT COPY VERBATIM TO PUBLIC SURFACES.** The real client and internal-project names below (e.g. Strives.ai, Sentience, ANESI, StressProofed, Slide Generator, third-party data sources) must NEVER be used in public-facing copy: the website, llms.txt, JSON-LD schema, chatbot replies, social posts, public CV / cover letters, or anything a recruiter or scholarship reviewer might see. When generating any of those artifacts, refer to the work by category only — e.g. "an autonomous social media system", "a cold outreach pipeline", "a data enrichment dashboard", "a psychological assessment platform", "an AI teaching assistant for long-form documents". This file is a private reference for resume-writing tools, internal Q&A, and the like.
+
 ## Automation Engineer/Developer — Automaxion, Lahore
 
 - **Duration:** September 2025 – Present (~6 months as of February 2026)

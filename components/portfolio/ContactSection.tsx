@@ -1,13 +1,18 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Mail, Github, Twitter, Instagram } from 'lucide-react';
+import { Mail, Github, Twitter, Instagram, Linkedin } from 'lucide-react';
 
 const socials = [
   {
     label: 'X (Twitter)',
     href: 'https://x.com/shahzaib_builds',
     icon: Twitter,
+  },
+  {
+    label: 'LinkedIn',
+    href: 'https://pk.linkedin.com/in/shahzaib-hassan-ai',
+    icon: Linkedin,
   },
   {
     label: 'GitHub',

@@ -37,6 +37,7 @@ export default function Home() {
     url: siteUrl,
     sameAs: [
       'https://x.com/shahzaib_builds',
+      'https://pk.linkedin.com/in/shahzaib-hassan-ai',
       'https://instagram.com/shahzaib_builds',
       'https://github.com/Shahzaib-Hasaan',
       'https://tiktok.com/@shahzaib_builds',
@@ -233,7 +234,7 @@ export default function Home() {
         name: 'What projects has Shahzaib Hassan built?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Client and production work includes Strives.ai (autonomous social media system on Make.com), Sentience (cold outreach on Airtable and Instantly), ANESI (Next.js data enrichment dashboard), StressProofed (psychological assessment automation with custom scoring and PDF generation), and the AI Slide Generator (document-to-interactive-slides with ElevenLabs voice narration).',
+          text: 'Client and production work includes an autonomous social media system on Make.com and Airtable, a cold outreach pipeline using Airtable, Make.com, and Instantly, a custom data enrichment dashboard built in Next.js with bespoke APIs, a psychological assessment platform with custom scoring and PDF report generation, and an AI teaching assistant that turns long-form documents into interactive slides with ElevenLabs voice narration.',
         },
       },
       {

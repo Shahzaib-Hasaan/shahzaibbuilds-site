@@ -11,11 +11,11 @@ Shahzaib transitioned from a pre-medical background to Artificial Intelligence, 
 - Custom AI Applications: Full-stack apps with AI integration using Next.js, Python, and LLM APIs
 
 ## Key Projects
-- [Strives.ai](https://shahzaibbuilds.me/#work): Autonomous social media posting system (Make.com, Airtable, AI APIs)
-- [Sentience](https://shahzaibbuilds.me/#work): Automated cold outreach pipeline (Airtable, Make.com, Instantly)
-- [ANESI](https://shahzaibbuilds.me/#work): Custom data enrichment dashboard (Next.js, custom APIs)
-- [StressProofed](https://shahzaibbuilds.me/#work): Psychological assessment automation (Typeform, ActiveCampaign, PDF generation)
-- [AI Slide Generator](https://shahzaibbuilds.me/#work): Document-to-interactive-slides tool (ElevenLabs, AI APIs)
+- [Autonomous Social Media System](https://shahzaibbuilds.me/#work): AI-driven social posting pipeline (Make.com, Airtable, AI APIs)
+- [Cold Outreach Pipeline](https://shahzaibbuilds.me/#work): Personalized cold email at scale (Airtable, Make.com, Instantly)
+- [Data Enrichment Dashboard](https://shahzaibbuilds.me/#work): Custom Next.js app with bespoke APIs
+- [Psychological Assessment Platform](https://shahzaibbuilds.me/#work): Typeform + custom scoring + PDF reports + ActiveCampaign
+- [AI Teaching Assistant for Long-Form Documents](https://shahzaibbuilds.me/#work): Document-to-interactive-slides with ElevenLabs voice narration
 
 ## Technical Stack
 - Automation: n8n (expert), Make.com (expert), Zapier, Airtable, Instantly, ActiveCampaign
@@ -34,5 +34,6 @@ Technical articles on AI automation, n8n workflows, and building production syst
 - Website: https://shahzaibbuilds.me
 - Email: contact@shahzaibbuilds.me
 - X/Twitter: https://x.com/shahzaib_builds
+- LinkedIn: https://pk.linkedin.com/in/shahzaib-hassan-ai
 - GitHub: https://github.com/Shahzaib-Hasaan
 - TikTok: https://tiktok.com/@shahzaib_builds

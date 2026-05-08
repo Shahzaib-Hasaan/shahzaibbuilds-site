@@ -1,6 +1,6 @@
 'use client';
 
-import { Twitter, Github, Instagram, Mail, MapPin } from 'lucide-react';
+import { Twitter, Github, Instagram, Linkedin, Mail, MapPin } from 'lucide-react';
 
 const TikTokIcon = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -13,6 +13,11 @@ const socialLinks = [
     label: 'X (Twitter)',
     href: 'https://x.com/shahzaib_builds',
     icon: Twitter,
+  },
+  {
+    label: 'LinkedIn',
+    href: 'https://pk.linkedin.com/in/shahzaib-hassan-ai',
+    icon: Linkedin,
   },
   {
     label: 'GitHub',
