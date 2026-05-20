@@ -1,6 +1,7 @@
 'use client';
 
 import { Github, Linkedin, Mail, MapPin, Twitter, Instagram } from 'lucide-react';
+import MagneticLink from './MagneticLink';
 
 const socials = [
   { label: 'X (Twitter)', href: 'https://x.com/shahzaib_builds', icon: Twitter },
@@ -39,18 +40,19 @@ export default function Footer() {
             <p className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-faint)] mb-3">
               Elsewhere
             </p>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               {socials.map((s) => (
-                <a
+                <MagneticLink
                   key={s.label}
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
+                  magnetic={{ strength: 0.35, radius: 70, scale: 1.1 }}
                   className="w-9 h-9 rounded-full border border-[color:var(--border)] grid place-items-center text-[color:var(--text-muted)] hover:text-[color:var(--accent)] hover:border-[color:var(--accent)]/40 transition-colors"
                 >
                   <s.icon className="w-4 h-4" />
-                </a>
+                </MagneticLink>
               ))}
             </div>
           </div>

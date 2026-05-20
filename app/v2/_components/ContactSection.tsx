@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Github, Instagram, Linkedin, Mail, Twitter } from 'lucide-react';
 import { useMagnetic } from '../_hooks/useMagnetic';
+import MagneticLink from './MagneticLink';
 
 const socials = [
   { label: 'X (Twitter)', href: 'https://x.com/shahzaib_builds', icon: Twitter },
@@ -71,9 +72,9 @@ export default function ContactSection() {
           <p className="text-xs font-mono uppercase tracking-[0.18em] text-[color:var(--text-faint)] mb-4">
             elsewhere
           </p>
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-4">
             {socials.map((s) => (
-              <a
+              <MagneticLink
                 key={s.label}
                 href={s.href}
                 target="_blank"
@@ -82,7 +83,7 @@ export default function ContactSection() {
                 className="w-11 h-11 rounded-full bg-[color:var(--bg)] border border-[color:var(--border)] grid place-items-center text-[color:var(--text-muted)] hover:text-[color:var(--accent)] hover:border-[color:var(--accent)]/40 transition-colors"
               >
                 <s.icon className="w-5 h-5" />
-              </a>
+              </MagneticLink>
             ))}
           </div>
         </motion.div>

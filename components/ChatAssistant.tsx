@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send, RefreshCcw, Minimize2 } from 'lucide-react';
+import { MessageCircle, X, Send, RefreshCcw, Minimize2, Sparkles } from 'lucide-react';
 
 interface Message {
   id: string;
@@ -23,7 +23,7 @@ const WELCOME_MESSAGE: Message = {
   id: 'welcome',
   role: 'bot',
   content:
-    "Hey! I'm Shahzaib's AI assistant. Ask me about his work, his teaching, his background, or how to reach him.\n\nWhat would you like to know?",
+    "Hey. I'm Shahzaib's assistant — ask me about his work, teaching, or how to reach him.",
 };
 
 const API_URL = '/api/chat';
@@ -38,10 +38,10 @@ export default function ChatAssistant() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
   }, []);
 
   useEffect(() => {
@@ -133,45 +133,48 @@ export default function ChatAssistant() {
 
   return (
     <>
-      {/* Chat window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0, scale: 0.94, y: 18 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            transition={{ duration: 0.2 }}
+            exit={{ opacity: 0, scale: 0.94, y: 18 }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
             className={
               isMobile
-                ? 'fixed inset-0 z-50 flex flex-col bg-[#FAFAF5]'
-                : 'fixed bottom-5 right-5 z-50 w-[380px] max-h-[calc(100vh-40px)] h-[560px] flex flex-col rounded-2xl shadow-2xl border border-[#E5E1D8] bg-[#FAFAF5] overflow-hidden'
+                ? 'fixed inset-0 z-50 flex flex-col bg-[color:var(--bg)]'
+                : 'fixed bottom-5 right-5 z-50 w-[400px] max-h-[calc(100vh-40px)] h-[600px] flex flex-col rounded-3xl glow-rim border border-[color:var(--border)] bg-[color:var(--bg)] overflow-hidden'
             }
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-[#E5E1D8] bg-white">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-[color:var(--border)] bg-[color:var(--bg-alt)]">
               <div className="flex items-center gap-3">
-                <div className="relative w-9 h-9 rounded-full bg-[#D97706]/15 flex items-center justify-center">
-                  <MessageCircle className="w-4.5 h-4.5 text-[#D97706]" />
-                  <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-white" />
+                <div className="relative w-9 h-9 rounded-full bg-[color:var(--accent)]/15 grid place-items-center">
+                  <Sparkles className="w-4 h-4 text-[color:var(--accent)]" />
+                  <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-500 rounded-full border-2 border-[color:var(--bg-alt)]" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-[#1C1C1C]">
-                    Shahzaib&apos;s Assistant
+                  <p className="text-sm font-semibold text-[color:var(--text)]">
+                    Shahzaib&apos;s assistant
                   </p>
-                  <p className="text-xs text-[#6B7280]">Usually replies instantly</p>
+                  <p className="text-[11px] font-mono tracking-wide text-[color:var(--text-muted)]">
+                    answers about his work · usually instant
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-1">
                 <button
                   onClick={handleNewChat}
-                  className="p-2 rounded-lg text-[#6B7280] hover:text-[#1C1C1C] hover:bg-[#F0ECE3] transition-colors"
+                  className="p-2 rounded-lg text-[color:var(--text-muted)] hover:text-[color:var(--text)] hover:bg-[color:var(--bg)] transition-colors"
                   title="New conversation"
+                  aria-label="New conversation"
                 >
                   <RefreshCcw className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-2 rounded-lg text-[#6B7280] hover:text-[#1C1C1C] hover:bg-[#F0ECE3] transition-colors"
+                  className="p-2 rounded-lg text-[color:var(--text-muted)] hover:text-[color:var(--text)] hover:bg-[color:var(--bg)] transition-colors"
+                  aria-label="Close"
                 >
                   {isMobile ? <Minimize2 className="w-4 h-4" /> : <X className="w-4 h-4" />}
                 </button>
@@ -179,7 +182,7 @@ export default function ChatAssistant() {
             </div>
 
             {/* Messages */}
-            <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-5 space-y-4">
               {messages.map((msg) => (
                 <div
                   key={msg.id}
@@ -188,8 +191,8 @@ export default function ChatAssistant() {
                   <div
                     className={`max-w-[82%] px-4 py-2.5 text-sm leading-relaxed ${
                       msg.role === 'user'
-                        ? 'bg-[#D97706] text-white rounded-2xl rounded-br-md'
-                        : 'bg-white border border-[#E5E1D8] text-[#1C1C1C] rounded-2xl rounded-bl-md'
+                        ? 'bg-[color:var(--text)] text-[color:var(--bg)] rounded-2xl rounded-br-md'
+                        : 'bg-[color:var(--bg-alt)] border border-[color:var(--border)] text-[color:var(--text)] rounded-2xl rounded-bl-md'
                     }`}
                   >
                     {msg.role === 'bot' ? (
@@ -197,9 +200,7 @@ export default function ChatAssistant() {
                         <ReactMarkdown
                           remarkPlugins={[remarkGfm]}
                           components={{
-                            p: ({ children }) => (
-                              <p className="mb-2 last:mb-0">{children}</p>
-                            ),
+                            p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
                             ul: ({ children }) => (
                               <ul className="list-disc ml-4 mb-2 space-y-1">{children}</ul>
                             ),
@@ -211,13 +212,13 @@ export default function ChatAssistant() {
                                 href={href}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-[#D97706] underline underline-offset-2"
+                                className="text-[color:var(--accent)] underline underline-offset-2"
                               >
                                 {children}
                               </a>
                             ),
                             code: ({ children }) => (
-                              <code className="bg-[#F0ECE3] text-[#1C1C1C] rounded px-1.5 py-0.5 text-xs font-mono">
+                              <code className="bg-[color:var(--bg)] text-[color:var(--text)] rounded px-1.5 py-0.5 text-xs font-mono">
                                 {children}
                               </code>
                             ),
@@ -233,14 +234,14 @@ export default function ChatAssistant() {
                 </div>
               ))}
 
-              {/* Quick replies (only on welcome) */}
+              {/* Quick replies on welcome */}
               {messages.length === 1 && !isLoading && (
-                <div className="flex flex-wrap gap-2 pt-2">
+                <div className="flex flex-wrap gap-2 pt-1">
                   {QUICK_REPLIES.map((reply) => (
                     <button
                       key={reply}
                       onClick={() => handleSend(reply)}
-                      className="text-xs px-3 py-1.5 rounded-full border border-[#E5E1D8] text-[#6B7280] hover:border-[#D97706] hover:text-[#D97706] bg-white transition-all"
+                      className="text-xs font-mono px-3 py-1.5 rounded-full border border-[color:var(--border)] text-[color:var(--text-muted)] hover:border-[color:var(--accent)] hover:text-[color:var(--accent)] bg-[color:var(--bg-alt)] transition-all"
                     >
                       {reply}
                     </button>
@@ -251,17 +252,17 @@ export default function ChatAssistant() {
               {/* Typing indicator */}
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-white border border-[#E5E1D8] rounded-2xl rounded-bl-md px-4 py-3 flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 bg-[#9CA3AF] rounded-full animate-bounce [animation-delay:-0.3s]" />
-                    <span className="w-1.5 h-1.5 bg-[#9CA3AF] rounded-full animate-bounce [animation-delay:-0.15s]" />
-                    <span className="w-1.5 h-1.5 bg-[#9CA3AF] rounded-full animate-bounce" />
+                  <div className="bg-[color:var(--bg-alt)] border border-[color:var(--border)] rounded-2xl rounded-bl-md px-4 py-3 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 bg-[color:var(--text-faint)] rounded-full animate-bounce [animation-delay:-0.3s]" />
+                    <span className="w-1.5 h-1.5 bg-[color:var(--text-faint)] rounded-full animate-bounce [animation-delay:-0.15s]" />
+                    <span className="w-1.5 h-1.5 bg-[color:var(--text-faint)] rounded-full animate-bounce" />
                   </div>
                 </div>
               )}
             </div>
 
             {/* Input */}
-            <div className="px-4 py-3 border-t border-[#E5E1D8] bg-white">
+            <div className="px-4 py-3 border-t border-[color:var(--border)] bg-[color:var(--bg-alt)]">
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -272,13 +273,14 @@ export default function ChatAssistant() {
                 <input
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
-                  placeholder="Ask me anything..."
-                  className="flex-1 px-4 py-2.5 text-sm bg-[#FAFAF5] border border-[#E5E1D8] rounded-full text-[#1C1C1C] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#D97706] transition-colors"
+                  placeholder="Ask me anything…"
+                  className="flex-1 px-4 py-2.5 text-sm bg-[color:var(--bg)] border border-[color:var(--border)] rounded-full text-[color:var(--text)] placeholder:text-[color:var(--text-faint)] focus:outline-none focus:border-[color:var(--accent)] transition-colors"
                 />
                 <button
                   type="submit"
                   disabled={isLoading || !inputValue.trim()}
-                  className="w-10 h-10 rounded-full bg-[#D97706] hover:bg-[#B45309] text-white flex items-center justify-center shrink-0 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  aria-label="Send"
+                  className="w-10 h-10 rounded-full bg-[color:var(--accent)] hover:bg-[color:var(--accent-hover)] text-white grid place-items-center shrink-0 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   <Send className="w-4 h-4 ml-0.5" />
                 </button>
@@ -288,18 +290,20 @@ export default function ChatAssistant() {
         )}
       </AnimatePresence>
 
-      {/* Floating toggle button */}
+      {/* Floating toggle */}
       <AnimatePresence>
         {!isOpen && (
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="fixed bottom-5 right-5 z-50"
           >
             <button
               onClick={() => setIsOpen(true)}
-              className="w-14 h-14 rounded-full bg-[#D97706] hover:bg-[#B45309] text-white shadow-lg shadow-[#D97706]/25 flex items-center justify-center transition-all hover:scale-105 group"
+              className="w-14 h-14 rounded-full bg-[color:var(--accent)] hover:bg-[color:var(--accent-hover)] text-white shadow-lg shadow-[color:var(--accent)]/25 grid place-items-center transition-all hover:scale-[1.06] group"
+              aria-label="Open chat assistant"
             >
               <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
             </button>

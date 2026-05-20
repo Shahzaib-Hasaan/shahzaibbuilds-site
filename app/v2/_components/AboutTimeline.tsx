@@ -1,6 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface TimelineRow {
   year: string;
@@ -52,8 +59,61 @@ const rows: TimelineRow[] = [
 ];
 
 export default function AboutTimeline() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const root = sectionRef.current;
+    if (!root) return;
+    // honor user's motion preference — but the scrub-on-scroll choreography is core
+    // to this section's storytelling, so we still play it (reduce just disables Lenis/transitions elsewhere)
+    const medicalEls = Array.from(root.querySelectorAll<HTMLElement>('[data-tl="medical"]'));
+    const aiEls = Array.from(root.querySelectorAll<HTMLElement>('[data-tl="ai"]'));
+
+    // initialize from state immediately so the effect is visible even pre-scroll
+    gsap.set(medicalEls, { opacity: 0.85, x: 0 });
+    gsap.set(aiEls, { opacity: 0.5, x: -8 });
+
+    const st1 = gsap.to(medicalEls, {
+      opacity: 0.2,
+      x: -14,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: root,
+        start: 'top 75%',
+        end: 'bottom 25%',
+        scrub: 0.6,
+      },
+    });
+
+    const st2 = gsap.to(aiEls, {
+      opacity: 1,
+      x: 0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: root,
+        start: 'top 75%',
+        end: 'bottom 25%',
+        scrub: 0.6,
+      },
+    });
+
+    const t = setTimeout(() => ScrollTrigger.refresh(), 200);
+
+    return () => {
+      clearTimeout(t);
+      st1.scrollTrigger?.kill();
+      st2.scrollTrigger?.kill();
+      st1.kill();
+      st2.kill();
+    };
+  }, []);
+
   return (
-    <section id="path" className="relative py-24 sm:py-32 md:py-40 bg-[color:var(--bg-alt)] grain">
+    <section
+      ref={sectionRef}
+      id="path"
+      className="relative py-24 sm:py-32 md:py-40 bg-[color:var(--bg-alt)] grain"
+    >
       <div className="max-w-5xl mx-auto px-6 sm:px-8">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -94,16 +154,12 @@ export default function AboutTimeline() {
           {rows.map((row, i) => {
             const isFork = row.year === '2021';
             return (
-              <motion.li
+              <li
                 key={row.year}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.55, delay: i * 0.04 }}
                 className="grid grid-cols-12 gap-4 sm:gap-8 items-start py-7"
               >
                 {/* medical side */}
-                <div className="col-span-5 text-right">
+                <div data-tl="medical" className="col-span-5 text-right">
                   <div
                     className={`inline-block ${
                       row.medical.title === '—'
@@ -123,7 +179,7 @@ export default function AboutTimeline() {
                 </div>
 
                 {/* year + node */}
-                <div className="col-span-2 flex flex-col items-center relative">
+                <div data-tl="year" className="col-span-2 flex flex-col items-center relative">
                   <span
                     className={`relative z-10 grid place-items-center w-10 h-10 rounded-full text-[10px] font-mono tracking-[0.14em] ${
                       isFork
@@ -139,7 +195,7 @@ export default function AboutTimeline() {
                 </div>
 
                 {/* AI side */}
-                <div className="col-span-5">
+                <div data-tl="ai" className="col-span-5">
                   <div
                     className={
                       row.ai.title === '—'
@@ -157,7 +213,7 @@ export default function AboutTimeline() {
                     )}
                   </div>
                 </div>
-              </motion.li>
+              </li>
             );
           })}
         </ol>
