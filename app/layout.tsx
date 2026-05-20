@@ -1,5 +1,6 @@
 import './globals.css';
 import ChatAssistant from '@/components/ChatAssistant';
+import { ThemeProvider } from '@/components/ThemeProvider';
 import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono, Instrument_Serif } from 'next/font/google';
@@ -89,7 +90,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         {/* Google Analytics */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-BPJFLR0JE9"></script>
@@ -105,8 +106,10 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable} font-sans antialiased`}>
-        {children}
-        <ChatAssistant />
+        <ThemeProvider>
+          {children}
+          <ChatAssistant />
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>
