@@ -32,7 +32,7 @@ export function buildSchemas(siteUrl: string) {
       'https://www.youtube.com/@shahxeebhassan',
     ],
     image: `${siteUrl}/me.jpg`,
-    email: 'contact@shahzaibbuilds.me',
+    email: 'shahxeebhassan@gmail.com',
     nationality: { '@type': 'Country', name: 'Pakistan' },
     address: {
       '@type': 'PostalAddress',
@@ -235,7 +235,7 @@ export function buildSchemas(siteUrl: string) {
         name: 'How can I reach Shahzaib Hassan?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Email is best: contact@shahzaibbuilds.me. He is open to scholarship recommendations, research collaboration, and freelance automation or AI projects. You can also reach him on X (Twitter) at @shahzaib_builds or through GitHub at Shahzaib-Hasaan.',
+          text: 'Email is best: shahxeebhassan@gmail.com. He is open to scholarship recommendations, research collaboration, and freelance automation or AI projects. You can also reach him on X (Twitter) at @shahzaib_builds or through GitHub at Shahzaib-Hasaan.',
         },
       },
     ],

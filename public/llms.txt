@@ -32,7 +32,7 @@ Technical articles on AI automation, n8n workflows, and building production syst
 
 ## Contact
 - Website: https://shahzaibbuilds.me
-- Email: contact@shahzaibbuilds.me
+- Email: shahxeebhassan@gmail.com
 - X/Twitter: https://x.com/shahzaib_builds
 - LinkedIn: https://pk.linkedin.com/in/shahzaib-hassan-ai
 - GitHub: https://github.com/Shahzaib-Hasaan

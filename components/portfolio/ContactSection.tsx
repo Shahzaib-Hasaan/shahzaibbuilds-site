@@ -72,14 +72,14 @@ export default function ContactSection() {
           className="mb-12"
         >
           <a
-            href="mailto:contact@shahzaibbuilds.me"
+            href="mailto:shahxeebhassan@gmail.com"
             className="inline-flex items-center gap-3 group"
           >
             <span className="w-11 h-11 rounded-full bg-[#D97706]/10 flex items-center justify-center group-hover:bg-[#D97706]/20 transition-colors">
               <Mail className="w-5 h-5 text-[#D97706]" />
             </span>
             <span className="font-mono text-lg sm:text-xl text-[#1C1C1C] group-hover:text-[#D97706] transition-colors">
-              contact@shahzaibbuilds.me
+              shahxeebhassan@gmail.com
             </span>
           </a>
         </motion.div>

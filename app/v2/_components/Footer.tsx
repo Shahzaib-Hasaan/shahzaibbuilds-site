@@ -67,10 +67,10 @@ export default function Footer() {
               <MapPin className="w-3 h-3" /> Lahore, Pakistan
             </span>
             <a
-              href="mailto:contact@shahzaibbuilds.me"
+              href="mailto:shahxeebhassan@gmail.com"
               className="inline-flex items-center gap-1.5 hover:text-[color:var(--text)] transition-colors"
             >
-              <Mail className="w-3 h-3" /> contact@shahzaibbuilds.me
+              <Mail className="w-3 h-3" /> shahxeebhassan@gmail.com
             </a>
           </div>
         </div>

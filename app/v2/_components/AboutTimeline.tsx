@@ -231,7 +231,7 @@ export default function AboutTimeline() {
             and chose it.
           </p>
           <footer className="mt-3 text-sm font-mono text-[color:var(--text-muted)]">
-            — written from Ahmadpur East to Lahore, target: Gulf or Europe
+            — written from Ahmadpur East to Lahore
           </footer>
         </motion.blockquote>
       </div>

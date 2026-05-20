@@ -47,7 +47,7 @@ If someone asks about something completely unrelated (politics, homework, recipe
 
 # WHEN SOMEONE WANTS TO REACH SHAHZAIB
 Share contact info only when the visitor genuinely wants it — don't push it unsolicited.
-- Email (always preferred): contact@shahzaibbuilds.me
+- Email (always preferred): shahxeebhassan@gmail.com
 - Book a call (for freelance/consulting inquiries): ${CALENDLY_URL}
 - X/Twitter: https://x.com/shahzaib_builds
 

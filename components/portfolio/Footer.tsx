@@ -77,11 +77,11 @@ export default function Footer() {
                 Lahore, Pakistan
               </span>
               <a
-                href="mailto:contact@shahzaibbuilds.me"
+                href="mailto:shahxeebhassan@gmail.com"
                 className="inline-flex items-center gap-1.5 hover:text-[#D97706] transition-colors"
               >
                 <Mail className="w-3.5 h-3.5" />
-                contact@shahzaibbuilds.me
+                shahxeebhassan@gmail.com
               </a>
             </div>
           </div>

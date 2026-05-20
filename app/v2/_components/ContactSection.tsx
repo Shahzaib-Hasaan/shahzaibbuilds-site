@@ -51,14 +51,14 @@ export default function ContactSection() {
         >
           <a
             ref={emailRef}
-            href="mailto:contact@shahzaibbuilds.me"
+            href="mailto:shahxeebhassan@gmail.com"
             className="inline-flex items-center gap-3 group"
           >
             <span className="w-12 h-12 rounded-full bg-[color:var(--accent)]/10 grid place-items-center group-hover:bg-[color:var(--accent)]/20 transition-colors">
               <Mail className="w-5 h-5 text-[color:var(--accent)]" />
             </span>
             <span className="font-mono text-lg sm:text-xl text-[color:var(--text)] group-hover:text-[color:var(--accent)] transition-colors">
-              contact@shahzaibbuilds.me
+              shahxeebhassan@gmail.com
             </span>
           </a>
         </motion.div>
