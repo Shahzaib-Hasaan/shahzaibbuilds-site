@@ -20,7 +20,7 @@ function BlogList({ category }: { category?: string }) {
 
   if (ordered.length === 0) {
     return (
-      <p className="text-ink-muted text-center py-16 font-sans">
+      <p className="text-[color:var(--text-muted)] text-center py-16 font-sans">
         No posts yet. Check back soon.
       </p>
     );
@@ -47,10 +47,13 @@ export default async function BlogPage({
     <div className="max-w-3xl mx-auto px-6 sm:px-8 pb-20">
       {/* Header */}
       <div className="mb-10 sm:mb-14">
-        <h1 className="font-serif text-4xl sm:text-5xl text-ink tracking-tight mb-4">
-          Blog
+        <p className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--accent)] mb-4">
+          Writing
+        </p>
+        <h1 className="font-serif text-4xl sm:text-5xl text-[color:var(--text)] tracking-tight mb-4">
+          What I&apos;ve been figuring out.
         </h1>
-        <p className="text-ink-muted text-lg font-sans leading-relaxed max-w-xl">
+        <p className="text-[color:var(--text-muted)] text-lg font-sans leading-relaxed max-w-xl">
           Tutorials, insights, and build logs from shipping AI automation in production.
         </p>
       </div>

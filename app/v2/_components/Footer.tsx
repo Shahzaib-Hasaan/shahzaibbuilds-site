@@ -16,7 +16,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 sm:px-8 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-10">
           <div>
-            <a href="/v2" className="font-serif text-xl text-[color:var(--text)]">
+            <a href="/" className="font-serif text-xl text-[color:var(--text)]">
               shahzaib<span className="text-[color:var(--accent)]">.</span>builds
             </a>
             <p className="mt-3 text-sm text-[color:var(--text-muted)] leading-relaxed max-w-xs">

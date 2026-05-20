@@ -32,10 +32,10 @@ export default function CategoryFilter() {
           <button
             key={cat.slug}
             onClick={() => handleFilter(cat.slug)}
-            className={`px-4 py-2 rounded-lg text-sm font-sans transition-all duration-200 ${
+            className={`px-3.5 py-1.5 rounded-full text-xs font-mono uppercase tracking-[0.16em] transition-all duration-200 ${
               isActive
-                ? 'bg-amber-accent text-white'
-                : 'bg-white border border-warm-border text-ink-muted hover:text-ink hover:border-amber-accent/40'
+                ? 'bg-[color:var(--text)] text-[color:var(--bg)] border border-[color:var(--text)]'
+                : 'bg-[color:var(--bg-alt)] border border-[color:var(--border)] text-[color:var(--text-muted)] hover:text-[color:var(--accent)] hover:border-[color:var(--accent)]/40'
             }`}
           >
             {cat.label}

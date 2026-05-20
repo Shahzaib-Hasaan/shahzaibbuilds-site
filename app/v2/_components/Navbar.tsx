@@ -31,7 +31,7 @@ export default function Navbar() {
     >
       <div className="max-w-6xl mx-auto px-6 sm:px-8 h-16 flex items-center justify-between">
         <Link
-          href="/v2"
+          href="/"
           className="font-serif text-xl text-[color:var(--text)]"
         >
           shahzaib<span className="text-[color:var(--accent)]">.</span>builds

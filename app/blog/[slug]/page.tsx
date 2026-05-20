@@ -85,18 +85,18 @@ export default async function BlogPostPage({
       {/* Back link */}
       <Link
         href="/blog"
-        className="inline-flex items-center gap-2 text-sm font-sans text-ink-muted hover:text-amber-accent transition-colors mb-8"
+        className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.18em] text-[color:var(--text-muted)] hover:text-[color:var(--accent)] transition-colors mb-10"
       >
-        <ArrowLeft className="w-4 h-4" />
-        All posts
+        <ArrowLeft className="w-3.5 h-3.5" />
+        all writing
       </Link>
 
       <BlogPost post={post} />
 
       {/* Related posts */}
       {related.length > 0 && (
-        <div className="mt-16 sm:mt-20 pt-10 border-t border-warm-border">
-          <h2 className="font-serif text-2xl text-ink mb-6">More posts</h2>
+        <div className="mt-16 sm:mt-20 pt-10 border-t border-[color:var(--border)]">
+          <h2 className="font-serif text-2xl text-[color:var(--text)] mb-6">More posts</h2>
           <div className="grid gap-4">
             {related.map((p) => (
               <BlogCard key={p.slug} post={p} />

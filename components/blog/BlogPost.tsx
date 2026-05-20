@@ -13,40 +13,40 @@ function formatDate(dateStr: string): string {
   });
 }
 
-const categoryColors: Record<string, { bg: string; text: string }> = {
-  tutorials: { bg: 'bg-amber-subtle', text: 'text-amber-accent' },
-  insights: { bg: 'bg-teal-subtle', text: 'text-teal-accent' },
-  building: { bg: 'bg-ink/5', text: 'text-ink' },
+const categoryAccent: Record<string, string> = {
+  tutorials: 'var(--accent)',
+  insights: 'var(--teal)',
+  building: 'var(--charcoal)',
 };
 
 export default function BlogPost({ post }: { post: Post }) {
-  const colors = categoryColors[post.category] ?? categoryColors.building;
+  const accent = categoryAccent[post.category] ?? categoryAccent.building;
 
   return (
     <article>
-      {/* Post header */}
       <header className="mb-10 sm:mb-14">
-        <div className="flex items-center gap-3 mb-4">
+        <div className="flex items-center gap-3 mb-5 text-xs font-mono uppercase tracking-[0.18em]">
           <span
-            className={`inline-flex px-2.5 py-1 rounded-full text-xs font-mono ${colors.bg} ${colors.text}`}
+            className="inline-flex px-2.5 py-1 rounded-full border"
+            style={{ color: accent, borderColor: accent + '55' }}
           >
             {post.category}
           </span>
-          <span className="text-sm text-ink-muted font-sans">
+          <span className="text-[color:var(--text-faint)]">
             {formatDate(post.publishedAt)}
           </span>
           {post.readingTime && (
-            <span className="text-sm text-ink-muted font-sans">
-              {post.readingTime} min read
+            <span className="text-[color:var(--text-faint)]">
+              {post.readingTime} min
             </span>
           )}
         </div>
 
-        <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-ink tracking-tight leading-tight mb-4">
+        <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[color:var(--text)] tracking-tight leading-tight mb-4">
           {post.title}
         </h1>
 
-        <p className="text-ink-muted text-lg leading-relaxed max-w-2xl">
+        <p className="text-[color:var(--text-muted)] text-lg leading-relaxed max-w-2xl">
           {post.description}
         </p>
 
@@ -55,7 +55,7 @@ export default function BlogPost({ post }: { post: Post }) {
             {post.tags.map((tag) => (
               <span
                 key={tag}
-                className="px-2.5 py-1 text-xs font-mono text-ink-muted bg-warm-alt rounded-full"
+                className="px-2.5 py-1 text-xs font-mono text-[color:var(--text-muted)] bg-[color:var(--bg-alt)] border border-[color:var(--border)] rounded-full"
               >
                 {tag}
               </span>
@@ -64,8 +64,7 @@ export default function BlogPost({ post }: { post: Post }) {
         )}
       </header>
 
-      {/* Post body */}
-      <div className="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-ink prose-p:text-ink/85 prose-p:leading-relaxed prose-a:text-amber-accent prose-a:no-underline hover:prose-a:underline prose-strong:text-ink prose-code:font-mono prose-code:text-sm prose-pre:bg-[#1C1C1C] prose-pre:text-sm prose-blockquote:border-amber-accent prose-blockquote:text-ink-muted prose-img:rounded-xl">
+      <div className="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-[color:var(--text)] prose-p:text-[color:var(--text)]/85 prose-p:leading-relaxed prose-a:text-[color:var(--accent)] prose-a:no-underline hover:prose-a:underline prose-strong:text-[color:var(--text)] prose-code:font-mono prose-code:text-sm prose-pre:bg-[#1C1C1C] prose-pre:text-sm prose-blockquote:border-[color:var(--accent)] prose-blockquote:text-[color:var(--text-muted)] prose-img:rounded-xl">
         <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
           {post.content}
         </ReactMarkdown>

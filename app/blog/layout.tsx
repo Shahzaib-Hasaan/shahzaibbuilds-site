@@ -1,5 +1,6 @@
-import Navbar from '@/components/portfolio/Navbar';
-import Footer from '@/components/portfolio/Footer';
+import Navbar from '@/app/v2/_components/Navbar';
+import Footer from '@/app/v2/_components/Footer';
+import LenisProvider from '@/app/v2/_components/LenisProvider';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -14,8 +15,9 @@ export const metadata: Metadata = {
 export default function BlogLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
+      <LenisProvider />
       <Navbar />
-      <div className="min-h-screen bg-warm-bg pt-24 sm:pt-28">
+      <div className="min-h-screen bg-[color:var(--bg)] text-[color:var(--text)] pt-24 sm:pt-28">
         {children}
       </div>
       <Footer />
