@@ -124,6 +124,12 @@ export default function HeroSection() {
             >
               or jump to what I&apos;ve built
             </a>
+            <a
+              href="#building"
+              className="font-mono text-sm text-[color:var(--accent)] hover:underline underline-offset-[6px]"
+            >
+              see what I&apos;m building →
+            </a>
           </motion.div>
         </div>
 

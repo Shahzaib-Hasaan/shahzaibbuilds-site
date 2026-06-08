@@ -64,6 +64,23 @@ export default function ContactSection() {
         </motion.div>
 
         <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.5, delay: 0.14 }}
+          className="mb-12"
+        >
+          <a
+            href="https://www.linkedin.com/in/shahzaibbuilds/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-ink"
+          >
+            Follow on LinkedIn →
+          </a>
+        </motion.div>
+
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: '-40px' }}
