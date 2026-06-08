@@ -71,7 +71,7 @@ export default function ContactSection() {
           className="mb-12"
         >
           <a
-            href="https://www.linkedin.com/in/shahzaibbuilds/"
+            href="https://pk.linkedin.com/in/shahzaib-hassan-ai"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-ink"

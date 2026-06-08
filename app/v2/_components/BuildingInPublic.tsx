@@ -73,7 +73,7 @@ export default function BuildingInPublic() {
               {posts.map((post) => (
                 <a
                   key={post.title}
-                  href={post.linkedinUrl}
+                  href={post.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group block rounded-xl overflow-hidden border border-[color:var(--border)] bg-[color:var(--bg)] hover:border-[color:var(--accent)]/40 transition-colors"
@@ -94,7 +94,7 @@ export default function BuildingInPublic() {
         )}
 
         <a
-          href="https://www.linkedin.com/in/shahzaibbuilds/"
+          href="https://pk.linkedin.com/in/shahzaib-hassan-ai"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 font-mono text-sm text-[color:var(--text)] border border-[color:var(--border-strong)] hover:border-[color:var(--accent)] rounded-full px-5 py-3 transition-colors"

@@ -1,7 +1,8 @@
 export interface BuildPost {
   title: string;
   type: 'carousel' | 'post';
-  linkedinUrl: string;
+  /** Where the card links to: a LinkedIn post URL, or a local PDF/asset. */
+  href: string;
   cover: string;
   date: string; // ISO
 }
@@ -17,7 +18,7 @@ export const posts: BuildPost[] = [
   {
     title: 'The YouTubification of Software',
     type: 'carousel',
-    linkedinUrl: 'https://www.linkedin.com/in/shahzaibbuilds/',
+    href: '/building/youtubification-carousel.pdf',
     cover: '/building/youtubification.png',
     date: '2026-06-08',
   },
