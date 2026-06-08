@@ -33,8 +33,7 @@ export default function ProjectGrid() {
 
         <ul className="space-y-12 sm:space-y-16">
           {projects.map((p, i) => {
-            const isAmber = p.accent === 'amber';
-            const accent = isAmber ? 'var(--accent)' : 'var(--teal)';
+            const accent = 'var(--accent)';
             const lensOpen = openLens === p.name;
             return (
               <motion.li
@@ -53,7 +52,7 @@ export default function ProjectGrid() {
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   <span className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-faint)]">
-                    {isAmber ? 'build' : 'pipeline'}
+                    build
                   </span>
                 </div>
 
