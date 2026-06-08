@@ -1,6 +1,7 @@
 import LenisProvider from './v2/_components/LenisProvider';
 import Navbar from './v2/_components/Navbar';
 import HeroSection from './v2/_components/HeroSection';
+import BuildingInPublic from './v2/_components/BuildingInPublic';
 import AboutTimeline from './v2/_components/AboutTimeline';
 import ProjectGrid from './v2/_components/ProjectGrid';
 import SkillsLens from './v2/_components/SkillsLens';
@@ -27,6 +28,7 @@ export default function Home() {
       <main className="min-h-screen bg-[color:var(--bg)] text-[color:var(--text)]">
         <Navbar />
         <HeroSection />
+        <BuildingInPublic />
         <AboutTimeline />
         <ProjectGrid />
         <SkillsLens />

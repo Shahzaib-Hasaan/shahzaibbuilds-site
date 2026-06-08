@@ -3,7 +3,7 @@ import ChatAssistant from '@/components/ChatAssistant';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
-import { Inter, JetBrains_Mono, Instrument_Serif } from 'next/font/google';
+import { Inter, JetBrains_Mono, Fraunces } from 'next/font/google';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -17,11 +17,11 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 });
 
-const instrumentSerif = Instrument_Serif({
+const fraunces = Fraunces({
   subsets: ['latin'],
-  weight: '400',
   variable: '--font-instrument',
   display: 'swap',
+  axes: ['opsz'],
 });
 
 export const metadata: Metadata = {
@@ -90,7 +90,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" className="scroll-smooth dark" suppressHydrationWarning>
       <head>
         {/* Google Analytics */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-BPJFLR0JE9"></script>
@@ -105,7 +105,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} ${instrumentSerif.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} ${fraunces.variable} font-sans antialiased`}>
         <ThemeProvider>
           {children}
           <ChatAssistant />

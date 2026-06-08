@@ -124,6 +124,12 @@ export default function HeroSection() {
             >
               or jump to what I&apos;ve built
             </a>
+            <a
+              href="#building"
+              className="font-mono text-sm text-[color:var(--accent)] hover:underline underline-offset-[6px]"
+            >
+              see what I&apos;m building →
+            </a>
           </motion.div>
         </div>
 
@@ -133,26 +139,30 @@ export default function HeroSection() {
           transition={{ duration: 0.9, delay: 0.1 }}
           className="lg:col-span-5 relative"
         >
-          <div className="relative aspect-square w-full max-w-md mx-auto">
-            {/* 3D scene only on >= md */}
-            <div className="absolute inset-0 hidden md:block">
+          <div className="relative w-full max-w-sm mx-auto aspect-[4/5]">
+            {/* gold glow behind the portrait */}
+            <div
+              aria-hidden
+              className="absolute inset-0 -z-0"
+              style={{
+                background:
+                  'radial-gradient(60% 55% at 60% 42%, rgba(212,160,74,0.32) 0%, rgba(212,160,74,0.08) 42%, rgba(212,160,74,0) 68%)',
+                filter: 'blur(6px)',
+              }}
+            />
+            {/* faint neural texture behind, desktop only, low opacity */}
+            <div className="absolute inset-0 hidden md:block opacity-[0.18] -z-0">
               <Hero3DScene />
             </div>
-            {/* SVG poster — visible on small screens, also fallback */}
-            <div className="absolute inset-0 md:hidden">
-              <HeroPoster />
-            </div>
-            {/* portrait disc */}
-            <div className="absolute bottom-0 right-0 sm:right-4 w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden border-2 border-[color:var(--bg)] glow-rim">
-              <Image
-                src="/me.jpg"
-                alt="Shahzaib Hassan"
-                fill
-                priority
-                sizes="(max-width: 640px) 112px, 144px"
-                className="object-cover object-top"
-              />
-            </div>
+            {/* the portrait — visible on every screen */}
+            <Image
+              src="/shahzaib-cutout.png"
+              alt="Shahzaib Hassan"
+              fill
+              priority
+              sizes="(max-width: 640px) 80vw, 400px"
+              className="object-contain object-bottom drop-shadow-[0_18px_50px_rgba(0,0,0,0.55)]"
+            />
           </div>
         </motion.div>
       </div>

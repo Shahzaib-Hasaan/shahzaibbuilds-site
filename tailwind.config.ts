@@ -68,7 +68,7 @@ const config: Config = {
         ring: 'hsl(var(--ring))',
       },
       fontFamily: {
-        serif: ['var(--font-instrument)', 'Instrument Serif', 'Georgia', 'serif'],
+        serif: ['var(--font-instrument)', 'Fraunces', 'Georgia', 'serif'],
         sans: ['var(--font-inter)', 'Inter', 'sans-serif'],
         mono: ['var(--font-jetbrains)', 'JetBrains Mono', 'monospace'],
       },

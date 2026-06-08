@@ -64,7 +64,7 @@ export default function BlogPost({ post }: { post: Post }) {
         )}
       </header>
 
-      <div className="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-[color:var(--text)] prose-p:text-[color:var(--text)]/85 prose-p:leading-relaxed prose-a:text-[color:var(--accent)] prose-a:no-underline hover:prose-a:underline prose-strong:text-[color:var(--text)] prose-code:font-mono prose-code:text-sm prose-pre:bg-[#1C1C1C] prose-pre:text-sm prose-blockquote:border-[color:var(--accent)] prose-blockquote:text-[color:var(--text-muted)] prose-img:rounded-xl">
+      <div className="prose prose-lg max-w-none prose-headings:font-serif prose-headings:text-[color:var(--text)] prose-p:text-[color:var(--text)]/85 prose-p:leading-relaxed prose-a:text-[color:var(--accent)] prose-a:no-underline hover:prose-a:underline prose-strong:text-[color:var(--text)] prose-code:font-mono prose-code:text-sm prose-pre:bg-[color:var(--bg)] prose-pre:text-sm prose-blockquote:border-[color:var(--accent)] prose-blockquote:text-[color:var(--text-muted)] prose-img:rounded-xl">
         <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
           {post.content}
         </ReactMarkdown>
