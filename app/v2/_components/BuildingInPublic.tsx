@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 import { posts, products } from '@/lib/building';
 
-const statusStyles: Record<string, string> = {
+const statusStyles: Record<'live' | 'building' | 'planned', string> = {
   live: 'text-[color:var(--bg)] bg-[color:var(--accent)]',
   building: 'text-[color:var(--accent)] border border-[color:var(--accent)]/40',
   planned: 'text-[color:var(--text-faint)] border border-[color:var(--border-strong)]',
