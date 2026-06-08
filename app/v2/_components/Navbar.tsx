@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import ThemeToggle from './ThemeToggle';
 
 const links = [
   { href: '#work', label: 'Work' },
@@ -51,7 +50,6 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <ThemeToggle />
           <Link
             href="#contact"
             className="hidden sm:inline-flex btn-ink"
