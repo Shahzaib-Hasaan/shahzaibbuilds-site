@@ -71,23 +71,34 @@ export default function BuildingInPublic() {
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
               {posts.map((post) => (
-                <a
+                <div
                   key={post.title}
-                  href={post.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block rounded-xl overflow-hidden border border-[color:var(--border)] bg-[color:var(--bg)] hover:border-[color:var(--accent)]/40 transition-colors"
+                  className="group rounded-xl overflow-hidden border border-[color:var(--border)] bg-[color:var(--bg)] hover:border-[color:var(--accent)]/40 transition-colors flex flex-col"
                 >
-                  <div className="relative aspect-[4/5] w-full">
-                    <Image src={post.cover} alt={post.title} fill className="object-cover" sizes="(max-width:640px) 100vw, 33vw" />
-                  </div>
-                  <div className="p-4">
+                  <a href={post.href} target="_blank" rel="noopener noreferrer" className="block">
+                    <div className="relative aspect-[4/5] w-full">
+                      <Image src={post.cover} alt={post.title} fill className="object-cover" sizes="(max-width:640px) 100vw, 33vw" />
+                    </div>
+                  </a>
+                  <div className="p-4 flex flex-col flex-1">
                     <span className="text-[10px] font-mono uppercase tracking-[0.14em] text-[color:var(--accent)]">{post.type}</span>
-                    <h4 className="font-serif text-lg text-[color:var(--text)] mt-1 leading-snug group-hover:text-[color:var(--accent)] transition-colors">
-                      {post.title}
-                    </h4>
+                    <a href={post.href} target="_blank" rel="noopener noreferrer">
+                      <h4 className="font-serif text-lg text-[color:var(--text)] mt-1 leading-snug group-hover:text-[color:var(--accent)] transition-colors">
+                        {post.title}
+                      </h4>
+                    </a>
+                    <div className="mt-3 flex items-center gap-4 text-xs font-mono">
+                      <a href={post.href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[color:var(--accent)] hover:gap-1.5 transition-all">
+                        View on LinkedIn <ArrowUpRight size={13} />
+                      </a>
+                      {post.pdf && (
+                        <a href={post.pdf} target="_blank" rel="noopener noreferrer" className="text-[color:var(--text-faint)] hover:text-[color:var(--text)] transition-colors">
+                          PDF
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </a>
+                </div>
               ))}
             </div>
           </>
