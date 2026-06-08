@@ -92,9 +92,14 @@ export interface BuildProduct {
 }
 export const posts: BuildPost[] = [ /* hand-edited */ ];
 export const products: BuildProduct[] = [
-  { name: 'Hisaab',   status: 'live',     blurb: '...', url: '...' },
-  { name: 'Toolbelt', status: 'building', blurb: '...' },
-  { name: 'Promptly', status: 'building', blurb: '...' },
+  { name: 'Hisaab',   status: 'live',
+    blurb: 'A personal finance tracker that answers the only question that matters: where does the money actually go?',
+    url: 'https://hisaab.shahzaibbuilds.me/' },
+  { name: 'Toolbelt', status: 'live',
+    blurb: 'Free, privacy-first browser utilities — PDF, image, and dev tools that run entirely on your machine. No uploads, no sign-ups.',
+    url: 'https://tools.shahzaibbuilds.me/' },
+  { name: 'Promptly', status: 'building',
+    blurb: 'A faster way to run, organize, and reuse your best AI prompts. In progress.' },
 ];
 ```
 
@@ -136,5 +141,5 @@ First post entry: the YouTubification carousel (cover = slide-01 from the Linked
 
 ## Open Items (fill at implementation)
 
-- Real blurbs/URLs for Hisaab / Toolbelt / Promptly (ask Shahzaib; use placeholders flagged in-file if unknown).
+- Product data confirmed: Hisaab (live, hisaab.shahzaibbuilds.me — finance tracker), Toolbelt (live, tools.shahzaibbuilds.me — browser utilities), Promptly (building, prompt manager, no public URL yet). Blurbs drafted above; Shahzaib can refine wording.
 - Confirm whether to rebuild on a feature branch + merge, or build directly on main (default: direct on main since `v1-archive` exists as backup).
