@@ -31,14 +31,14 @@ export default function TeachingSection() {
               <span className="text-[color:var(--teal)] font-medium">Neurafinity Club</span>{' '}
               at IUB, ran four online Python bootcamps for juniors and students,
               and served as teaching assistant for the second batch of a
-              10-month AI certificate course — the same course I had just
+              10-month AI certificate course, the same course I had just
               completed in the first batch.
             </p>
             <p>
               You can&apos;t explain what you don&apos;t know. So I went deep on
               the parts I needed to teach: classical ML, deep learning,
               computer vision, then later automation and agentic AI. The
-              bootcamps had no marketing — students kept signing up because the
+              bootcamps had no marketing. Students kept signing up because the
               previous cohorts told them to.
             </p>
             <p>

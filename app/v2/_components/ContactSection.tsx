@@ -38,7 +38,7 @@ export default function ContactSection() {
           </h2>
           <p className="text-[color:var(--text-muted)] text-lg leading-relaxed max-w-xl mx-auto mb-12">
             I read every message. Email is best. If you&apos;re a scholarship
-            reviewer, recruiter, or want to teach together — say hi.
+            reviewer, recruiter, or want to teach together, say hi.
           </p>
         </motion.div>
 

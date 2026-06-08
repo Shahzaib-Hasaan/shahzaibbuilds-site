@@ -26,7 +26,7 @@ export default function ProjectGrid() {
           </h2>
           <p className="text-[color:var(--text-muted)] text-lg leading-relaxed">
             Production work, scrubbed of client names. Click <span className="font-mono text-[color:var(--text)]">lens</span> on any
-            card to see the medical-school analog — the same problem in a
+            card to see the medical-school analog, the same problem in a
             different career.
           </p>
         </motion.div>

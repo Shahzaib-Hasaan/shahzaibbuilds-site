@@ -29,13 +29,14 @@ export default function ServicesStrip() {
           className="mb-12 max-w-2xl"
         >
           <p className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--accent)] mb-3">
-            Available for
+            What I build
           </p>
           <h2 className="font-serif text-3xl sm:text-4xl text-[color:var(--text)] leading-tight">
-            Selective freelance + consulting work.
+            The systems I ship, in public.
           </h2>
           <p className="mt-3 text-sm text-[color:var(--text-muted)]">
-            Three things I do well. If your problem rhymes with one of them,
+            Three things I do well. I build them for clients, and I break them
+            down so you can see how. If your problem rhymes with one of them,
             email me.
           </p>
         </motion.div>

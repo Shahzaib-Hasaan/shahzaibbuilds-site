@@ -44,7 +44,7 @@ const rows: TimelineRow[] = [
   {
     year: '2024',
     medical: { title: '—' },
-    ai: { title: 'TA for the AI certificate course', note: 'Taught the second batch of the same course I’d just finished — ML, deep learning, computer vision.' },
+    ai: { title: 'TA for the AI certificate course', note: 'Taught the second batch of the same course I’d just finished: ML, deep learning, computer vision.' },
   },
   {
     year: '2025',
@@ -231,7 +231,7 @@ export default function AboutTimeline() {
             and chose it.
           </p>
           <footer className="mt-3 text-sm font-mono text-[color:var(--text-muted)]">
-            — written from Ahmadpur East to Lahore
+            written from Ahmadpur East to Lahore
           </footer>
         </motion.blockquote>
       </div>

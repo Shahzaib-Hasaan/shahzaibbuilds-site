@@ -21,7 +21,7 @@ export default function Footer() {
             </a>
             <p className="mt-3 text-sm text-[color:var(--text-muted)] leading-relaxed max-w-xs">
               Personal site, work log, and writing. Built and rebuilt in the
-              open. Currently rebuilding LinkedIn from zero — long story.
+              open. Currently rebuilding LinkedIn from zero. Long story.
             </p>
           </div>
           <div>

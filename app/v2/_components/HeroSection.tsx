@@ -102,10 +102,11 @@ export default function HeroSection() {
             transition={{ duration: 0.7, delay: 0.18 }}
             className="text-[color:var(--text-muted)] text-lg sm:text-xl max-w-xl leading-relaxed mb-10"
           >
-            I&apos;m Shahzaib — AI automation engineer at Automaxion, educator,
-            and self-taught Linux convert. Four Python bootcamps. A co-founded AI
-            club. A BS in AI from IUB. Now shipping production agents, voice
-            bots, and pipelines for clients across three continents.
+            I build AI systems that run businesses on autopilot, then show
+            exactly how I did it. I&apos;m Shahzaib, an AI automation engineer
+            at Automaxion shipping production agents, voice bots, and pipelines
+            for clients across three continents. Building in public, one system
+            at a time.
           </motion.p>
 
           <motion.div

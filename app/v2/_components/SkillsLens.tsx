@@ -11,12 +11,12 @@ interface Cluster {
 const clusters: Cluster[] = [
   {
     title: 'Automation',
-    rhyme: 'Like building a treatment protocol — same input, predictable outcome.',
+    rhyme: 'Like building a treatment protocol. Same input, predictable outcome.',
     items: ['n8n (self-hosted)', 'Make.com', 'Zapier', 'Airtable', 'Instantly', 'ActiveCampaign'],
   },
   {
     title: 'AI agents & LLMs',
-    rhyme: 'Differential diagnosis at scale — ask the right questions, narrow the answers.',
+    rhyme: 'Differential diagnosis at scale. Ask the right questions, narrow the answers.',
     items: ['OpenAI', 'Claude', 'Mistral', 'CrewAI', 'Agno', 'Function calling'],
   },
   {
@@ -31,7 +31,7 @@ const clusters: Cluster[] = [
   },
   {
     title: 'Infrastructure',
-    rhyme: 'Like running your own pharmacy — you stock it, you maintain it, you own it.',
+    rhyme: 'Like running your own pharmacy. You stock it, you maintain it, you own it.',
     items: ['Linux / Ubuntu', 'Docker', 'Nginx', 'Self-hosted VPS', 'Hetzner', 'DigitalOcean'],
   },
   {
