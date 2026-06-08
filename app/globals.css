@@ -4,77 +4,78 @@
 
 @layer base {
   :root {
-    /* v2 tokens — light (cream) */
-    --bg: #FAFAF5;
-    --bg-alt: #F0ECE3;
-    --bg-deep: #E8E2D4;
-    --text: #1C1C1C;
-    --text-muted: #6B7280;
-    --text-faint: #9CA3AF;
-    --accent: #D97706;
-    --accent-hover: #B45309;
-    --teal: #0F766E;
-    --charcoal: #2A2826;
-    --border: #E5E1D8;
-    --border-strong: #D5D0C7;
-    --card: #FFFFFF;
+    /* navy/gold brand — single theme */
+    --bg: #0d1322;
+    --bg-alt: #141c30;
+    --bg-deep: #1b2540;
+    --text: #f4f1e9;
+    --text-muted: #aab4cd;
+    --text-faint: #5d6b88;
+    --accent: #d4a04a;
+    --accent-hover: #c98f3c;
+    --accent-hi: #ecc377;
+    --teal: #d4a04a;
+    --charcoal: #aab4cd;
+    --border: #2a3450;
+    --border-strong: #38456a;
+    --card: #1b2540;
     --radius: 0.75rem;
 
-    /* shadcn HSL tokens (kept for ui/ primitives) */
-    --background: 45 20% 97%;
-    --foreground: 0 0% 11%;
-    --card-foreground: 0 0% 11%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 11%;
-    --primary: 38 92% 44%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 40 12% 90%;
-    --secondary-foreground: 0 0% 11%;
-    --muted: 40 12% 90%;
-    --muted-foreground: 0 0% 42%;
-    --accent-color: 38 92% 44%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border-color: 37 20% 88%;
-    --input: 37 20% 88%;
-    --ring: 38 92% 44%;
+    /* shadcn HSL tokens — navy/gold */
+    --background: 222 38% 9%;
+    --foreground: 40 38% 93%;
+    --card-foreground: 40 38% 93%;
+    --popover: 222 34% 12%;
+    --popover-foreground: 40 38% 93%;
+    --primary: 38 60% 56%;
+    --primary-foreground: 222 38% 9%;
+    --secondary: 222 30% 18%;
+    --secondary-foreground: 40 38% 93%;
+    --muted: 222 30% 18%;
+    --muted-foreground: 220 22% 73%;
+    --accent-color: 38 60% 56%;
+    --accent-foreground: 222 38% 9%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 40 38% 93%;
+    --border-color: 222 26% 24%;
+    --input: 222 26% 24%;
+    --ring: 38 60% 56%;
   }
 
   .dark {
-    /* v2 tokens — dark (ink) */
-    --bg: #0E0D0C;
-    --bg-alt: #16140F;
-    --bg-deep: #1E1B14;
-    --text: #F0ECE3;
-    --text-muted: #A8A299;
-    --text-faint: #6F6A60;
-    --accent: #E89530;
-    --accent-hover: #F0A954;
-    --teal: #3FAA9F;
-    --charcoal: #C9C3B5;
-    --border: #2A2620;
-    --border-strong: #3A352C;
-    --card: #16140F;
+    --bg: #0d1322;
+    --bg-alt: #141c30;
+    --bg-deep: #1b2540;
+    --text: #f4f1e9;
+    --text-muted: #aab4cd;
+    --text-faint: #5d6b88;
+    --accent: #d4a04a;
+    --accent-hover: #c98f3c;
+    --accent-hi: #ecc377;
+    --teal: #d4a04a;
+    --charcoal: #aab4cd;
+    --border: #2a3450;
+    --border-strong: #38456a;
+    --card: #1b2540;
 
-    --background: 36 14% 5%;
-    --foreground: 38 25% 91%;
-    --card-foreground: 38 25% 91%;
-    --popover: 36 14% 7%;
-    --popover-foreground: 38 25% 91%;
-    --primary: 32 80% 55%;
-    --primary-foreground: 36 14% 5%;
-    --secondary: 36 10% 12%;
-    --secondary-foreground: 38 25% 91%;
-    --muted: 36 10% 12%;
-    --muted-foreground: 38 10% 64%;
-    --accent-color: 32 80% 55%;
-    --accent-foreground: 36 14% 5%;
+    --background: 222 38% 9%;
+    --foreground: 40 38% 93%;
+    --card-foreground: 40 38% 93%;
+    --popover: 222 34% 12%;
+    --popover-foreground: 40 38% 93%;
+    --primary: 38 60% 56%;
+    --primary-foreground: 222 38% 9%;
+    --secondary: 222 30% 18%;
+    --secondary-foreground: 40 38% 93%;
+    --muted: 222 30% 18%;
+    --muted-foreground: 220 22% 73%;
+    --accent-color: 38 60% 56%;
+    --accent-foreground: 222 38% 9%;
     --destructive: 0 62% 50%;
-    --destructive-foreground: 38 25% 91%;
-    --border-color: 36 10% 14%;
-    --input: 36 10% 14%;
-    --ring: 32 80% 55%;
+    --destructive-foreground: 40 38% 93%;
+    --border-color: 222 26% 24%;
+    --input: 222 26% 24%;
+    --ring: 38 60% 56%;
   }
 }
 
