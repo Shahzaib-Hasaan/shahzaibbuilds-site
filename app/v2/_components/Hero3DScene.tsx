@@ -45,8 +45,8 @@ function MorphCloud({ progress }: { progress: ProgressRef }) {
   const linePositions = useMemo(() => new Float32Array(COUNT * 6), []);
   const colorBuf = useMemo(() => new Float32Array(COUNT * 3), []);
 
-  const tealColor = useMemo(() => new THREE.Color('#0F766E'), []);
-  const amberColor = useMemo(() => new THREE.Color('#D97706'), []);
+  const tealColor = useMemo(() => new THREE.Color('#5d6b88'), []);
+  const amberColor = useMemo(() => new THREE.Color('#d4a04a'), []);
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
