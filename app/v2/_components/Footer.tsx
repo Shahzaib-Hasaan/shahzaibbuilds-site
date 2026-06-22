@@ -13,7 +13,7 @@ const socials = [
 export default function Footer() {
   return (
     <footer className="border-t border-[color:var(--border)] bg-[color:var(--bg-alt)]/40">
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 pt-12 pb-28 sm:pb-12">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-10">
           <div>
             <a href="/" className="font-serif text-xl text-[color:var(--text)]">

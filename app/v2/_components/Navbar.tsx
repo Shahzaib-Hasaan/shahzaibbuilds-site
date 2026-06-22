@@ -58,7 +58,7 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link href="#contact" className="hidden sm:inline-flex btn-ink">
+          <Link href="#contact" className="!hidden sm:!inline-flex btn-ink">
             Say hello
           </Link>
           {/* mobile menu toggle */}
@@ -76,7 +76,7 @@ export default function Navbar() {
 
       {/* mobile dropdown menu */}
       {open && (
-        <nav className="md:hidden border-t border-[color:var(--border)] bg-[color:var(--bg)]/95 backdrop-blur-md">
+        <nav className="md:hidden border-t border-[color:var(--border)] bg-[color:var(--bg)]">
           <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col">
             {links.map((l) => (
               <a

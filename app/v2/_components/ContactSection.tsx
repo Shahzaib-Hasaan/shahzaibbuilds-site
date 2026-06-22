@@ -57,7 +57,7 @@ export default function ContactSection() {
             <span className="w-12 h-12 rounded-full bg-[color:var(--accent)]/10 grid place-items-center group-hover:bg-[color:var(--accent)]/20 transition-colors">
               <Mail className="w-5 h-5 text-[color:var(--accent)]" />
             </span>
-            <span className="font-mono text-lg sm:text-xl text-[color:var(--text)] group-hover:text-[color:var(--accent)] transition-colors">
+            <span className="font-mono text-base sm:text-xl break-all text-[color:var(--text)] group-hover:text-[color:var(--accent)] transition-colors">
               shahxeebhassan@gmail.com
             </span>
           </a>
