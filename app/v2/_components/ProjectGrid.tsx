@@ -2,12 +2,12 @@
 
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
-import { useState } from 'react';
-import { projects } from '@/lib/projects';
+import { openSource, clientWork } from '@/lib/projects';
+
+const chip =
+  'font-mono text-[10px] uppercase tracking-[0.14em] px-2.5 py-1 rounded-full border border-[color:var(--border-strong)] text-[color:var(--text-muted)]';
 
 export default function ProjectGrid() {
-  const [openLens, setOpenLens] = useState<string | null>(null);
-
   return (
     <section id="work" className="relative py-24 sm:py-32 md:py-40 bg-[color:var(--bg)]">
       <div className="max-w-5xl mx-auto px-6 sm:px-8">
@@ -19,96 +19,114 @@ export default function ProjectGrid() {
           className="mb-16 sm:mb-20 max-w-3xl"
         >
           <p className="font-mono text-xs uppercase tracking-[0.22em] text-[color:var(--accent)] mb-4">
-            What I built after the pivot
+            Projects
           </p>
           <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl text-[color:var(--text)] tracking-tight leading-tight mb-4">
-            Five systems. Real clients.
+            Built in the open.
           </h2>
           <p className="text-[color:var(--text-muted)] text-lg leading-relaxed">
-            Production work, scrubbed of client names. Click <span className="font-mono text-[color:var(--text)]">lens</span> on any
-            card to see the medical-school analog, the same problem in a
-            different career.
+            The code for these is public. Read it, run it, fork it.
           </p>
         </motion.div>
 
         <ul className="space-y-12 sm:space-y-16">
-          {projects.map((p, i) => {
-            const accent = 'var(--accent)';
-            const lensOpen = openLens === p.name;
-            return (
-              <motion.li
-                key={p.name}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.55, delay: i * 0.05 }}
-                className="group grid grid-cols-12 gap-4 sm:gap-8"
-              >
-                <div className="col-span-12 sm:col-span-2 flex sm:flex-col items-start gap-3 sm:gap-2">
-                  <span
-                    className="font-mono text-xs tracking-[0.18em]"
-                    style={{ color: accent }}
-                  >
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <span className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-faint)]">
-                    build
-                  </span>
-                </div>
+          {openSource.map((p, i) => (
+            <motion.li
+              key={p.name}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.55, delay: i * 0.05 }}
+              className="grid grid-cols-12 gap-4 sm:gap-8"
+            >
+              <div className="col-span-12 sm:col-span-2 flex sm:flex-col items-start gap-3 sm:gap-2">
+                <span className="font-mono text-xs tracking-[0.18em] text-[color:var(--accent)]">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-faint)]">
+                  {p.license}
+                </span>
+              </div>
 
-                <div className="col-span-12 sm:col-span-10">
-                  <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl text-[color:var(--text)] leading-tight mb-3">
-                    {p.name}
-                  </h3>
-                  <p
-                    className="text-lg sm:text-xl font-medium mb-6"
-                    style={{ color: accent }}
-                  >
-                    {p.tagline}
-                  </p>
-                  <p className="text-[color:var(--text-muted)] text-base sm:text-lg leading-relaxed max-w-3xl mb-6">
-                    {p.story}
-                  </p>
-
-                  <div className="flex flex-wrap items-center gap-2 mb-6">
-                    {p.tech.map((t) => (
-                      <span
-                        key={t}
-                        className="font-mono text-[10px] uppercase tracking-[0.14em] px-2.5 py-1 rounded-full border border-[color:var(--border-strong)] text-[color:var(--text-muted)]"
-                      >
-                        {t}
+              <div className="col-span-12 sm:col-span-10">
+                <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl text-[color:var(--text)] leading-tight mb-3">
+                  {p.name}
+                </h3>
+                <p className="text-lg sm:text-xl font-medium mb-5 text-[color:var(--accent)]">{p.tagline}</p>
+                <p className="text-[color:var(--text-muted)] text-base sm:text-lg leading-relaxed max-w-3xl mb-5">
+                  {p.details}
+                </p>
+                <ul className="mb-6 space-y-1.5 max-w-3xl">
+                  {p.highlights.map((h) => (
+                    <li key={h} className="text-[color:var(--text-muted)] text-sm sm:text-base leading-relaxed pl-4 relative">
+                      <span className="absolute left-0 text-[color:var(--accent)]" aria-hidden="true">
+                        ·
                       </span>
-                    ))}
-                  </div>
-
-                  {p.lens && (
-                    <div>
-                      <button
-                        type="button"
-                        onClick={() => setOpenLens(lensOpen ? null : p.name)}
-                        aria-expanded={lensOpen}
-                        className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.18em] text-[color:var(--text-faint)] hover:text-[color:var(--accent)] transition-colors"
-                      >
-                        lens <ArrowUpRight className={`w-3 h-3 transition-transform ${lensOpen ? 'rotate-45' : ''}`} />
-                      </button>
-                      {lensOpen && (
-                        <motion.p
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          className="mt-3 text-sm font-serif italic text-[color:var(--text-muted)] max-w-xl border-l-2 pl-3"
-                          style={{ borderColor: accent }}
-                        >
-                          {p.lens}
-                        </motion.p>
-                      )}
-                    </div>
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+                <div className="flex flex-wrap items-center gap-2 mb-6">
+                  {p.tech.map((t) => (
+                    <span key={t} className={chip}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex flex-wrap items-center gap-5">
+                  <a
+                    href={p.repo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm font-mono uppercase tracking-[0.16em] text-[color:var(--text)] hover:text-[color:var(--accent)] transition-colors"
+                  >
+                    View on GitHub <ArrowUpRight className="w-3.5 h-3.5" />
+                  </a>
+                  {p.extra && (
+                    <a
+                      href={p.extra.href}
+                      className="inline-flex items-center gap-1.5 text-sm font-mono uppercase tracking-[0.16em] text-[color:var(--text-muted)] hover:text-[color:var(--accent)] transition-colors"
+                    >
+                      {p.extra.label} <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
                   )}
                 </div>
-              </motion.li>
-            );
-          })}
+              </div>
+            </motion.li>
+          ))}
         </ul>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.55 }}
+          className="mt-20 sm:mt-24 grid grid-cols-12 gap-4 sm:gap-8"
+        >
+          <div className="col-span-12 sm:col-span-2">
+            <span className="font-mono text-xs uppercase tracking-[0.18em] text-[color:var(--text-faint)]">
+              client work
+            </span>
+          </div>
+          <div className="col-span-12 sm:col-span-10">
+            <h3 className="font-serif text-2xl sm:text-3xl text-[color:var(--text)] leading-tight mb-2">
+              Production systems at Automaxion
+            </h3>
+            <p className="text-[color:var(--text-muted)] text-base leading-relaxed mb-6 max-w-3xl">
+              Built for clients, so named by category only.
+            </p>
+            <ul className="divide-y divide-[color:var(--border-strong)] border-y border-[color:var(--border-strong)] max-w-3xl">
+              {clientWork.map((c) => (
+                <li key={c.name} className="py-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-6">
+                  <span className="text-[color:var(--text)] text-base">{c.name}</span>
+                  <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[color:var(--text-faint)] sm:text-right">
+                    {c.stack}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

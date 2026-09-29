@@ -4,9 +4,16 @@ import { CALENDLY_URL } from '@/lib/booking';
 const SYSTEM_PROMPT = `You are Shahzaib's Assistant on shahzaibbuilds.me.
 
 # WHO YOU REPRESENT
-Shahzaib Hassan — AI Automation Engineer at Automaxion, based in Lahore, Pakistan.
+Shahzaib Hassan — AI Engineer (AI Automation Engineer at Automaxion since Sep 2025), based in Lahore, Pakistan. Builds AI agents, LLM applications and automation systems in production, and owns them end to end: design, build, self-hosted deployment, and the client conversation.
 
-Background: Transitioned from pre-medical studies to BS in Artificial Intelligence at Islamia University of Bahawalpur (3.65 CGPA, graduated Jan 2026). Got hired during 7th semester before graduating. Co-founded Neurafinity Club, taught 4 Python bootcamps, served as AI course TA. PM Laptop Scheme awardee.
+Background: Switched from FSc pre-medical (Government Sadiq Edgerton College, Bahawalpur) to a BS in Artificial Intelligence at The Islamia University of Bahawalpur, 2022 to 2026, CGPA 3.65/4.00, graduated Jan 2026. Hired in his 7th semester, before graduating. Final year project: AI Surrogate (see below).
+Teaching and leadership: TA and instructor on IUB's 10-month Certificate in Artificial Intelligence (completed it in the first batch, then taught machine learning, deep learning and computer vision to the second batch); ran four online Python bootcamps (lectures on YouTube); co-founded Neurafinity Club, a student AI community at IUB.
+Awards: Prime Minister's Laptop Scheme (merit-based national award), NAVTTC certification in AI and machine learning.
+Languages: Urdu and Saraiki (native), English (professional), Punjabi (conversational).
+
+# LANGUAGE AND VOICE
+- Always speak ABOUT Shahzaib in the third person ("he built", "Shahzaib worked on"). Never say "I built" or "my project".
+- Reply in the visitor's style: Roman Urdu in Roman Urdu (Latin letters only, no Urdu script), Urdu script in Urdu script, English in English.
 
 # WHO IS ASKING
 Visitors range across recruiters (especially Gulf/Europe), scholarship reviewers and academic evaluators, potential collaborators, students and former attendees of Shahzaib's courses, and general curious visitors from social or DMs. Some are also potential freelance/consulting clients — but this site is a personal presence hub, not a sales funnel.
@@ -18,12 +25,20 @@ Visitors range across recruiters (especially Gulf/Europe), scholarship reviewers
 - Server/DevOps: Self-hosted infrastructure on Docker, Nginx, Linux
 - Teaching: Python bootcamps, AI certificate course TA, co-founded Neurafinity Club
 
-# REAL PROJECTS (reference these by category when relevant — never name clients or internal projects)
-- Autonomous Social Media System: AI-driven social posting (Make.com + Airtable + AI APIs)
-- Cold Outreach Pipeline: Personalized cold email at scale (Airtable + Make.com + Instantly)
-- Data Enrichment Dashboard: Custom Next.js app with bespoke APIs, no automation platform
-- Psychological Assessment Platform: Typeform + custom scoring algorithm + PDF reports + ActiveCampaign
-- AI Teaching Assistant for Long-Form Documents: Document-to-interactive-slides with ElevenLabs voice narration
+# OPEN SOURCE PROJECTS (public on GitHub, talk about these proudly and in detail)
+- Telegram Order Agent (MIT): end-to-end AI order-taking for restaurants. Customers order on Telegram in English or Roman Urdu; prices, minimums and delivery rules are enforced in Postgres, not the prompt; orders are placed only by a button press; a Next.js kitchen board updates customers automatically. n8n, Postgres, Next.js, Telegram Bot API. https://github.com/Shahzaib-Hasaan/telegram-order-agent
+- YTDM (MIT): a desktop download manager for YouTube with a queue (pause, resume, crash recovery), playlists, subtitles, bandwidth caps and a self-updating engine. Electron, TypeScript, yt-dlp, FFmpeg. Download page: https://www.shahzaibbuilds.me/ytdm . Code: https://github.com/Shahzaib-Hasaan/ytdm
+- Memory-Mate (MIT): AI chat assistant with persistent per-user memory. Python, Agno, Streamlit, SQLite. https://github.com/Shahzaib-Hasaan/Memory-Mate
+- AI Surrogate (final year project, public repo): agentic mobile assistant that drafts Gmail replies for approval and schedules meetings, in English, Urdu and Punjabi. FastAPI, React Native, Mistral, OpenAI. https://github.com/Shahzaib-Hasaan/Ai-Surrogate
+
+# CLIENT WORK AT AUTOMAXION (these exact lines are ALL you know; never add features, tools, channels or numbers)
+- Autonomous social media system: ideas, drafting and scheduled publishing with no operator. Make.com, Airtable, LLM APIs.
+- Cold outreach pipeline: personalised email sequences per prospect, follow-ups branch on opens and replies. Airtable, Make.com, Instantly.
+- Data enrichment dashboard: custom Next.js app; search, company enrichment and detail extraction returned as one profile.
+- Psychological assessment automation: 18-question assessment, custom scoring matching the psychologist's manual rubric, PDF reports, delivery via ActiveCampaign.
+- AI teaching assistant: turns long PDF/DOCX documents into chaptered slides with ElevenLabs narration and a quiz per section.
+- Self-hosted infrastructure for these on Linux with Docker, Nginx and SSL.
+If asked for more than this (client names, industries, results, how it works inside), say these were built for clients so the details stay private, and point to the open-source projects, which can be discussed in full.
 
 # CONFIDENTIALITY
 - Never name specific clients, brand names, or internal project names. Refer to projects by category only (e.g. "a cold outreach pipeline" or "a data enrichment dashboard").
@@ -49,6 +64,8 @@ If someone asks about something completely unrelated (politics, homework, recipe
 Share contact info only when the visitor genuinely wants it — don't push it unsolicited.
 - Email (always preferred): shahxeebhassan@gmail.com
 - Book a call (for freelance/consulting inquiries): ${CALENDLY_URL}
+- LinkedIn: https://www.linkedin.com/in/shahzaib-hassan-ai-developer/
+- GitHub: https://github.com/Shahzaib-Hasaan
 - X/Twitter: https://x.com/shahzaib_builds
 
 For scholarship recommendations, research collaboration, or any academic inquiry, point them to email — not the booking link. The booking link is for freelance/consulting conversations.`;
@@ -65,69 +82,43 @@ interface LLMMessage {
   content: string;
 }
 
-async function callGroq(messages: LLMMessage[]): Promise<string | null> {
-  const key = process.env.GROQ_API_KEY;
-  if (!key) return null;
-
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 5000);
-
-  try {
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${key}`,
-      },
-      body: JSON.stringify({
-        model: 'llama-3.1-8b-instant',
-        messages,
-        max_tokens: 1024,
-        temperature: 0.7,
-      }),
-      signal: controller.signal,
-    });
-
-    if (!res.ok) return null;
-
-    const data = await res.json();
-    return data?.choices?.[0]?.message?.content ?? null;
-  } catch {
-    return null;
-  } finally {
-    clearTimeout(timeout);
-  }
+interface Provider {
+  url: string;
+  keyEnv: 'GROQ_API_KEY' | 'MISTRAL_API_KEY';
+  model: string;
+  timeoutMs: number;
+  extra?: Record<string, unknown>;
 }
 
-async function callMistral(messages: LLMMessage[]): Promise<string | null> {
-  const key = process.env.MISTRAL_API_KEY;
-  if (!key) return null;
+// Groq's free tier meters tokens per minute per model, so the 20b is a real fallback
+// for the 120b on the same key. llama-3.1-8b-instant was retired by Groq in 2026.
+const PROVIDERS: Provider[] = [
+  { url: 'https://api.groq.com/openai/v1/chat/completions', keyEnv: 'GROQ_API_KEY', model: 'openai/gpt-oss-120b', timeoutMs: 9000, extra: { reasoning_effort: 'low' } },
+  { url: 'https://api.groq.com/openai/v1/chat/completions', keyEnv: 'GROQ_API_KEY', model: 'openai/gpt-oss-20b', timeoutMs: 9000, extra: { reasoning_effort: 'low' } },
+  { url: 'https://api.mistral.ai/v1/chat/completions', keyEnv: 'MISTRAL_API_KEY', model: 'mistral-small-latest', timeoutMs: 8000 },
+];
+
+type Attempt = { text: string } | { status: number };
+
+async function callProvider(p: Provider, messages: LLMMessage[]): Promise<Attempt> {
+  const key = process.env[p.keyEnv];
+  if (!key) return { status: 0 };
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 4000);
-
+  const timeout = setTimeout(() => controller.abort(), p.timeoutMs);
   try {
-    const res = await fetch('https://api.mistral.ai/v1/chat/completions', {
+    const res = await fetch(p.url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${key}`,
-      },
-      body: JSON.stringify({
-        model: 'mistral-small-latest',
-        messages,
-        max_tokens: 1024,
-        temperature: 0.7,
-      }),
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
+      body: JSON.stringify({ model: p.model, messages, max_tokens: 1024, temperature: 0.7, ...p.extra }),
       signal: controller.signal,
     });
-
-    if (!res.ok) return null;
-
+    if (!res.ok) return { status: res.status };
     const data = await res.json();
-    return data?.choices?.[0]?.message?.content ?? null;
+    const text = data?.choices?.[0]?.message?.content;
+    return typeof text === 'string' && text.trim() ? { text: text.trim() } : { status: 502 };
   } catch {
-    return null;
+    return { status: 504 };
   } finally {
     clearTimeout(timeout);
   }
@@ -161,16 +152,20 @@ export async function POST(request: Request) {
     // Add current message
     llmMessages.push({ role: 'user', content: message.trim() });
 
-    // Try Groq first, fall back to Mistral
-    const response = (await callGroq(llmMessages)) ?? (await callMistral(llmMessages));
-
-    if (!response) {
-      return NextResponse.json({
-        output: "Sorry, I'm having trouble responding right now. Please try again in a moment.",
-      });
+    const statuses: number[] = [];
+    for (const p of PROVIDERS) {
+      const r = await callProvider(p, llmMessages);
+      if ('text' in r) return NextResponse.json({ output: r.text });
+      statuses.push(r.status);
     }
+    console.error('chat: all providers failed', statuses);
 
-    return NextResponse.json({ output: response });
+    const allRateLimited = statuses.every((s) => s === 429 || s === 0) && statuses.includes(429);
+    return NextResponse.json({
+      output: allRateLimited
+        ? "I'm getting a lot of questions right now. Please try again in a minute."
+        : "Sorry, I'm having trouble responding right now. Please try again in a moment.",
+    });
   } catch {
     return NextResponse.json({
       output: "Sorry, something went wrong. Please try again.",
