@@ -285,6 +285,9 @@ export default function ChatAssistant() {
                   <Send className="w-4 h-4 ml-0.5" />
                 </button>
               </form>
+              <p className="mt-2 text-center text-[10px] text-[color:var(--text-faint)]">
+                Chats are saved to improve this assistant.
+              </p>
             </div>
           </motion.div>
         )}

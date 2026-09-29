@@ -1,4 +1,15 @@
 import { NextResponse } from 'next/server';
+import { createHmac } from 'crypto';
+
+// Same hook @vercel/functions' waitUntil uses, inlined because Next 13's webpack cannot bundle that
+// package (it pulls in an optional `ws` dependency). Off Vercel there is no context and the promise
+// simply runs in the background.
+function waitUntil(p: Promise<unknown>) {
+  const ctx = (globalThis as Record<symbol, { get?: () => { waitUntil?: (p: Promise<unknown>) => void } }>)[
+    Symbol.for('@vercel/request-context')
+  ]?.get?.();
+  ctx?.waitUntil?.(p);
+}
 import { CALENDLY_URL } from '@/lib/booking';
 
 const SYSTEM_PROMPT = `You are Shahzaib's Assistant on shahzaibbuilds.me.
@@ -124,7 +135,40 @@ async function callProvider(p: Provider, messages: LLMMessage[]): Promise<Attemp
   }
 }
 
+interface ChatLogEntry {
+  question: string;
+  answer: string;
+  provider: string;
+  ms: number;
+  turn: number;
+}
+
+// Saves each exchange to the Google Sheet (Apps Script web app). Runs after the reply is sent, via
+// waitUntil, because Apps Script takes a few seconds. The visitor id is an HMAC of the IP, so repeat
+// visitors group together without the IP itself being stored.
+function logChat(request: Request, entry: ChatLogEntry) {
+  const url = process.env.CHAT_LOG_SHEET_URL;
+  const secret = process.env.CHAT_LOG_SECRET;
+  if (!url || !secret) return;
+
+  const ip = (request.headers.get('x-forwarded-for') ?? '').split(',')[0].trim();
+  const visitor = ip ? createHmac('sha256', secret).update(ip).digest('hex').slice(0, 10) : 'unknown';
+  const clip = (s: string) => (s.length > 5000 ? s.slice(0, 5000) + ' [cut]' : s);
+
+  const send = fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ secret, visitor, ...entry, question: clip(entry.question), answer: clip(entry.answer) }),
+    signal: AbortSignal.timeout(10000),
+  })
+    .then((r) => r.text())
+    .then((t) => { if (t.trim() !== 'ok') console.error('chat log: sheet replied', t.slice(0, 100)); })
+    .catch((e) => console.error('chat log failed', String(e)));
+  waitUntil(send);
+}
+
 export async function POST(request: Request) {
+  const started = Date.now();
   try {
     const body = await request.json();
     const { message, chatId, history } = body;
@@ -152,20 +196,26 @@ export async function POST(request: Request) {
     // Add current message
     llmMessages.push({ role: 'user', content: message.trim() });
 
+    const turn = (Array.isArray(history) ? history.filter((m: ChatMessage) => m?.role === 'user').length : 0) + 1;
+    const question = message.trim();
+
     const statuses: number[] = [];
     for (const p of PROVIDERS) {
       const r = await callProvider(p, llmMessages);
-      if ('text' in r) return NextResponse.json({ output: r.text });
+      if ('text' in r) {
+        logChat(request, { question, answer: r.text, provider: p.model, ms: Date.now() - started, turn });
+        return NextResponse.json({ output: r.text });
+      }
       statuses.push(r.status);
     }
     console.error('chat: all providers failed', statuses);
 
     const allRateLimited = statuses.every((s) => s === 429 || s === 0) && statuses.includes(429);
-    return NextResponse.json({
-      output: allRateLimited
-        ? "I'm getting a lot of questions right now. Please try again in a minute."
-        : "Sorry, I'm having trouble responding right now. Please try again in a moment.",
-    });
+    const output = allRateLimited
+      ? "I'm getting a lot of questions right now. Please try again in a minute."
+      : "Sorry, I'm having trouble responding right now. Please try again in a moment.";
+    logChat(request, { question, answer: output, provider: `FAILED ${statuses.join('/')}`, ms: Date.now() - started, turn });
+    return NextResponse.json({ output });
   } catch {
     return NextResponse.json({
       output: "Sorry, something went wrong. Please try again.",
